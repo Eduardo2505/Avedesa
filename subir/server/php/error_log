@@ -1,0 +1,100 @@
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/2831/EDUARDO 2 GAVIOTAS (25).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagerotate() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 699
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/2831/EDUARDO 2 GAVIOTAS (25).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagesx() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 765
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagesy() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 766
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 774
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 776
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 791
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 825
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/2831/EDUARDO 2 GAVIOTAS (25).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagesx() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 765
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagesy() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 766
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 774
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 776
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 791
+[07-Dec-2016 02:15:55 America/Mexico_City] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 825
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/2831/EDUARDO 2 GAVIOTAS (26).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagerotate() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 699
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/2831/EDUARDO 2 GAVIOTAS (26).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagesx() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 765
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagesy() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 766
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 774
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 776
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 791
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 825
+[07-Dec-2016 02:17:42 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:17:43 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/2831/EDUARDO 2 GAVIOTAS (26).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 605
+[07-Dec-2016 02:17:43 America/Mexico_City] PHP Warning:  imagesx() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 765
+[07-Dec-2016 02:17:43 America/Mexico_City] PHP Warning:  imagesy() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 766
+[07-Dec-2016 02:17:43 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 774
+[07-Dec-2016 02:17:43 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 776
+[07-Dec-2016 02:17:43 America/Mexico_City] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 791
+[07-Dec-2016 02:17:43 America/Mexico_City] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 825
+[07-Dec-2016 02:42:13 America/Mexico_City] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 55
+[07-Dec-2016 02:42:26 America/Mexico_City] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 55
+[07-Dec-2016 02:42:36 America/Mexico_City] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 55
+[07-Dec-2016 02:44:46 America/Mexico_City] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 55
+[07-Dec-2016 02:44:46 America/Mexico_City] PHP Parse error:  syntax error, unexpected '$this' (T_VARIABLE) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 55
+[07-Dec-2016 12:25:35 America/Mexico_City] PHP Notice:  Undefined index: idregistro in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 50
+[07-Dec-2016 12:25:35 America/Mexico_City] PHP Notice:  Undefined index: tipoarchivo in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 51
+[19-Dec-2016 10:34:26 America/Mexico_City] PHP Notice:  Undefined index: idregistro in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 50
+[19-Dec-2016 10:34:26 America/Mexico_City] PHP Notice:  Undefined index: tipoarchivo in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 51
+[19-Dec-2016 10:34:27 America/Mexico_City] PHP Notice:  Undefined index: idregistro in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 50
+[19-Dec-2016 10:34:27 America/Mexico_City] PHP Notice:  Undefined index: tipoarchivo in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 51
+[20-Dec-2016 10:15:45 America/Mexico_City] PHP Notice:  Undefined index: idregistro in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 50
+[20-Dec-2016 10:15:45 America/Mexico_City] PHP Notice:  Undefined index: tipoarchivo in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 51
+[21-Dec-2016 16:12:16 America/Mexico_City] PHP Warning:  filesize(): stat failed for /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/2672/8/IMG_20161201_142532.jpg in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 306
+[21-Dec-2016 16:12:16 America/Mexico_City] PHP Warning:  unlink(/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/2672/8/IMG_20161201_142532.jpg): No such file or directory in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 1144
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/3036/8/JC 12 PLAYA  (37).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagesx() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 766
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagesy() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 767
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 775
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 777
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 792
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 826
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/3036/8/JC 12 PLAYA  (37).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagesx() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 766
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagesy() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 767
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 775
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 777
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 792
+[23-Jan-2017 18:26:23 America/Mexico_City] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 826
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/3036/8/JC 12 PLAYA  (41).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagesx() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 766
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagesy() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 767
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 775
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 777
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 792
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 826
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): gd-jpeg, libjpeg: recoverable error: Premature end of JPEG file
+ in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagecreatefromjpeg(): '/home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/files/3036/8/JC 12 PLAYA  (41).JPG' is not a valid JPEG file in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagesx() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 766
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagesy() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 767
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 775
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  Division by zero in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 777
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagecreatetruecolor(): Invalid image dimensions in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 792
+[23-Jan-2017 18:26:33 America/Mexico_City] PHP Warning:  imagecopyresampled() expects parameter 1 to be resource, boolean given in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 826
+[24-Jan-2017 14:52:15 America/Mexico_City] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20400 bytes) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[24-Jan-2017 14:57:18 America/Mexico_City] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20400 bytes) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[09-Feb-2017 19:20:56 America/Mexico_City] PHP Warning:  mysqli::mysqli(): (HY000/2002): No such file or directory in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 540
+[14-Mar-2017 19:11:31 America/Mexico_City] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20400 bytes) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
+[31-Mar-2017 16:15:39 America/Mexico_City] PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20400 bytes) in /home/carritoe/public_html/helpmex.com.mx/Ave/subir/server/php/UploadHandler.php on line 606
