@@ -10,54 +10,170 @@ class Models_pagosadmin extends CI_Model {
     $this->load->database();
   }
 
-  function mostrapag($nombre, $offset, $limin) {
 
-   $SQl = "SELECT 
-   r.idregistro,
-   r.referencia,
-   r.num_expediente,
-   CONCAT(e.Nombre, ' ', e.apellidos) AS inspector,
-   (SELECT 
-   SUM(anticipo)
-   FROM
-   pagos
-   WHERE
-   idregistro = r.idregistro and estado != 0 ) pago
-   FROM
-   registro r,
-   empleado e,
-   pagos p
-   WHERE
-   r.idempleado = e.idempleado and p.estado != 0 
-   AND p.idregistro = r.idregistro and r.num_expediente like '%$nombre%'";
+  function mostrarSolotiket() {
+
+    $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario,e.idpagos');
+    $this->db->from('pagos e');
+    $this->db->join('registro r', 'r.idregistro = e.idregistro');
+    $this->db->where('e.estado', 3);
+
+    $query = $this->db->get();
+    return $query;
 
 
-   $SQl .=" group by r.idregistro  limit $offset, $limin";
-   $query = $this->db->query($SQl);
+  }
 
-   return $query;
+  
+  function mostrarSoloPagos($numexpediente,$inicior,$finalr,$usuario,$estado, $offset,$limin) {
+
+    $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario,e.idpagos');
+    $this->db->from('pagos e');
+    $this->db->join('registro r', 'r.idregistro = e.idregistro');
+    $this->db->where('e.estado', $estado);
+    $this->db->like('r.num_expediente', $numexpediente, 'both');
+    if($usuario!=""){
+
+      $this->db->where('e.usuario',str_replace('-',' ',$usuario));
+    }
+
+    if($inicior!=""&&$finalr==""){
+
+     $this->db->where('CAST(e.registro AS DATE)', $inicior);
+   }
+
+   if($inicior==""&&$finalr!=""){
+
+    $this->db->where('CAST(e.registro AS DATE)', $finalr);
+  }
+  if($inicior!=""&&$finalr!=""){
+
+   $this->db->where('CAST(e.registro AS DATE) >=', $inicior);
+   $this->db->where('CAST(e.registro AS DATE) <=', $finalr);
+ }
+ $this->db->limit($offset,$limin);
+
+
+
+ $query = $this->db->get();
+ return $query;
+
+
+}
+function mostrarSoloPagosCount($numexpediente,$inicior,$finalr,$usuario,$estado) {
+
+  $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario','e.idpagos');
+  $this->db->from('pagos e');
+  $this->db->join('registro r', 'r.idregistro = e.idregistro');
+  $this->db->where('e.estado', $estado);
+  $this->db->like('r.num_expediente', $numexpediente, 'both');  
+  if($usuario!=""){
+
+    $this->db->where('e.usuario',str_replace('-',' ',$usuario));
+  }
+
+  if($inicior!=""&&$finalr==""){
+
+   $this->db->where('CAST(e.registro AS DATE)', $inicior);
  }
 
- function mostrapagsuma($nombre) {
+ if($inicior==""&&$finalr!=""){
 
-   $SQl = "SELECT 
-   SUM(anticipo) as total
-   FROM
-   pagos p
-   INNER JOIN
-   registro r ON p.idregistro = r.idregistro
-   WHERE
-   estado != 0 and r.num_expediente like '%$nombre%'";
+  $this->db->where('CAST(e.registro AS DATE)', $finalr);
+}
+if($inicior!=""&&$finalr!=""){
 
-   $query = $this->db->query($SQl);
+ $this->db->where('CAST(e.registro AS DATE) >=', $inicior);
+ $this->db->where('CAST(e.registro AS DATE) <=', $finalr);
+}
 
-   $row = $query->row();
-   return $row->total;
+$query = $this->db->get();
+return $query->num_rows();
 
 
+}
+function mostrarSoloPagosSum($numexpediente,$inicior,$finalr,$usuario,$estado) {
+
+  $this->db->select('SUM(e.anticipo) as total');
+  $this->db->from('pagos e');
+  $this->db->join('registro r', 'r.idregistro = e.idregistro');
+  $this->db->where('e.estado', $estado);
+  $this->db->like('r.num_expediente', $numexpediente, 'both'); 
+  if($usuario!=""){
+
+    $this->db->where('e.usuario',str_replace('-',' ',$usuario));
+  }
+
+  if($inicior!=""&&$finalr==""){
+
+   $this->db->where('CAST(e.registro AS DATE)', $inicior);
  }
 
- function mostrarcount($nombre) {
+ if($inicior==""&&$finalr!=""){
+
+  $this->db->where('CAST(e.registro AS DATE)', $finalr);
+}
+if($inicior!=""&&$finalr!=""){
+
+ $this->db->where('CAST(e.registro AS DATE) >=', $inicior);
+ $this->db->where('CAST(e.registro AS DATE) <=', $finalr);
+}
+$query = $this->db->get();
+$row = $query->row();
+return $row->total;
+
+
+}
+
+
+function mostrapag($nombre, $offset, $limin) {
+
+ $SQl = "SELECT 
+ r.idregistro,
+ r.referencia,
+ r.num_expediente,
+ CONCAT(e.Nombre, ' ', e.apellidos) AS inspector,
+ (SELECT 
+ SUM(anticipo)
+ FROM
+ pagos
+ WHERE
+ idregistro = r.idregistro and estado != 0 ) pago
+ FROM
+ registro r,
+ empleado e,
+ pagos p
+ WHERE
+ r.idempleado = e.idempleado and p.estado != 0 
+ AND p.idregistro = r.idregistro and r.num_expediente like '%$nombre%'";
+
+
+ $SQl .=" group by r.idregistro  limit $offset, $limin";
+ $query = $this->db->query($SQl);
+
+ return $query;
+}
+
+function mostrapagsuma($nombre) {
+
+ $SQl = "SELECT 
+ SUM(anticipo) as total
+ FROM
+ pagos p
+ INNER JOIN
+ registro r ON p.idregistro = r.idregistro
+ WHERE
+ estado != 0 and r.num_expediente like '%$nombre%'";
+
+ $query = $this->db->query($SQl);
+
+ $row = $query->row();
+ return $row->total;
+
+
+}
+
+function mostrarcount($nombre) {
 
   $SQl = "SELECT 
   r.idregistro,

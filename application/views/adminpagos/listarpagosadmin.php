@@ -123,349 +123,329 @@
                                                 </div>
 
                                                 <div class="row">
+
+
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label>AUTORIZADO</label>
-
-                                                            <div class="input-group input-large date-picker input-daterange" data-date-format="yyyy-mm-dd">
-                                                                <input type="text" class="form-control"  name="inicioa">
-                                                                <span class="input-group-addon">
-                                                                    a </span>
-                                                                    <input type="text" class="form-control" name="finala">
-                                                                </div>
-                                                                <!-- /input-group -->
-                                                                <span class="help-block">
-                                                                    Selecione el rango</span>
-
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label class="control-label">USUARIO:</label>
-                                                                    <select name="usuario" class="form-control">
-                                                                     <option value="">Selecciona</option>
-                                                                     <?php
-                                                                     if (isset($usuarios)) {
-                                                                        foreach ($usuarios->result() as $rowx) {
-                                                                            ?>
-                                                                            <option value="<?php echo str_replace(' ','-',$rowx->usuariopago); ?>"><?php echo $rowx->usuariopago; ?></option>
+                                                            <label class="control-label">USUARIO:</label>
+                                                            <select name="usuario" class="form-control">
+                                                               <option value="">Selecciona</option>
+                                                               <?php
+                                                               if (isset($usuarios)) {
+                                                                foreach ($usuarios->result() as $rowx) {
+                                                                    ?>
+                                                                    <option value="<?php echo str_replace(' ','-',$rowx->usuariopago); ?>"><?php echo $rowx->usuariopago; ?></option>
 
 
-
-
-
-                                                                            <?php
-                                                                        }
-                                                                    }
-                                                                    ?>   
-                                                                </select>
-
-                                                            </div>
-                                                        </div>
-                                                        
-                                                 </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                         <div class="form-group">
-                                                             <label class="control-label">Autorizados</label>
-                                                             <select name="autorizado" class="form-control">
-                                                                 <option value="">Selecciona</option>
-                                                                 <option value="PENDIENTE">PENDIENTE</option>
-                                                                 <option value="AUTORIZADO">AUTORIZADO</option>
-                                                             </select>
-                                                         </div>
-                                                     </div>
-
-                                                     <div class="col-md-2">
-                                                         <div class="form-group">
-                                                             <label class="control-label">*</label>
-                                                             <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> BUSQUEDA</button>
-                                                         </div>
-                                                     </div>
-
-                                                    </div>
-
-
-
-                                             </div>
-
-                                         </form>
-                                     </div>
-                                 </div>
-                                 <div class="tabbable-line boxless tabbable-reversed">
-
-                                    <div class="tab-content">
-
-
-                                        <div class="tab-pane active" id="tab_1">
-                                            <div class="portlet box yellow">
-                                                <div class="portlet-title">
-                                                    <div class="caption">
-                                                        <i class="fa fa-gift"></i>PAGOS // RESULTADOS :  <?php echo $total?> // TOTAL ANTICIPO : $ <?php echo number_format($totalSuma, 2, '.', ',');?>
-                                                    </div>
-
-
-                                                </div>
-                                                <div class="portlet-body">
-                                                    <div class="table-scrollable">
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                                <tr>
-
-                                                                    <th>NUM. EXPEDIENTE</th>
-                                                                    <th>ANTICIPO</th>
-                                                                    <th>DECRIPCION</th>
-                                                                    <th>REGISTRO</th>
-                                                                    <th>USUARIO</th>
-                                                                    <th>AUTORIZADO</th>
-                                                                    <th>REGISTRO</th>
-
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-
-
-
-                                                                <?php
-
-                                                                if (isset($registros)) {
-                                                                    foreach ($registros->result() as $rowx) {
-
-
-                                                                       ?>
-
-
-                                                                       <tr>
-                                                                        <td><?php echo $rowx->num_expediente; ?></td>
-                                                                        <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
-                                                                        <td><?php echo $rowx->descripcion; ?></td>
-
-                                                                        <td><?php echo $rowx->registropago; ?></td>
-                                                                        <td><?php echo $rowx->usuariopago; ?></td>
-                                                                        <td><?php echo $rowx->usuarioAceptacion; ?></td>
-                                                                        <td><?php echo $rowx->registroAceptacion; ?></td>
-
-
-
-
-
-                                                                    </tr>
 
 
 
                                                                     <?php
                                                                 }
                                                             }
-                                                            ?>  
+                                                            ?>   
+                                                        </select>
 
-
-
-
-                                                        </tbody>
-
-                                                    </table>
-
+                                                    </div>
                                                 </div>
 
-                                            </div>
-                                            <div class="pull-right" >
+                                                <div class="col-md-2">
+                                                   <div class="form-group">
+                                                       <label class="control-label">*</label>
+                                                       <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> BUSQUEDA</button>
+                                                   </div>
+                                               </div>
 
-                                                <?php echo $pagination; ?>
+                                           </div>
 
+
+
+
+                                       </div>
+
+                                   </form>
+                               </div>
+                           </div>
+                           <div class="tabbable-line boxless tabbable-reversed">
+
+                            <div class="tab-content">
+
+                               <script type="text/javascript">
+                                $(document).ready(function() {
+                                    $('#formCheck').submit(function() {
+                                        var data = $(this).serialize();
+                                        $.post('<?php echo site_url('') ?>adminpagos/agregarComanda', data, function(respuesta) {
+
+                                         $('#tableTicket').html(respuesta);
+                                         var totalr= $('#totalR').val();
+                                         var totals= $('#totalA').val();
+                                         var i=0;
+                                         $("input:checkbox:checked").each(   
+                                            function() {
+                                                var precio=$(this).attr( "title");
+                                                var idpago=$(this).val();
+                                                $( "#"+idpago ).remove();
+
+                                                totals-=precio;
+                                                i++;
+
+                                            }
+                                            );
+
+                                         var totalRA=totalr-i;
+
+                                         $('#totalR').val(totalRA);
+                                         $('#totalA').val(totals);
+
+                                           //alert("contador " + i + " SumaActual" +totals);
+
+                                           $('#subtitulo').html(totalRA+" // TOTAL ANTICIPO : $ "+totals);
+
+                                       });
+                                        return false;
+                                    });
+                                });
+
+
+                            </script>
+                            <form  id="formCheck">
+                                <input type="hidden" id="totalR" value="<?php echo $total; ?>">
+                                <input type="hidden" id="totalA" value="<?php echo number_format($totalSuma, 2, '.', ','); ?>">
+                                <div class="tab-pane active" id="tab_1">
+                                    <div class="portlet box yellow">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-gift"></i>PAGOS // RESULTADOS :  <span id="subtitulo"><?php echo $total?> // TOTAL ANTICIPO : $ <?php echo number_format($totalSuma, 2, '.', ',');?></span>
                                             </div>
+
+
                                         </div>
+                                        <div class="portlet-body">
+                                            <div class="table-scrollable">
+                                                <table class="table table-hover" id="tblEntAttributes">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>NUM. EXPEDIENTE</th>
+                                                            <th>ANTICIPO</th>
+                                                            <th>DECRIPCION</th>
+                                                            <th>REGISTRO</th>
+                                                            <th>USUARIO</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+
+                                                        <?php
+
+                                                        if (isset($registros)) {
+                                                            foreach ($registros->result() as $rowx) {
+
+
+                                                             ?>
+
+
+                                                             <tr id="<?php echo $rowx->idpagos; ?>">
+                                                                 <td><input type="checkbox"  title="<?php echo $rowx->anticipo; ?>"  name="pagos[]" value="<?php echo $rowx->idpagos; ?>"></td>
+
+                                                                 <td><?php echo $rowx->num_expediente; ?></td>
+                                                                 <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
+                                                                 <td><?php echo $rowx->descripcion; ?></td>
+
+                                                                 <td><?php echo $rowx->registro; ?></td>
+                                                                 <td><?php echo $rowx->usuario; ?></td>
 
 
 
 
+                                                             </tr>
 
+
+
+                                                             <?php
+                                                         }
+                                                     }
+                                                     ?>  
+
+
+
+
+                                                 </tbody>
+
+                                             </table>
+
+                                         </div>
+
+                                     </div>
+                                     <div class="pull-right" >
+
+                                        <?php echo $pagination; ?>
 
                                     </div>
-                                    <br><br>
-
-
-                                    <div class="tab-pane active" id="tab_1">
-                                        <div class="portlet box red">
-                                            <div class="portlet-title">
-                                                <div class="caption">
-                                                    <i class="fa fa-gift"></i>PAGOS ELIMIDANOS // <?php echo $totalx?> 
-                                                </div>
-
-
-                                            </div>
-                                            <div class="portlet-body">
-                                                <div class="table-scrollable">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr>
-
-                                                                <th>NUM. EXPEDIENTE</th>
-                                                                <th>ANTICIPO</th>
-                                                                <th>DECRIPCION</th>
-                                                                <th>REGISTRO</th>
-                                                                <th>USUARIO</th>
-                                                                <th>ELIMINÓ</th>
-                                                                <th>REGISTRO</th>
-
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-
-
-
-                                                            <?php
-                                                            $totalX=0;
-                                                            if (isset($pagosEliminados)) {
-                                                                foreach ($pagosEliminados->result() as $rowx) {
-
-                                                                   $totalX+=$rowx->anticipo;
-                                                                   ?>
-
-
-                                                                   <tr>
-                                                                    <td><?php echo $rowx->num_expediente; ?></td>
-                                                                    <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
-                                                                    <td><?php echo $rowx->descripcion; ?></td>
-
-                                                                    <td><?php echo $rowx->registropago; ?></td>
-                                                                    <td><?php echo $rowx->usuariopago; ?></td>
-                                                                    <td><?php echo $rowx->usuarioAceptacion; ?></td>
-                                                                    <td><?php echo $rowx->registroAceptacion; ?></td>
-
-
-
-
-
-                                                                </tr>
-
-
-
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>  
-
-
-
-
-                                                    </tbody>
-                                                    <tr>
-
-                                                        <th style="text-align: right;">TOTAL: </th>
-                                                        <th>$ <?php echo number_format($totalX, 2, '.', ',');?></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-
-                                                    </tr>
-                                                </table>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="pull-right" >
-
-                                            <?php echo $paginationx; ?>
-
-                                        </div>
-
-                                    </div>
-
-
                                 </div>
 
 
 
+                                <div class="col-md-2">
+
+                                   <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> AGREGAR</button>
+                               </div>
+
+
+                           </div>
+                       </form>
+                       <br><br>
 
 
 
+                   </div>
+               </div>
+           </div>
+           <div class="col-md-4">
 
-
-                            </div>
+            <div class="tab-pane" >
+                <div class="portlet box red">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>TIKET 
                         </div>
+
+
                     </div>
-                    <div class="col-md-4">
+                    
+                    <div class="portlet-body">
+                        <div class="table-scrollable" id="tableTicket">
 
-                        <div class="tab-pane" >
-                            <div class="portlet box red">
-                                <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class="fa fa-gift"></i>TIKET 
-                                    </div>
+                            <script type="text/javascript">
 
 
-                                </div>
-                                <div class="portlet-body">
-                                    <div class="table-scrollable">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
+                                $(document).ready(function() {
+                                    $('.idpagoEliminar').click(function() {
+                                        var idpago = $(this).attr( "title");
 
-                                                    <th>NUM. EXPEDIENTE</th>
-                                                    <th>ANTICIPO</th>
-                                                    
+                                        var costo = $(this).attr( "name");
+                                        var totalr= $('#totalR').val();
+                                        var totals= $('#totalA').val();
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                        var totalRs=parseInt(totalr)+1;
+                                        var totalsS=parseFloat(totals)+parseFloat(costo);
 
+                                        var dataString = 'idpago=' + idpago;
+                                        $.ajax({
+                                            type: "GET",
+                                            url: '<?php echo site_url('') ?>adminpagos/eliminarTicket',
+                                            data: dataString,
+                                            success: function(data) {
 
+                                                $('#tableTicket').html(data);
 
+                                                $('#totalR').val(totalRs);
+                                                $('#totalA').val(totalsS);
 
+                                                $('#subtitulo').html(totalRs+" // TOTAL ANTICIPO : $ "+totalsS);
 
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
 
-
-                                            </tbody>
-
-                                            <tr>
-
-                                                <th>TOTAL: </th>
-                                                <th> $ 000</th>
-
-
-                                            </tr>
-
-                                        </table>
-                                        <a href="<?php echo $urlDescargar ?>" class="form-control btn blue" ><i class="fa fa-check"></i> IMPRIMIR</a>
-
-                                    </div>
-
-                                </div>
-
-
-                            </div>
+                                        <th>NUM. EXPEDIENTE</th>
+                                        <th>ANTICIPO</th>
+                                        <th></th>
 
 
-                        </div>
-                    </div>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
 
 
+                                   <?php
+                                   $total=0;
+
+                                   if (isset($registrosTiket)) {
+                                    foreach ($registrosTiket->result() as $rowx) {
+
+                                       $total+=$rowx->anticipo;
+                                       ?>
+
+
+                                       <tr>
+
+
+                                         <td><?php echo $rowx->num_expediente; ?></td>
+                                         <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
+
+                                         <td><i class="fa fa-remove idpagoEliminar" name="<?php echo number_format($rowx->anticipo, 2, '.', ',');?>" title="<?php echo $rowx->idpagos ?>"></i></td>
+
+
+
+                                     </tr>
+
+
+
+                                     <?php
+                                 }
+                             }
+                             ?>  
+
+
+
+                         </tbody>
+
+                         <tr>
+
+                            <th>TOTAL: </th>
+                            <th> $ <?php echo number_format($total, 2, '.', ',');?></th>
+
+
+                        </tr>
+
+                    </table>
+                    <a href="#" class="form-control btn blue" ><i class="fa fa-check"></i> IMPRIMIR</a>
 
                 </div>
-                <!-- END PAGE CONTENT-->
+
             </div>
+
+
         </div>
-        <!-- END CONTENT -->
+
 
     </div>
-    <!-- END CONTAINER -->
-    <!-- BEGIN FOOTER -->
-    <div class="page-footer">
-        <div class="page-footer-inner">
-            2016 &copy; HelpMex.com.mx
-        </div>
-        <div class="scroll-to-top">
-            <i class="icon-arrow-up"></i>
-        </div>
+</div>
+
+
+
+
+</div>
+<!-- END PAGE CONTENT-->
+</div>
+</div>
+<!-- END CONTENT -->
+
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    <div class="page-footer-inner">
+        2016 &copy; HelpMex.com.mx
     </div>
+    <div class="scroll-to-top">
+        <i class="icon-arrow-up"></i>
+    </div>
+</div>
 
-    <!-- END JAVASCRIPTS -->
+<!-- END JAVASCRIPTS -->
 
-    <script>
-        jQuery(document).ready(function() {
+<script>
+    jQuery(document).ready(function() {
                 // initiate layout and plugins
 
                 Layout.init(); // init current layout

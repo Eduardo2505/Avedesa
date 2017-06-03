@@ -32,7 +32,43 @@ class Adminpagos extends CI_Controller {
       $this->load->model('models_pagosadmin');
   }
 
-  public function mostraranticipos() {
+  public function eliminarTicket() {
+   $this->load->model('models_pagos');
+
+   $idpago = $this->input->get('idpago');
+
+   $data = array(
+    'estado' => 1);
+   $this->models_pagos->update($idpago, $data);
+
+   $data['registros'] = $this->models_pagosadmin->mostrarSolotiket();
+   $plantilla = $this->load->view('adminpagos/tiket', $data, true);
+   echo $plantilla ;
+}
+
+public function agregarComanda() {
+
+    $this->load->model('models_pagos');
+
+    if (!empty($_POST['pagos'])) {
+       $total=count($_POST['pagos']);
+
+       for($i=0;$i<$total;$i++) { 
+        $data = array(
+            'estado' => 3);
+        $idPago=$_POST['pagos'][$i];
+        $this->models_pagos->update($idPago, $data);
+    }  
+}
+
+
+$data['registros'] = $this->models_pagosadmin->mostrarSolotiket();
+$plantilla = $this->load->view('adminpagos/tiket', $data, true);
+echo $plantilla ;
+
+}
+
+public function mostraranticipos() {
 
 
     $offset = $this->input->get('per_page');
@@ -48,28 +84,28 @@ class Adminpagos extends CI_Controller {
     $config['base_url'] = base_url() . 'adminpagos/mostraranticipos?nombre=' . $nombre;
     $totalres = $this->models_pagosadmin->mostrarcount($nombre);
     $config['total_rows'] = $totalres;
-        $config['per_page'] = $this->limite; //Número de registros mostrados por páginas
-        $config['num_links'] = 5; //Número de links mostrados en la paginación
-        $config['page_query_string'] = true;
-        $config['full_tag_open'] = '<ul class="pagination">';
-        $config['first_tag_open'] = '<li>';
-        $config['first_link'] = 'Primera'; //primer link
-        $config['first_tag_close'] = '</li>';
-        $config['last_tag_open'] = '<li>';
-        $config['last_link'] = 'Última'; //último link
-        $config['last_tag_close'] = '</li>';
-        $config["uri_segment"] = $uri_segment; //el segmento de la paginación
-        $config['next_tag_open'] = '<li>';
-        $config['next_link'] = 'Siguiente'; //siguiente link
-        $config['next_tag_close'] = '</li>';
-        $config['prev_tag_open'] = '<li>';
-        $config['prev_link'] = 'Anterior'; //anterior link
-        $config['prev_tag_close'] = '</li>';
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '<li class="active"><a href="#">';
-        $config['cur_tag_close'] = '</a></li>';
-        $config['full_tag_close'] = '</ul>';
+    $config['per_page'] = $this->limite; //Número de registros mostrados por páginas
+    $config['num_links'] = 5; //Número de links mostrados en la paginación
+    $config['page_query_string'] = true;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['first_tag_open'] = '<li>';
+    $config['first_link'] = 'Primera'; //primer link
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_open'] = '<li>';
+    $config['last_link'] = 'Última'; //último link
+    $config['last_tag_close'] = '</li>';
+    $config["uri_segment"] = $uri_segment; //el segmento de la paginación
+    $config['next_tag_open'] = '<li>';
+    $config['next_link'] = 'Siguiente'; //siguiente link
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_open'] = '<li>';
+    $config['prev_link'] = 'Anterior'; //anterior link
+    $config['prev_tag_close'] = '</li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class="active"><a href="#">';
+    $config['cur_tag_close'] = '</a></li>';
+    $config['full_tag_close'] = '</ul>';
 
 
         $this->pagination->initialize($config); //inicializamos la paginación        
@@ -358,15 +394,12 @@ class Adminpagos extends CI_Controller {
         $numexpediente = trim($this->input->get('numexpediente'));
         $inicior = trim($this->input->get('inicior'));
         $finalr = trim($this->input->get('finalr'));
-        $inicioa = trim($this->input->get('inicioa'));
-        $finala = trim($this->input->get('finala'));
         $usuario = trim($this->input->get('usuario'));
-        $autorizado = trim($this->input->get('autorizado'));
 
-        $data['registros'] = $this->models_pagosadmin->mostrarpagos($numexpediente,$inicior,$finalr,$inicioa,$finala,$usuario,$autorizado,$offset, $this->limite);
+        $data['registros'] = $this->models_pagosadmin->mostrarSoloPagos($numexpediente,$inicior,$finalr,$usuario,1,$offset, $this->limite);
 
-        $config['base_url'] = base_url() . 'adminpagos/mostrarpagosadmin?numexpediente='.$numexpediente.'&inicior='.$inicior.'&finalr='.$finalr.'&inicioa='.$inicioa.'&finala='.$finala.'&usuario='.$usuario.'&autorizado='.$autorizado;
-        $totalres=$this->models_pagosadmin->countpagos($numexpediente,$inicior,$finalr,$inicioa,$finala, $usuario,$autorizado);
+        $config['base_url'] = base_url() . 'adminpagos/mostrarpagosadmin?numexpediente='.$numexpediente.'&inicior='.$inicior.'&finalr='.$finalr.'&usuario='.$usuario;
+        $totalres=$this->models_pagosadmin->mostrarSoloPagosCount($numexpediente,$inicior,$finalr, $usuario,1);
         $config['total_rows'] = $totalres;
         $config['per_page'] = $this->limite; //Número de registros mostrados por páginas
         $config['num_links'] = 5; //Número de links mostrados en la paginación
@@ -421,47 +454,12 @@ class Adminpagos extends CI_Controller {
         $data['idcapturista'] = $this->session->userdata('idempleado');
         $data['menu'] = $this->load->view('plantilla/menu', $datax, true);
         $data['head'] = $this->load->view('plantilla/head', true);
-
-        $data['pagosEliminados']=$this->models_pagosadmin->mostrarpagosEliminados($numexpediente,$inicior,$finalr,$inicioa,$finala, $usuario,$offset, $this->limite);
-        $urlver=base_url() . 'adminpagos/mostrarpagosadmin?numexpediente='.$numexpediente.'&inicior='.$inicior.'&finalr='.$finalr.'&inicioa='.$inicioa.'&finala='.$finala.'&usuario='.$usuario;
-        $urlverLoce=base_url() . 'adminpagos/imprimirTiket?numexpediente='.$numexpediente.'&inicior='.$inicior.'&finalr='.$finalr.'&inicioa='.$inicioa.'&finala='.$finala.'&usuario='.$usuario;
-
-        $configx['base_url'] = $urlver;
-        $totalresx=$this->models_pagosadmin->countpagosEliminados($numexpediente,$inicior,$finalr,$inicioa,$finala, $usuario);
-        $configx['total_rows'] = $totalresx;
-        $data['totalx'] = $totalresx;
-        $configx['per_page'] = $this->limite; //Número de registros mostrados por páginas
-        $configx['num_links'] = 5; //Número de links mostrados en la paginación
-        $configx['page_query_string'] = true;
-        $configx['full_tag_open'] = '<ul class="pagination">';
-        $configx['first_tag_open'] = '<li>';
-        $configx['first_link'] = 'Primera'; //primer link
-        $configx['first_tag_close'] = '</li>';
-        $configx['last_tag_open'] = '<li>';
-        $configx['last_link'] = 'Última'; //último link
-        $configx['last_tag_close'] = '</li>';
-        $configx["uri_segment"] = $uri_segment; //el segmento de la paginación
-        $configx['next_tag_open'] = '<li>';
-        $configx['next_link'] = 'Siguiente'; //siguiente link
-        $configx['next_tag_close'] = '</li>';
-        $configx['prev_tag_open'] = '<li>';
-        $configx['prev_link'] = 'Anterior'; //anterior link
-        $configx['prev_tag_close'] = '</li>';
-        $configx['num_tag_open'] = '<li>';
-        $configx['num_tag_close'] = '</li>';
-        $configx['cur_tag_open'] = '<li class="active"><a href="#">';
-        $configx['cur_tag_close'] = '</a></li>';
-        $configx['full_tag_close'] = '</ul>';
-
-
-        $this->pagination->initialize($configx); //inicializamos la paginación        
-        $data["paginationx"] = $this->pagination->create_links();
-        $data["urlDescargar"]=$urlverLoce;
-
         $data['usuarios'] = $this->models_pagosadmin->mostraUsuarios();
-
-        $data['totalSuma'] = $this->models_pagosadmin->mostrarpagosSuma($numexpediente,$inicior,$finalr,$inicioa,$finala,$usuario,$autorizado);
+        $data['totalSuma'] = $this->models_pagosadmin->mostrarSoloPagosSum($numexpediente,$inicior,$finalr, $usuario,1);
+        $data['registrosTiket'] = $this->models_pagosadmin->mostrarSolotiket();
         $this->load->view('adminpagos/listarpagosadmin', $data);
+
+
     }
     public function imprimirTiket() {
 
@@ -498,29 +496,29 @@ class Adminpagos extends CI_Controller {
                 }
                 redirect('adminpagos/imprimirTiketTiket?folio='.$folio, 'refresh');
             }else{
-             redirect('adminpagos/mostrarpagosadmin', 'refresh');
-         }
+               redirect('adminpagos/mostrarpagosadmin', 'refresh');
+           }
 
-     }
-
-
-
-
- }
- public function imprimirTiketTiket() {
-
-     $folio = trim($this->input->get('folio'));
-     $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
-     $data['nombre'] = $nombrez;
-     $data['urlredi'] = site_url('')."adminpagos/mostrarpagosadmin";
-     $data["registros"]=$this->models_pagosadmin->mostrarpagosticketAceptar($folio);
-     $this->load->view('adminpagos/imprimir_viewer', $data);
-
- }
+       }
 
 
 
- public function contrasena() {
+
+   }
+   public function imprimirTiketTiket() {
+
+       $folio = trim($this->input->get('folio'));
+       $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+       $data['nombre'] = $nombrez;
+       $data['urlredi'] = site_url('')."adminpagos/mostrarpagosadmin";
+       $data["registros"]=$this->models_pagosadmin->mostrarpagosticketAceptar($folio);
+       $this->load->view('adminpagos/imprimir_viewer', $data);
+
+   }
+
+
+
+   public function contrasena() {
 
     $data['msn'] = -1;
     $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
