@@ -32,6 +32,25 @@ class Adminpagos extends CI_Controller {
       $this->load->model('models_pagosadmin');
   }
 
+  public function buscarpago() {
+
+    $this->load->model('models_pagos');
+    $idpago = $this->input->get('idpago');
+  
+    $query = $this->models_pagos->Buscarfull($idpago);
+    $row = $query->row();
+    echo '<tr id="'.$row->idpagos.'">
+            <td><input type="checkbox"  title="'.$row->anticipo.'"  name="pagos[]" value="'.$row->idpagos.'"></td>
+            <td>'.$row->num_expediente.'</td>
+            <td>'.number_format($row->anticipo, 2, '.', ',').'</td>
+            <td>'.$row->descripcion.'</td>
+            <td>'.$row->registro.'</td>
+            <td>'.$row->usuario.'</td>
+        <tr>';
+
+
+  }
+
   public function eliminarTicket() {
    $this->load->model('models_pagos');
 

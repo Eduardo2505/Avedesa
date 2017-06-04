@@ -73,6 +73,16 @@ function Buscar($idregistro) {
     return $query;
 }
 
+function Buscarfull($idregistro) {
+    
+
+    $this->db->select('p.anticipo,p.descripcion,r.num_expediente,p.usuario,p.idpagos,p.registro');
+    $this->db->from('pagos p');
+    $this->db->join('registro r', 'p.idregistro = r.idregistro');
+    $this->db->where('p.idpagos',$idregistro);
+    $query = $this->db->get();
+    return $query;
+}
 function mostrarEliminados($idregistro) {
 
     $SQl = "SELECT 
