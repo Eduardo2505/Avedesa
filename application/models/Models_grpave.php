@@ -14,14 +14,14 @@ class Models_grpave extends CI_Model {
 
     function getCountidGrpAve($idGrpAve) {
 
-        
-     $this->db_b->from('grpave');
-     $this->db_b->where('idGrpAve', $idGrpAve);
-     $num_results = $this->db_b->count_all_results();
-     return $num_results;
- }
 
- function getUsuario() {
+       $this->db_b->from('grpave');
+       $this->db_b->where('idGrpAve', $idGrpAve);
+       $num_results = $this->db_b->count_all_results();
+       return $num_results;
+   }
+
+   function getUsuario() {
 
 
     return $query = $this->db_b->get('usuario');
@@ -169,14 +169,36 @@ function Buscar($id) {
     $query = $this->db_b->get('grpave');
     return $query;
 }
+
 function buscarArchivo($archivo) {
+
+    //echo $archivo;
 
     $this->db_b->where('idGrpAve', $archivo);
     $query = $this->db_b->get('grpave');
     return $query->num_rows();
 }
 
- 
+function buscarArchivoActulizarrecuperados($archivo) {
+
+    //echo $archivo;
+
+    $this->db_b->where('idGrpAve', $archivo);
+    $this->db_b->where('idusuario', 'resAdmin2');
+    $query = $this->db_b->get('grpave');
+    return $query->num_rows();
+}
+
+function getresAdmin2() {
+
+    //echo $archivo;
+
+    $this->db_b->where('idusuario', 'resAdmin2');
+    $query = $this->db_b->get('grpave');
+    return $query;
+}
+
+
 
 function update($id, $data) {
 

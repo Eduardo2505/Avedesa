@@ -66,7 +66,7 @@
 
             <th>NUM. EXPEDIENTE</th>
             <th>ANTICIPO</th>
-            <th></th>
+            <th>*</th>
 
 
         </tr>

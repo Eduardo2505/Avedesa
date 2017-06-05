@@ -23,10 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$dominio="http://localhost/";
-//$dominio="http://adminave.pvessy.com/";
-//$config['base_url'] = $dominio.'Ave/';
-//$dominio="http://desa.pvessy.com/";
+//$dominio="http://localhost/";
+
+$dominio="http://desa.pvessy.com/";
 $config['base_url'] = $dominio.'Avedesa/';
 
 

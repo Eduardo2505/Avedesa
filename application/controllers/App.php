@@ -245,7 +245,7 @@ public function cerrarAsiganar() {
 
        }
 
-      
+
 
        public function eliminarPago() {
 
@@ -280,8 +280,8 @@ while ($archivo = readdir($directorio)) //obtenemos un archivo y luego otro suce
     else
     {
       $search  = array('.pdf', '.PDF');
-        $replace = array('', '');
-        $idavaluo= str_replace($search, $replace, $archivo);
+      $replace = array('', '');
+      $idavaluo= str_replace($search, $replace, $archivo);
       //  echo $idavaluo;
       $valor = $this->models_grpave->buscarArchivo($idavaluo);
       if($valor!=0){
@@ -372,6 +372,58 @@ while ($archivo = readdir($directorio)) //obtenemos un archivo y luego otro suce
 }
 
 
-        
+public function verArchivo() {
+
+  $fp = fopen("avaluosBetosrecupera.txt", "r");
+  while(!feof($fp)) {
+    $linea = fgets($fp);
+   // echo $linea . "<br />";
+
+    $this->load->model('models_grpave');
+
+    $valor = $this->models_grpave->buscarArchivoActulizarrecuperados(trim($linea));
+
+    if($valor!=0){
+
+     $data= array(
+      'idusuario' =>'CHUCHO');
+
+     echo "CHUCHO >>> ".$linea."<br>";
+
+
+     $this->models_grpave->update(trim($linea),$data);
+     //echo $linea . "<br />";
+   }
+ }
+ fclose($fp);
+}
+
+
+public function actualizarTodos() {
+
+
+  $this->load->model('models_grpave');
+
+  $registros = $this->models_grpave->getresAdmin2();
+
+  if (isset($registros)) {
+    foreach ($registros->result() as $rowx) {
+
+      $idre=$rowx->idGrpAve;
+
+      $data= array(
+        'idusuario' =>'ave');
+
+      echo "ave >>> ".$idre."<br>";
+
+
+      $this->models_grpave->update($idre,$data);
+
+    }
+
+  }
+}
+
+
 
 }
