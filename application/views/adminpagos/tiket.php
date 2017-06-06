@@ -46,7 +46,7 @@
             }
         });
     });
-});
+    });
 
   function addCommas(nStr) {
     nStr += '';
