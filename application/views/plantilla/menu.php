@@ -69,7 +69,7 @@
         </a>
         <ul class="sub-menu">
 
-         <li class="<?php  if(!empty($agenda)) {echo $agenda; }?>">
+           <li class="<?php  if(!empty($agenda)) {echo $agenda; }?>">
 
             <a href="<?php echo site_url('') ?>calendario">
 
@@ -121,7 +121,7 @@
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
-                       <li class="<?php  if(!empty($agenda)) {echo $agenda; }?>">
+                     <li class="<?php  if(!empty($agenda)) {echo $agenda; }?>">
 
                         <a href="<?php echo site_url('') ?>calendario">
 
@@ -222,38 +222,55 @@
                                                                             </li>
 
                                                                             <li class="<?php  if(!empty($adminapag)) {echo $adminapag; }?>" >
-                                                                                <a href="<?php echo site_url('') ?>adminpagos/mostrarpagosadmin">
-                                                                                    Pagos Anticipados</a>
-                                                                                </li>
+                                                                                <a href="javascript:;">
 
-                                                                            </ul>
+                                                                                    <span class="title">Anticipos</span>
+                                                                                    <span class="selected"></span>
+                                                                                    <span class="arrow open"></span>
+                                                                                </a>
+
+                                                                                <ul class="sub-menu">
+                                                                                    <li class="<?php  if(!empty($pagosPendiente)) {echo $pagosPendiente; }?>" >
+                                                                                        <a href="<?php echo site_url('') ?>adminpagos/mostrarpagosadmin">
+                                                                                            Pendientes </a>
+                                                                                        </li>
+                                                                                        <li class="<?php  if(!empty($pagosAceptados)) {echo $pagosAceptados; }?>" >
+                                                                                            <a href="<?php echo site_url('') ?>adminpagos/getapa">
+                                                                                             Aceptados</a>
+                                                                                         </li>
+                                                                                         
+
+                                                                                     </ul>
+                                                                                 </li>
+
+                                                                             </ul>
+                                                                         </li>
+
+
+
+
+
+                                                                         <li>
+
+                                                                             <a target="_blank" href="https://www.the-qrcode-generator.com/scan">
+                                                                                <i class="fa fa-qrcode"></i>
+                                                                                <span class="title">QR</span>
+                                                                                <span class="selected"></span>
+
+                                                                            </a>
+
                                                                         </li>
 
 
 
-                                                                        
-
-                                                                        <li>
-
-                                                                           <a target="_blank" href="https://www.the-qrcode-generator.com/scan">
-                                                                            <i class="fa fa-qrcode"></i>
-                                                                            <span class="title">QR</span>
-                                                                            <span class="selected"></span>
-
-                                                                        </a>
-
-                                                                    </li>
-
-
-
-                                                                    <?php }?>
-
-                                                                  
+                                                                        <?php }?>
 
 
 
 
-                                                                </ul>
-                                                                <!-- END SIDEBAR MENU -->
+
+
+                                                                    </ul>
+                                                                    <!-- END SIDEBAR MENU -->
+                                                                </div>
                                                             </div>
-                                                        </div>

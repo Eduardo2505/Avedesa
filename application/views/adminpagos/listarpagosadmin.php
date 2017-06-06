@@ -199,7 +199,8 @@
                                          $('#totalA').val(totals);
 
                                         //   alert("contador " + i + " SumaActual" +addCommas(totals));
-
+                                        //   
+                                        $("#checkfull").removeAttr("checked");
                                         $('#subtitulo').html(totalRA+" // TOTAL ANTICIPO : $ "+addCommas(totals)+".00");
 
                                     });
@@ -220,233 +221,244 @@
                                 }
 
 
-                               
+
+
+                                $(document).ready(function() {
+                                    $("#checkfull").click(function(){
+                                      //  alert("entro");
+                                      $('.case').attr('checked', this.checked);
 
 
 
-                          </script>
-                          <form  id="formCheck">
-                            <input type="hidden" id="totalR" value="<?php echo $total; ?>">
-                            <input type="hidden" id="totalA" value="<?php echo $totalSuma; ?>">
-                            <div class="tab-pane active" id="tab_1">
-                                <div class="portlet box yellow">
-                                    <div class="portlet-title">
-                                        <div class="caption">
-                                            <i class="fa fa-gift"></i>PAGOS // RESULTADOS :  <span id="subtitulo"><?php echo $total?> // TOTAL ANTICIPO : $ <?php echo number_format($totalSuma, 2, '.', ',');?></span>
+                                  });
+                                });
+
+
+
+
+                            </script>
+                            <form  id="formCheck">
+                                <input type="hidden" id="totalR" value="<?php echo $total; ?>">
+                                <input type="hidden" id="totalA" value="<?php echo $totalSuma; ?>">
+                                <div class="tab-pane active" id="tab_1">
+                                    <div class="portlet box yellow">
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="fa fa-gift"></i>PAGOS // RESULTADOS :  <span id="subtitulo"><?php echo $total?> // TOTAL ANTICIPO : $ <?php echo number_format($totalSuma, 2, '.', ',');?></span>
+                                            </div>
+
+
                                         </div>
+                                        <div class="portlet-body">
+                                            <div class="table-scrollable">
+                                                <table class="table table-hover" id="tblEntAttributes">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><input type="checkbox" id="checkfull"/></th>
+                                                            <th>NUM. EXPEDIENTE</th>
+                                                            <th>ANTICIPO</th>
+                                                            <th>DECRIPCION</th>
+                                                            <th>REGISTRO</th>
+                                                            <th>USUARIO</th>
 
-
-                                    </div>
-                                    <div class="portlet-body">
-                                        <div class="table-scrollable">
-                                            <table class="table table-hover" id="tblEntAttributes">
-                                                <thead>
-                                                    <tr>
-                                                        <th><input type="checkbox" id="checkfull"></th>
-                                                        <th>NUM. EXPEDIENTE</th>
-                                                        <th>ANTICIPO</th>
-                                                        <th>DECRIPCION</th>
-                                                        <th>REGISTRO</th>
-                                                        <th>USUARIO</th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
 
 
 
-                                                    <?php
+                                                        <?php
 
-                                                    if (isset($registros)) {
-                                                        foreach ($registros->result() as $rowx) {
-
-
-                                                           ?>
+                                                        if (isset($registros)) {
+                                                            foreach ($registros->result() as $rowx) {
 
 
-                                                           <tr id="<?php echo $rowx->idpagos; ?>">
-                                                               <td><input type="checkbox"  title="<?php echo $rowx->anticipo; ?>"  name="pagos[]" value="<?php echo $rowx->idpagos; ?>"></td>
+                                                               ?>
 
-                                                               <td><?php echo $rowx->num_expediente; ?></td>
-                                                               <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
-                                                               <td><?php echo $rowx->descripcion; ?></td>
 
-                                                               <td><?php echo $rowx->registro; ?></td>
-                                                               <td><?php echo $rowx->usuario; ?></td>
+                                                               <tr id="<?php echo $rowx->idpagos; ?>">
+                                                                   <td><input type="checkbox" class="case" title="<?php echo $rowx->anticipo; ?>"  name="pagos[]" value="<?php echo $rowx->idpagos; ?>"></td>
+
+                                                                   <td><?php echo $rowx->num_expediente; ?></td>
+                                                                   <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
+                                                                   <td><?php echo $rowx->descripcion; ?></td>
+
+                                                                   <td><?php echo $rowx->registro; ?></td>
+                                                                   <td><?php echo $rowx->usuario; ?></td>
 
 
 
 
-                                                           </tr>
+                                                               </tr>
 
 
 
-                                                           <?php
+                                                               <?php
+                                                           }
                                                        }
-                                                   }
-                                                   ?>  
+                                                       ?>  
 
 
 
 
-                                               </tbody>
+                                                   </tbody>
 
-                                           </table>
+                                               </table>
+
+                                           </div>
 
                                        </div>
+                                       <div class="pull-right" >
 
-                                   </div>
-                                   <div class="pull-right" >
+                                        <?php echo $pagination; ?>
 
-                                    <?php echo $pagination; ?>
-
+                                    </div>
                                 </div>
-                            </div>
 
 
 
-                            <div class="col-md-2">
+                                <div class="col-md-2">
 
-                             <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> AGREGAR</button>
+                                 <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> AGREGAR</button>
+                             </div>
+
+
                          </div>
-
-
-                     </div>
-                 </form>
-                 <br><br>
+                     </form>
+                     <br><br>
 
 
 
+                 </div>
              </div>
          </div>
-     </div>
-     <div class="col-md-4">
+         <div class="col-md-4">
 
-        <div class="tab-pane" >
-            <div class="portlet box red">
-                <div class="portlet-title">
-                    <div class="caption">
-                        <i class="fa fa-gift"></i>TIKET 
+            <div class="tab-pane" >
+                <div class="portlet box red">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-gift"></i>TIKET 
+                        </div>
+
+
                     </div>
 
+                    <div class="portlet-body">
+                        <div class="table-scrollable" id="tableTicket">
 
-                </div>
+                            <script type="text/javascript">
 
-                <div class="portlet-body">
-                    <div class="table-scrollable" id="tableTicket">
+                               $(document).ready(function() {
+                                $('.idpagoEliminar').click(function() {
+                                    var idpago = $(this).attr( "title");
+                                    var costo = $(this).attr( "name");
+                                    var totalr= $('#totalR').val();
+                                    var totals= $('#totalA').val();
 
-                        <script type="text/javascript">
-
-                           $(document).ready(function() {
-                            $('.idpagoEliminar').click(function() {
-                                var idpago = $(this).attr( "title");
-                                var costo = $(this).attr( "name");
-                                var totalr= $('#totalR').val();
-                                var totals= $('#totalA').val();
-
-                                var totalRs=parseInt(totalr)+1;
-                                var totalsS=parseFloat(totals)+parseFloat(costo);
+                                    var totalRs=parseInt(totalr)+1;
+                                    var totalsS=parseFloat(totals)+parseFloat(costo);
 
 
 
-                                var dataString = 'idpago=' + idpago;
-                                $.ajax({
-                                    type: "GET",
-                                    url: '<?php echo site_url('') ?>adminpagos/eliminarTicket',
-                                    data: dataString,
-                                    success: function(data) {
+                                    var dataString = 'idpago=' + idpago;
+                                    $.ajax({
+                                        type: "GET",
+                                        url: '<?php echo site_url('') ?>adminpagos/eliminarTicket',
+                                        data: dataString,
+                                        success: function(data) {
 
-                                        $('#tableTicket').html(data);
+                                            $('#tableTicket').html(data);
 
-                                        $('#totalR').val(totalRs);
-                                        $('#totalA').val(totalsS);
-
-
-
-                                        $('#subtitulo').html(totalRs+" // TOTAL ANTICIPO : $ "+addCommas(totalsS)+".00");
-
-                                        $.ajax({
-                                            type: "GET",
-                                            url: '<?php echo site_url('') ?>adminpagos/buscarpago',
-                                            data: dataString,
-                                            success: function(data) {
-
-                                                $("#tblEntAttributes tbody").append(data);
-
-                                            }
-                                        });
+                                            $('#totalR').val(totalRs);
+                                            $('#totalA').val(totalsS);
 
 
-                                    }
+
+                                            $('#subtitulo').html(totalRs+" // TOTAL ANTICIPO : $ "+addCommas(totalsS)+".00");
+
+                                            $.ajax({
+                                                type: "GET",
+                                                url: '<?php echo site_url('') ?>adminpagos/buscarpago',
+                                                data: dataString,
+                                                success: function(data) {
+
+                                                    $("#tblEntAttributes tbody").append(data);
+
+                                                }
+                                            });
+
+
+                                        }
+                                    });
                                 });
                             });
-                        });
 
 
 
-                    </script>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
+                        </script>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
 
-                                <th>NUM. EXPEDIENTE</th>
-                                <th>ANTICIPO</th>
-                                <th>*</th>
-
-
-                            </tr>
-                        </thead>
-                        <tbody>
+                                    <th>NUM. EXPEDIENTE</th>
+                                    <th>ANTICIPO</th>
+                                    <th>*</th>
 
 
-
-                         <?php
-                         $total=0;
-
-                         if (isset($registrosTiket)) {
-                            foreach ($registrosTiket->result() as $rowx) {
-
-                             $total+=$rowx->anticipo;
-                             ?>
-
-
-                             <tr>
-
-
-                               <td><?php echo $rowx->num_expediente; ?></td>
-                               <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
-
-                               <td><i class="fa fa-remove idpagoEliminar" name="<?php echo $rowx->anticipo; ?>" title="<?php echo $rowx->idpagos ?>"></i></td>
+                                </tr>
+                            </thead>
+                            <tbody>
 
 
 
-                           </tr>
+                             <?php
+                             $total=0;
+
+                             if (isset($registrosTiket)) {
+                                foreach ($registrosTiket->result() as $rowx) {
+
+                                 $total+=$rowx->anticipo;
+                                 ?>
+
+
+                                 <tr>
+
+
+                                   <td><?php echo $rowx->num_expediente; ?></td>
+                                   <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
+
+                                   <td><i class="fa fa-remove idpagoEliminar" name="<?php echo $rowx->anticipo; ?>" title="<?php echo $rowx->idpagos ?>"></i></td>
 
 
 
-                           <?php
+                               </tr>
+
+
+
+                               <?php
+                           }
                        }
-                   }
-                   ?>  
+                       ?>  
 
 
 
-               </tbody>
+                   </tbody>
 
-               <tr>
+                   <tr>
 
-                <th>TOTAL: </th>
-                <th> $ <?php echo number_format($total, 2, '.', ',');?></th>
+                    <th>TOTAL: </th>
+                    <th> $ <?php echo number_format($total, 2, '.', ',');?></th>
 
 
-            </tr>
+                </tr>
 
-        </table>
-        <a href="#" class="form-control btn blue" ><i class="fa fa-check"></i> IMPRIMIR</a>
+            </table>
+            <a href="<?php echo site_url('') ?>adminpagos/imprimirTiket" class="form-control btn blue" ><i class="fa fa-check"></i> IMPRIMIR</a>
+
+        </div>
 
     </div>
-
-</div>
 
 
 </div>

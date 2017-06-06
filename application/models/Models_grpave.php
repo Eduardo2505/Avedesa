@@ -179,27 +179,6 @@ function buscarArchivo($archivo) {
     return $query->num_rows();
 }
 
-function buscarArchivoActulizarrecuperados($archivo) {
-
-    //echo $archivo;
-
-    $this->db_b->where('idGrpAve', $archivo);
-    $this->db_b->where('idusuario', 'resAdmin2');
-    $query = $this->db_b->get('grpave');
-    return $query->num_rows();
-}
-
-function getresAdmin2() {
-
-    //echo $archivo;
-
-    $this->db_b->where('idusuario', 'resAdmin2');
-    $query = $this->db_b->get('grpave');
-    return $query;
-}
-
-
-
 function update($id, $data) {
 
     $this->db_b->trans_begin();

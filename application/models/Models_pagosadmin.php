@@ -11,52 +11,177 @@ class Models_pagosadmin extends CI_Model {
   }
 
 
-  function mostrarSolotiket() {
+  function getapa($numexpediente,$inicior,$finalr,$inicioa,$finala, $usuario,$autorizado, $offset, $limin) {
 
-    $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario,e.idpagos');
-    $this->db->from('pagos e');
-    $this->db->join('registro r', 'r.idregistro = e.idregistro');
-    $this->db->where('e.estado', 3);
+   $SQl = "SELECT 
+   r.num_expediente,
+   p.anticipo,
+   p.idregistro,
+   p.descripcion,
+   p.registro registropago,
+   p.usuario usuariopago,
+   IFNULL(pa.usuario, 'PENDIENTE') AS usuarioAceptacion,
+   IFNULL(pa.registro, 'PENDIENTE') AS registroAceptacion
+   FROM
+   pagos p
+   INNER JOIN
+   registro r ON p.idregistro = r.idregistro
+   LEFT JOIN
+   pagosaceptados pa ON p.idpagos = pa.idpagos
+   WHERE
+   p.estado = 2 ";
 
-    $query = $this->db->get();
-    return $query;
+   if($numexpediente!=""){
 
+    $SQl .=" and  r.num_expediente='$numexpediente'";
+  }
+  if($inicior!=""&&$finalr==""){
 
+    $SQl .=" and CAST(p.registro AS DATE) ='$inicior'";
   }
 
-  
-  function mostrarSoloPagos($numexpediente,$inicior,$finalr,$usuario,$estado, $offset,$limin) {
+  if($inicior==""&&$finalr!=""){
 
-    $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario,e.idpagos');
-    $this->db->from('pagos e');
-    $this->db->join('registro r', 'r.idregistro = e.idregistro');
-    $this->db->where('e.estado', $estado);
-    $this->db->like('r.num_expediente', $numexpediente, 'both');
-    if($usuario!=""){
-
-      $this->db->where('e.usuario',str_replace('-',' ',$usuario));
-    }
-
-    if($inicior!=""&&$finalr==""){
-
-     $this->db->where('CAST(e.registro AS DATE)', $inicior);
-   }
-
-   if($inicior==""&&$finalr!=""){
-
-    $this->db->where('CAST(e.registro AS DATE)', $finalr);
+    $SQl .=" and CAST(p.registro AS DATE) ='$finalr'";
   }
   if($inicior!=""&&$finalr!=""){
 
-   $this->db->where('CAST(e.registro AS DATE) >=', $inicior);
-   $this->db->where('CAST(e.registro AS DATE) <=', $finalr);
+    $SQl .=" and p.registro BETWEEN '$inicior 00:00:00' and '$finalr 23:59:59'";
+  }
+
+
+  if($inicioa!=""&&$finala==""){
+
+    $SQl .=" and CAST(pa.registro AS DATE) ='$inicioa'";
+  }
+
+  if($inicioa==""&&$finala!=""){
+
+    $SQl .=" and CAST(pa.registro AS DATE) ='$finala'";
+  }
+  if($inicioa!=""&&$finala!=""){
+
+    $SQl .=" and pa.registro BETWEEN '$inicioa 00:00:00' and '$finala 23:59:59'";
+  }
+
+  if($usuario!=""){
+
+    $SQl .=" and p.usuario ='".str_replace('-',' ',$usuario)."'  ";
+  }
+
+  $SQl.="ORDER BY p.registro DESC  limit $offset, $limin";
+
+
+  $query = $this->db->query($SQl);
+
+  return $query;
+}
+function getapacount($numexpediente,$inicior,$finalr,$inicioa,$finala, $usuario,$autorizado) {
+
+ $SQl = "SELECT 
+ r.num_expediente
+ FROM
+ pagos p
+ INNER JOIN
+ registro r ON p.idregistro = r.idregistro
+ LEFT JOIN
+ pagosaceptados pa ON p.idpagos = pa.idpagos
+ WHERE
+ p.estado = 2 ";
+
+ if($numexpediente!=""){
+
+  $SQl .=" and  r.num_expediente='$numexpediente'";
+}
+if($inicior!=""&&$finalr==""){
+
+  $SQl .=" and CAST(p.registro AS DATE) ='$inicior'";
+}
+
+if($inicior==""&&$finalr!=""){
+
+  $SQl .=" and CAST(p.registro AS DATE) ='$finalr'";
+}
+if($inicior!=""&&$finalr!=""){
+
+  $SQl .=" and p.registro BETWEEN '$inicior 00:00:00' and '$finalr 23:59:59'";
+}
+
+
+if($inicioa!=""&&$finala==""){
+
+  $SQl .=" and CAST(pa.registro AS DATE) ='$inicioa'";
+}
+
+if($inicioa==""&&$finala!=""){
+
+  $SQl .=" and CAST(pa.registro AS DATE) ='$finala'";
+}
+if($inicioa!=""&&$finala!=""){
+
+  $SQl .=" and pa.registro BETWEEN '$inicioa 00:00:00' and '$finala 23:59:59'";
+}
+
+if($usuario!=""){
+
+  $SQl .=" and p.usuario ='".str_replace('-',' ',$usuario)."'  ";
+}
+
+
+
+$query = $this->db->query($SQl);
+return $query->num_rows();
+
+}
+
+
+function mostrarSolotiket($idempleado) {
+
+  $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario,e.idpagos');
+  $this->db->from('pagos e');
+  $this->db->join('registro r', 'r.idregistro = e.idregistro');
+  $this->db->where('e.estado', 3);
+  $this->db->where('e.idadministrador', $idempleado);
+
+  $query = $this->db->get();
+  return $query;
+
+
+}
+
+
+function mostrarSoloPagos($numexpediente,$inicior,$finalr,$usuario,$estado, $offset,$limin) {
+
+  $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario,e.idpagos');
+  $this->db->from('pagos e');
+  $this->db->join('registro r', 'r.idregistro = e.idregistro');
+  $this->db->where('e.estado', $estado);
+  $this->db->like('r.num_expediente', $numexpediente, 'both');
+  if($usuario!=""){
+
+    $this->db->where('e.usuario',str_replace('-',' ',$usuario));
+  }
+
+  if($inicior!=""&&$finalr==""){
+
+   $this->db->where('CAST(e.registro AS DATE)', $inicior);
  }
- $this->db->limit($offset,$limin);
+
+ if($inicior==""&&$finalr!=""){
+
+  $this->db->where('CAST(e.registro AS DATE)', $finalr);
+}
+if($inicior!=""&&$finalr!=""){
+
+ $this->db->where('CAST(e.registro AS DATE) >=', $inicior);
+ $this->db->where('CAST(e.registro AS DATE) <=', $finalr);
+}
+$this->db->limit($offset,$limin);
 
 
 
- $query = $this->db->get();
- return $query;
+$query = $this->db->get();
+return $query;
 
 
 }
