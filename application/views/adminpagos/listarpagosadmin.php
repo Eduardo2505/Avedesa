@@ -4,7 +4,7 @@
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
-    <?php $this->load->view('plantilla/head') ?>
+  <?php $this->load->view('plantilla/head') ?>
 </head>
 
 <body class="page-header-fixed page-quick-sidebar-over-content ">
@@ -129,9 +129,9 @@
                                                         <div class="form-group">
                                                             <label class="control-label">USUARIO:</label>
                                                             <select name="usuario" class="form-control">
-                                                             <option value="">Selecciona</option>
-                                                             <?php
-                                                             if (isset($usuarios)) {
+                                                               <option value="">Selecciona</option>
+                                                               <?php
+                                                               if (isset($usuarios)) {
                                                                 foreach ($usuarios->result() as $rowx) {
                                                                     ?>
                                                                     <option value="<?php echo str_replace(' ','-',$rowx->usuariopago); ?>"><?php echo $rowx->usuariopago; ?></option>
@@ -150,35 +150,35 @@
                                                 </div>
 
                                                 <div class="col-md-2">
-                                                 <div class="form-group">
-                                                     <label class="control-label">*</label>
-                                                     <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> BUSQUEDA</button>
-                                                 </div>
-                                             </div>
+                                                   <div class="form-group">
+                                                       <label class="control-label">*</label>
+                                                       <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> BUSQUEDA</button>
+                                                   </div>
+                                               </div>
 
-                                         </div>
-
-
+                                           </div>
 
 
-                                     </div>
 
-                                 </form>
-                             </div>
-                         </div>
-                         <div class="tabbable-line boxless tabbable-reversed">
+
+                                       </div>
+
+                                   </form>
+                               </div>
+                           </div>
+                           <div class="tabbable-line boxless tabbable-reversed">
 
                             <div class="tab-content">
 
-                             <script type="text/javascript">
+                               <script type="text/javascript">
                                 $(document).ready(function() {
                                     $('#formCheck').submit(function() {
                                         var data = $(this).serialize();
                                         $.post('<?php echo site_url('') ?>adminpagos/agregarComanda', data, function(respuesta) {
 
-                                           $('#tableTicket').html(respuesta);
-                                           var totalr= $('#totalR').val();
-                                           var totals= $('#totalA').val();
+                                         $('#tableTicket').html(respuesta);
+                                         var totalr= $('#totalR').val();
+                                         var totals= $('#totalA').val();
                                          // alert(totals);
                                          var i=0;
                                          $("input:checkbox:checked").each(   
@@ -260,6 +260,7 @@
                                                             <th>DECRIPCION</th>
                                                             <th>REGISTRO</th>
                                                             <th>USUARIO</th>
+                                                            <th>*</th>
 
                                                         </tr>
                                                     </thead>
@@ -273,42 +274,43 @@
                                                             foreach ($registros->result() as $rowx) {
 
 
-                                                               ?>
+                                                             ?>
 
 
-                                                               <tr id="<?php echo $rowx->idpagos; ?>">
-                                                                   <td><input type="checkbox" class="case" title="<?php echo $rowx->anticipo; ?>"  name="pagos[]" value="<?php echo $rowx->idpagos; ?>"></td>
+                                                             <tr id="<?php echo $rowx->idpagos; ?>">
+                                                                 <td><input type="checkbox" class="case" title="<?php echo $rowx->anticipo; ?>"  name="pagos[]" value="<?php echo $rowx->idpagos; ?>"></td>
 
-                                                                   <td><?php echo $rowx->num_expediente; ?></td>
-                                                                   <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
-                                                                   <td><?php echo $rowx->descripcion; ?></td>
+                                                                 <td><?php echo $rowx->num_expediente; ?></td>
+                                                                 <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
+                                                                 <td><?php echo $rowx->descripcion; ?></td>
 
-                                                                   <td><?php echo $rowx->registro; ?></td>
-                                                                   <td><?php echo $rowx->usuario; ?></td>
+                                                                 <td><?php echo $rowx->registro; ?></td>
+                                                                 <td><?php echo $rowx->usuario; ?></td>
 
-
-
-
-                                                               </tr>
+                                                                 <td><i class="fa fa-pencil editarPago" name="<?php echo $rowx->anticipo; ?>" title="<?php echo $rowx->idpagos ?>"></i></td>
 
 
 
-                                                               <?php
-                                                           }
-                                                       }
-                                                       ?>  
+                                                             </tr>
+
+
+
+                                                             <?php
+                                                         }
+                                                     }
+                                                     ?>  
 
 
 
 
-                                                   </tbody>
+                                                 </tbody>
 
-                                               </table>
+                                             </table>
 
-                                           </div>
+                                         </div>
 
-                                       </div>
-                                       <div class="pull-right" >
+                                     </div>
+                                     <div class="pull-right" >
 
                                         <?php echo $pagination; ?>
 
@@ -319,20 +321,20 @@
 
                                 <div class="col-md-2">
 
-                                 <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> AGREGAR</button>
-                             </div>
+                                   <button type="submit" class="form-control btn blue" ><i class="fa fa-check"></i> AGREGAR</button>
+                               </div>
 
 
-                         </div>
-                     </form>
-                     <br><br>
+                           </div>
+                       </form>
+                       <br><br>
 
 
 
-                 </div>
-             </div>
-         </div>
-         <div class="col-md-4">
+                   </div>
+               </div>
+           </div>
+           <div class="col-md-4">
 
             <div class="tab-pane" >
                 <div class="portlet box red">
@@ -349,7 +351,7 @@
 
                             <script type="text/javascript">
 
-                               $(document).ready(function() {
+                             $(document).ready(function() {
                                 $('.idpagoEliminar').click(function() {
                                     var idpago = $(this).attr( "title");
                                     var costo = $(this).attr( "name");
@@ -412,61 +414,129 @@
 
 
 
-                             <?php
-                             $total=0;
+                               <?php
+                               $total=0;
 
-                             if (isset($registrosTiket)) {
+                               if (isset($registrosTiket)) {
                                 foreach ($registrosTiket->result() as $rowx) {
 
-                                 $total+=$rowx->anticipo;
-                                 ?>
+                                   $total+=$rowx->anticipo;
+                                   ?>
 
 
-                                 <tr>
+                                   <tr>
 
 
-                                   <td><?php echo $rowx->num_expediente; ?></td>
-                                   <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
+                                     <td><?php echo $rowx->num_expediente; ?></td>
+                                     <td>$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
 
-                                   <td><i class="fa fa-remove idpagoEliminar" name="<?php echo $rowx->anticipo; ?>" title="<?php echo $rowx->idpagos ?>"></i></td>
-
-
-
-                               </tr>
+                                     <td><i class="fa fa-remove idpagoEliminar" name="<?php echo $rowx->anticipo; ?>" title="<?php echo $rowx->idpagos ?>"></i></td>
 
 
-
-                               <?php
-                           }
-                       }
-                       ?>  
+                                 </tr>
 
 
 
-                   </tbody>
-
-                   <tr>
-
-                    <th>TOTAL: </th>
-                    <th> $ <?php echo number_format($total, 2, '.', ',');?></th>
+                                 <?php
+                             }
+                         }
+                         ?>  
 
 
-                </tr>
 
-            </table>
-            <a href="<?php echo site_url('') ?>adminpagos/imprimirTiket" class="form-control btn blue" ><i class="fa fa-check"></i> IMPRIMIR</a>
+                     </tbody>
+
+                     <tr>
+
+                        <th>TOTAL: </th>
+                        <th> $ <?php echo number_format($total, 2, '.', ',');?></th>
+
+
+                    </tr>
+
+                </table>
+                <a href="<?php echo site_url('') ?>adminpagos/imprimirTiket" class="form-control btn blue" ><i class="fa fa-check"></i> IMPRIMIR</a>
+
+            </div>
 
         </div>
+
 
     </div>
 
 
 </div>
-
-
-</div>
 </div>
 
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $('.editarPago').click(function() {
+            var idpago = $(this).attr( "title");
+            var costo = $(this).attr( "name");
+            $("#idpago").val(idpago);
+            $("#anticipoPag").val(costo);
+            $("#btnmodal").click();
+            return false;
+        });
+
+    });
+
+
+    $(document).ready(function() {
+        $('#idEditar').submit(function() {
+            var data = $(this).serialize();
+
+            $.post('<?php echo site_url('') ?>adminpagos/agregarComanda', data, function(respuesta) {
+
+                
+
+
+            });
+            return false;
+        });
+    });
+
+</script>
+
+<div style="display: none;">
+    <a class="btn default" data-target="#static" data-toggle="modal" id="btnmodal">
+        View Demo </a>
+    </div>
+
+
+    <div id="static" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+
+
+        <div class="modal-body" >
+            <form id="idEditar" class="form-horizontal">
+              <input type="hidden" name="idpago" value="">
+              <div class="form-body">
+                <div class="form-group">
+                  <label class="col-md-3 control-label">ANTICIPO : *</label>
+                  <div class="col-md-6">
+                      <input type="text" id="anticipoPag" class="form-control input-circle" maxlength="45" name="anticipo" placeholder="ANTICIPO" required pattern="[0-9]{1,8}">
+
+                  </div>
+              </div>
+
+              <div class="form-actions">
+                  <div class="row">
+                    <div class="col-md-offset-3 col-md-9">
+                      <button type="submit" class="btn btn-circle green">GUARDAR</button>
+                      <button type="button" data-dismiss="modal" class="btn btn-circle blue">SALIR</button>
+
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </form>
+</div>
+
+</div>
 
 
 
@@ -477,6 +547,8 @@
 <!-- END CONTENT -->
 
 </div>
+
+
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
@@ -490,17 +562,19 @@
 
 <!-- END JAVASCRIPTS -->
 
+
 <script>
     jQuery(document).ready(function() {
                 // initiate layout and plugins
 
                 Layout.init(); // init current layout
                 QuickSidebar.init(); // init quick sidebar
-                Demo.init(); // init demo features
                 ComponentsPickers.init();
+                Metronic.init(); // init metronic core components
+                Demo.init(); // init demo features
+
             });
         </script>
-
 
 
 

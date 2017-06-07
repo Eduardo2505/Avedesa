@@ -46,36 +46,37 @@ class Adminpagos extends CI_Controller {
     <td>'.$row->descripcion.'</td>
     <td>'.$row->registro.'</td>
     <td>'.$row->usuario.'</td>
+    <td><i class="fa fa-pencil editarPago" name="'.$row->anticipo.'" title="'.$row->idpagos.'"></i></td>
     <tr>';
 
 
     }
 
     public function eliminarTicket() {
-       $this->load->model('models_pagos');
+     $this->load->model('models_pagos');
 
-       $idpago = $this->input->get('idpago');
-       $idempleado = $this->session->userdata('idempleado');
+     $idpago = $this->input->get('idpago');
+     $idempleado = $this->session->userdata('idempleado');
 
-       $data = array(
+     $data = array(
         'estado' => 1);
-       $this->models_pagos->update($idpago, $data);
+     $this->models_pagos->update($idpago, $data);
 
-       $data['registros'] = $this->models_pagosadmin->mostrarSolotiket($idempleado);
-       $plantilla = $this->load->view('adminpagos/tiket', $data, true);
-       echo $plantilla ;
-   }
+     $data['registros'] = $this->models_pagosadmin->mostrarSolotiket($idempleado);
+     $plantilla = $this->load->view('adminpagos/tiket', $data, true);
+     echo $plantilla ;
+ }
 
-   public function agregarComanda() {
+ public function agregarComanda() {
 
     $this->load->model('models_pagos');
 
     $idempleado = $this->session->userdata('idempleado');
 
     if (!empty($_POST['pagos'])) {
-       $total=count($_POST['pagos']);
+     $total=count($_POST['pagos']);
 
-       for($i=0;$i<$total;$i++) { 
+     for($i=0;$i<$total;$i++) { 
         $data = array(
             'estado' => 3,
             'idadministrador' =>$idempleado);
@@ -528,18 +529,18 @@ public function mostraranticipos() {
     }
     public function imprimirTiketTiket() {
 
-       $folio = trim($this->input->get('folio'));
-       $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
-       $data['nombre'] = $nombrez;
-       $data['urlredi'] = site_url('')."adminpagos/mostrarpagosadmin";
-       $data["registros"]=$this->models_pagosadmin->mostrarpagosticketAceptar($folio);
-       $this->load->view('adminpagos/imprimir_viewer', $data);
+     $folio = trim($this->input->get('folio'));
+     $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+     $data['nombre'] = $nombrez;
+     $data['urlredi'] = site_url('')."adminpagos/mostrarpagosadmin";
+     $data["registros"]=$this->models_pagosadmin->mostrarpagosticketAceptar($folio);
+     $this->load->view('adminpagos/imprimir_viewer', $data);
 
-   }
+ }
 
 
 
-   public function contrasena() {
+ public function contrasena() {
 
     $data['msn'] = -1;
     $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
