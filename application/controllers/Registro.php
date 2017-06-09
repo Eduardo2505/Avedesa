@@ -47,22 +47,22 @@ class Registro extends CI_Controller {
 
         $boolenVer=0;;
         if($clave!=''){
-           $boolenVer=1;
-       }
-       $datax['verSolicitudesBusqueda']=$boolenVer;
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
 
-       $datax['solicitudes'] = 'x';
-       $datax['menuquincena'] = "active";
+     $datax['solicitudes'] = 'x';
+     $datax['menuquincena'] = "active";
 
 
-       $data['idcapturista'] = $this->session->userdata('idempleado');
-       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-       $data['head'] = $this->load->view('plantilla/head', true);
-       $data['registros'] = $this->models_quincena->getactivos();
-       $this->load->view('registro/registro', $data);
-   }
+     $data['idcapturista'] = $this->session->userdata('idempleado');
+     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+     $data['head'] = $this->load->view('plantilla/head', true);
+     $data['registros'] = $this->models_quincena->getactivos();
+     $this->load->view('registro/registro', $data);
+ }
 
-   public function trabajar() {
+ public function trabajar() {
 
     $idquince = $this->input->get('idquincena');
     $idempleado = $this->session->userdata('idempleado');
@@ -84,17 +84,17 @@ class Registro extends CI_Controller {
 
     $boolenVer=0;;
     if($clave!=''){
-       $boolenVer=1;
-   }
-   $datax['verSolicitudesBusqueda']=$boolenVer;
-   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-   $data['head'] = $this->load->view('plantilla/head', true);
+     $boolenVer=1;
+ }
+ $datax['verSolicitudesBusqueda']=$boolenVer;
+ $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+ $data['head'] = $this->load->view('plantilla/head', true);
 
 
-   $squery = $this->models_recibo->Buscar($idregistro);
+ $squery = $this->models_recibo->Buscar($idregistro);
 
 
-   if ($squery->num_rows() == 0) {
+ if ($squery->num_rows() == 0) {
     redirect('registro', 'refresh');
             //echo "no hay registro";
 } else {
@@ -193,12 +193,12 @@ public function registro() {
             $costo = $costox;
         }else if($this->input->post('idtipo') ==3){
 
-           list($tipox, $costox) = explode("-", $this->input->post('tipoConce'));
-           $observacion = $tipox;
-           $tipo= $tipox;
-           $costo = $costox;
+         list($tipox, $costox) = explode("-", $this->input->post('tipoConce'));
+         $observacion = $tipox;
+         $tipo= $tipox;
+         $costo = $costox;
 
-       } else {
+     } else {
 
         $costo = $this->input->post('costo');
     }
@@ -293,6 +293,12 @@ public function actulizarsubto() {
         }
     }
 
+    $suma = $this->models_cantidad_conceptos->sum($idrecibo);
+    $data = array(
+        'nomina' => $suma);
+
+    $this->models_recibo->update($idrecibo, $data);
+
     echo $res = '$ ' . $suma;
 }
 
@@ -348,17 +354,17 @@ public function mostrar() {
 
         $boolenVer=0;;
         if($clave!=''){
-           $boolenVer=1;
-       }
-       $datax['verSolicitudesBusqueda']=$boolenVer;
-       $datax['menuquincena'] = "active";
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
+     $datax['menuquincena'] = "active";
 
-       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-       $data['head'] = $this->load->view('plantilla/head', true);
-       $this->load->view('registro/listar', $data);
-   }
+     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+     $data['head'] = $this->load->view('plantilla/head', true);
+     $this->load->view('registro/listar', $data);
+ }
 
-   public function eliminar() {
+ public function eliminar() {
 
     $idregistro = $this->input->get('idavaluos');
     $this->models_avaluos->eliminar($idregistro);
@@ -382,13 +388,13 @@ public function contrasena() {
 
     $boolenVer=0;;
     if($clave!=''){
-       $boolenVer=1;
-   }
-   $datax['verSolicitudesBusqueda']=$boolenVer;
-   $data['idcapturista'] = $this->session->userdata('idempleado');
-   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-   $data['head'] = $this->load->view('plantilla/head', true);
-   $this->load->view('empleado/contrasena', $data);
+     $boolenVer=1;
+ }
+ $datax['verSolicitudesBusqueda']=$boolenVer;
+ $data['idcapturista'] = $this->session->userdata('idempleado');
+ $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+ $data['head'] = $this->load->view('plantilla/head', true);
+ $this->load->view('empleado/contrasena', $data);
 }
 
 public function actualizar() {
@@ -508,19 +514,19 @@ public function aprobados() {
 
         $boolenVer=0;;
         if($clave!=''){
-           $boolenVer=1;
-       }
-       $datax['verSolicitudesBusqueda']=$boolenVer;
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
 
-       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-       $data['head'] = $this->load->view('plantilla/head', true);
+     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+     $data['head'] = $this->load->view('plantilla/head', true);
 
         // usuario
-       $data['url'] = $this->config->item('urlarchivos');
-       $this->load->view('registro/listar_solicitudes_aprobados', $data);
-   }
+     $data['url'] = $this->config->item('urlarchivos');
+     $this->load->view('registro/listar_solicitudes_aprobados', $data);
+ }
 
-   public function mostrarsolicitudes() {
+ public function mostrarsolicitudes() {
     $this->load->model('models_estado_empleado');
     $offset = $this->input->get('per_page');
     $uri_segment = 0;
@@ -578,22 +584,22 @@ public function aprobados() {
 
         $boolenVer=0;;
         if($clave!=''){
-           $boolenVer=1;
-       }
-       $datax['verSolicitudesBusqueda']=$boolenVer;
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
 
-       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
        // $data['head'] = $this->load->view('plantilla/head', true);
 
         // usuario
-       $data['url'] = $this->config->item('urlarchivos');
-       $this->load->view('registro/listar_solicitudes', $data);
+     $data['url'] = $this->config->item('urlarchivos');
+     $this->load->view('registro/listar_solicitudes', $data);
 
 
 
-   }
+ }
 
-   public function actualizarFecha() {
+ public function actualizarFecha() {
 
     $this->load->model('models_registro');
     $idregistro = $this->input->get('idregistro');

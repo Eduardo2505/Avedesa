@@ -148,7 +148,7 @@
                         <div class="form-group">
                           <label class="col-md-3 control-label">DESCRIPCIÓN : </label>
                           <div class="col-md-4">
-                            <textarea name="descripcion" class="form-control input-circle"></textarea>
+                            <textarea name="descripcion" class="form-control input-circle" maxlength="300"></textarea>
 
 
                           </div>

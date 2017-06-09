@@ -129,6 +129,24 @@ class Models_recibo extends CI_Model {
         return $query;
     }
 
+
+
+    function calcularPago($idrecibo) {
+        $SQl = "SELECT 
+        (nomina + extra + pasajes) - (transferencia + deducciones + retardos + abono + anticipo) AS pagar
+        FROM
+        recibo
+        WHERE
+        idrecibo = $idrecibo";
+
+     //   echo $SQl;
+        $query = $this->db->query($SQl);
+        $row = $query->row();
+        $idre = $row->pagar;
+        return $idre;
+    }
+
+
     function Buscarquin($idquincena, $idempleado) {
 
         $this->db->where('idquincena', $idquincena);
@@ -156,12 +174,12 @@ class Models_recibo extends CI_Model {
         c.idconcepto = cc.idconcepto
         AND cc.idempleado = $idempleado and c.estado=$estado";
 
-        
+
         $query = $this->db->query($SQl);
 
         return $query;
     }
-    
+
     function conceptosotros($idquince,$idempleado) {
 
         $SQl = "SELECT 

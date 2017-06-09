@@ -318,9 +318,8 @@ class Pdfs extends CI_Controller {
 //.money_format('%i', $row->monto_credito)
 
                             $html.= '</table>';
-                            $menos = $rowx->nomina + $rowx->transferencia + $rowx->retardos + $rowx->abono + $rowx->anticipo + $rowx->deducciones + $rowx->a_cuenta;
-                            $sumx = $rowx->extra + $rowx->pasajes;
-                            $total = ($suma + $sumx) - $menos;
+                           
+                            $total = $this->models_recibo->calcularPago($idrecibo);
                             $html.= ' <BR><BR><h3>RESUMEN</h3> <BR> 
                             <table>
 

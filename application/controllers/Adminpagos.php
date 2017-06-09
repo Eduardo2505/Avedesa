@@ -32,7 +32,34 @@ class Adminpagos extends CI_Controller {
       $this->load->model('models_pagosadmin');
   }
 
-  public function buscarpago() {
+
+  public function editarPagoVista() {
+
+    $this->load->model('models_pagos');
+    $idpago = $this->input->get('idpago');
+    $anticipo = $this->input->get('anticipo');
+    $descripcion = $this->input->get('descripcion');
+
+    $query = $this->models_pagos->Buscarfull($idpago);
+    $row = $query->row();
+
+    $data = array(
+        'anticipo' => $anticipo,
+        'descripcion' => $row->descripcion.'||'.$descripcion);
+    $this->models_pagos->update($idpago, $data);
+
+
+    echo '
+    <td><input type="checkbox" class="case" title="'.$anticipo.'"  name="pagos[]" value="'.$idpago.'"></td>
+    <td>'.$row->num_expediente.'</td>
+    <td> $ '.number_format($anticipo, 2, '.', ',').'</td>
+    <td>'.$row->descripcion.'||'.$descripcion.'</td>
+    <td>'.$row->registro.'</td>
+    <td>'.$row->usuario.'</td>
+    <td><i class="fa fa-pencil" onclick="modalx($(this));" name="'.$anticipo.'" title="'.$idpago.'"></i></td>';
+
+}
+public function buscarpago() {
 
     $this->load->model('models_pagos');
     $idpago = $this->input->get('idpago');
@@ -42,11 +69,11 @@ class Adminpagos extends CI_Controller {
     echo '<tr id="'.$row->idpagos.'">
     <td><input type="checkbox" class="case" title="'.$row->anticipo.'"  name="pagos[]" value="'.$row->idpagos.'"></td>
     <td>'.$row->num_expediente.'</td>
-    <td>'.number_format($row->anticipo, 2, '.', ',').'</td>
+    <td width="110px">$ '.number_format($row->anticipo, 2, '.', ',').'</td>
     <td>'.$row->descripcion.'</td>
     <td>'.$row->registro.'</td>
     <td>'.$row->usuario.'</td>
-    <td><i class="fa fa-pencil editarPago" name="'.$row->anticipo.'" title="'.$row->idpagos.'"></i></td>
+    <td><i class="fa fa-pencil" onclick="modalx($(this));" name="'.$row->anticipo.'" title="'.$row->idpagos.'"></i></td>
     <tr>';
 
 

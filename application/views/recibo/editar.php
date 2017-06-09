@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 
 <html lang="es">
-    <!--<![endif]-->
-    <!-- BEGIN HEAD -->
-    <head>
-        <?php $this->load->view('plantilla/head') ?>
-        <?php
-        $row = $query->row();
-        ?>
-    </head>
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <?php $this->load->view('plantilla/head') ?>
+    <?php
+    $row = $query->row();
+    ?>
+</head>
 
-    <body class="page-header-fixed page-quick-sidebar-over-content ">
-        <!-- BEGIN HEADER -->
-        <div class="page-header -i navbar navbar-fixed-top">
-            <!-- BEGIN HEADER INNER -->
-            <div class="page-header-inner">
-                <!-- BEGIN LOGO -->
-                <div class="page-logo">
-                    <a href="<?php echo site_url('') ?>solicitudes">
-                        <img src="<?php echo site_url('') ?>metronic/admin/layout/img/logo.png" alt="logo" class="logo-default"/>
-                    </a>
-
-                </div>
-
-                <!-- END LOGO -->
-                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+<body class="page-header-fixed page-quick-sidebar-over-content ">
+    <!-- BEGIN HEADER -->
+    <div class="page-header -i navbar navbar-fixed-top">
+        <!-- BEGIN HEADER INNER -->
+        <div class="page-header-inner">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+                <a href="<?php echo site_url('') ?>solicitudes">
+                    <img src="<?php echo site_url('') ?>metronic/admin/layout/img/logo.png" alt="logo" class="logo-default"/>
                 </a>
-                <!-- END RESPONSIVE MENU TOGGLER -->
-                <!-- BEGIN TOP NAVIGATION MENU -->
-                <div class="top-menu">
-                    <ul class="nav navbar-nav pull-right">
+
+            </div>
+
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
 
 
-                        <!-- END TODO DROPDOWN -->
-                        <!-- BEGIN USER LOGIN DROPDOWN -->
-                        <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                        <li class="dropdown dropdown-user">
-                            <div class="dropdown-toggle">
-                                <img alt="" class="img-circle" src="<?php echo site_url('') ?>metronic/admin/layout/img/avatar3_small.jpg"/>
+                    <!-- END TODO DROPDOWN -->
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-user">
+                        <div class="dropdown-toggle">
+                            <img alt="" class="img-circle" src="<?php echo site_url('') ?>metronic/admin/layout/img/avatar3_small.jpg"/>
 
-                                <span class="username username-hide-on-mobile">
-                                    ¡Hola! <?php echo $nombre ?> ( <?php echo $puesto ?>) </span>
-                            
+                            <span class="username username-hide-on-mobile">
+                                ¡Hola! <?php echo $nombre ?> ( <?php echo $puesto ?>) </span>
+
                             </div>
-                           
+
                         </li>
                         <li class="dropdown dropdown-user" >
-                        <a href="<?php echo site_url('') ?>menu" class="dropdown-toggle">
+                            <a href="<?php echo site_url('') ?>menu" class="dropdown-toggle">
                                 <i class="fa fa-bars"></i> <span class="username username-hide-on-mobile"> MENÚ</span>
                             </a>
-                           
+
 
                         </li>
                         <li class="dropdown dropdown-user" >
-                        <a href="<?php echo site_url('') ?>salir/close" class="dropdown-toggle">
+                            <a href="<?php echo site_url('') ?>salir/close" class="dropdown-toggle">
                                 <i class="icon-logout"></i> <span class="username username-hide-on-mobile"> SALIR</span>
                             </a>
-                           
+
 
                         </li>
                         <!-- END QUICK SIDEBAR TOGGLER -->
@@ -136,7 +136,7 @@
 
                                                         </div>
                                                     </div>
-                                                     <div class="form-group">
+                                                    <div class="form-group">
                                                         <label class="col-md-3 control-label">  - DEDUCCIONES: *</label>
                                                         <div class="col-md-4">
                                                             <input type="text" class="form-control input-circle" value="<?php echo $row->deducciones; ?>" maxlength="45" name="deducciones" placeholder="DEDUCCIONES" required="">
@@ -165,9 +165,9 @@
                                                         </div>
                                                     </div>
 
-                                                   
 
-                                                  
+
+
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">  + EXTRA: *</label>
                                                         <div class="col-md-4">
@@ -195,13 +195,7 @@
                                                         <label class="col-md-3 control-label"> PAGAR: *</label>
                                                         <div class="col-md-4">
 
-                                                            <?php
-                                                            $menos = $row->nomina + $row->transferencia + $row->retardos + $row->abono + $row->anticipo + $row->deducciones + $row->a_cuenta;
-                                                            $sum = $row->extra + $row->pasajes;
-                                                            $total = ($sub + $sum) - $menos;
-                                                            ?>
-                                                            <input type="hidden" name="total" value="<?php echo $total; ?>">
-                                                            <h2>$ <?php echo $total; ?></h2>
+                                                        <h2 id="totalApagar">$ <?php echo $row->total; ?></h2>
                                                         </div>
                                                     </div>
 
@@ -262,8 +256,22 @@
                                                                     data: dataString,
                                                                     success: function(datax) {
 
-
+                                                                        //alert(datax);
                                                                         $('#ttotal').html(datax);
+
+                                                                        // actualizar total
+                                                                        $.ajax({
+                                                                            type: "GET",
+                                                                            url: '<?php echo site_url('') ?>recibo/actualizarTotalaPagar',
+                                                                            data: dataString,
+                                                                            success: function(datay) {
+
+
+                                                                                $('#totalApagar').html(datay);
+
+
+                                                                            }
+                                                                        });
 
 
                                                                     }
@@ -309,43 +317,43 @@
 
 
                                                             <tr><td colspan="4">NÓMINA :</td><td><samp id="ttotal"> $ <?php echo $sub ?></samp></td><tr>
-                                                        </tbody>
-                                                    </table> 
+                                                            </tbody>
+                                                        </table> 
+                                                    </div>
+
+
                                                 </div>
-
-
                                             </div>
-                                        </div>
 
-                                        <!-- END FORM-->
+                                            <!-- END FORM-->
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
+                    <!-- END PAGE CONTENT-->
                 </div>
-                <!-- END PAGE CONTENT-->
+            </div>
+            <!-- END CONTENT -->
+
+        </div>
+        <!-- END CONTAINER -->
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div class="page-footer-inner">
+                2016 &copy; HelpMex.com.mx
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
             </div>
         </div>
-        <!-- END CONTENT -->
 
-    </div>
-    <!-- END CONTAINER -->
-    <!-- BEGIN FOOTER -->
-    <div class="page-footer">
-        <div class="page-footer-inner">
-            2016 &copy; HelpMex.com.mx
-        </div>
-        <div class="scroll-to-top">
-            <i class="icon-arrow-up"></i>
-        </div>
-    </div>
+        <!-- END JAVASCRIPTS -->
 
-    <!-- END JAVASCRIPTS -->
-
-    <script>
-        jQuery(document).ready(function() {
+        <script>
+            jQuery(document).ready(function() {
             // initiate layout and plugins
 
             Layout.init(); // init current layout

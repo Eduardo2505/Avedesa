@@ -24,149 +24,149 @@ class Recibo extends CI_Controller {
          if ($idpuesto != 1&&$idpuesto != 6) {
 
            redirect('registro', 'refresh');
-        }*/
+       }*/
 
-        $this->load->model('models_recibo');
-        $this->load->model('models_cantidad_conceptos');
-        $this->load->model('models_empleado');
-        $this->load->model('models_quincena');
+       $this->load->model('models_recibo');
+       $this->load->model('models_cantidad_conceptos');
+       $this->load->model('models_empleado');
+       $this->load->model('models_quincena');
+   }
+
+   public function trabajar() {
+
+    $data['msn'] = -1;
+    $idquincena = $this->input->get('idquincena');
+    $empleados = $this->models_empleado->get();
+
+
+    $html = '';
+    if (isset($empleados)) {
+        foreach ($empleados->result() as $rowx) {
+
+            $buscar = $this->models_recibo->Buscarquin($idquincena, $rowx->idempleado);
+            if ($buscar == 0) {
+
+                $html.="<tr><td><input class='form-control input-circle' type='checkbox' name='nombre[]'   value='" . $rowx->idempleado . "' /> </td>
+                <td>" . $rowx->Nombre . " " . $rowx->apellidos . "</td>
+            </tr>";
+        } else {
+
+            $html.="<tr><td><input class='form-control input-circle' type='checkbox' name='nombre[]'  value='" . $rowx->idempleado . "' checked/> </td>
+            <td>" . $rowx->Nombre . " " . $rowx->apellidos . "</td>
+        </tr>";
+    }
+}
+}
+
+
+
+$data['empleados'] = $html;
+
+$query = $this->models_quincena->Buscar($idquincena);
+$row = $query->row();
+$data['idquin'] = $idquincena;
+$data['infoquincena'] = $row->inicio . ' a ' . $row->final . ' PAGADO ' . $row->pagada;
+
+$nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+
+$datax['nombre'] = $nombrez;
+$datax['puesto'] = $this->session->userdata('puesto');
+$datax['menusolicitudes'] = "x";
+$datax['menucatalogos'] = "x";
+$datax['menuadmin'] = "active";
+$datax['solictudesbus'] = "x";
+$datax['solictudesnuevo'] = "x";
+$datax['solictudesver'] = "x";
+$datax['catalogost'] = "x";
+$datax['catalogoso'] = "x";
+$datax['catalogose'] = "x";
+$datax['catalogosp'] = "x";
+$datax['catalogosem'] = "x";
+$datax['catalogoemp'] = "x";
+$datax['adminq'] = "active";
+$datax['adminc'] = "x";
+$datax['admincc'] = "x";
+$datax['admina'] = "x";
+
+$data['nombre'] = $nombrez;
+$data['idcapturista'] = $this->session->userdata('idempleado');
+$data['menu'] = $this->load->view('plantilla/menu', $datax, true);
+$data['head'] = $this->load->view('plantilla/head', true);
+$this->load->view('recibo/registro', $data);
+}
+
+public function registro() {
+
+    $idquin = $_POST['idquincena'];
+
+    $recibo = $this->models_recibo->get($idquin, "ACTIVO");
+
+    if (isset($recibo)) {
+        foreach ($recibo->result() as $rowx) {
+
+
+            $data = array(
+                'estado' => 'ELIMINAR');
+
+            $this->models_recibo->update($rowx->idrecibo, $data);
+        }
     }
 
-    public function trabajar() {
 
-        $data['msn'] = -1;
-        $idquincena = $this->input->get('idquincena');
-        $empleados = $this->models_empleado->get();
+    if (!empty($_POST['nombre'])) {
 
+        for ($i = 0; $i <= count($_POST['nombre']); $i++) {
+            if (!empty($_POST['nombre'][$i])) {
 
-        $html = '';
-        if (isset($empleados)) {
-            foreach ($empleados->result() as $rowx) {
-
-                $buscar = $this->models_recibo->Buscarquin($idquincena, $rowx->idempleado);
-                if ($buscar == 0) {
-
-                    $html.="<tr><td><input class='form-control input-circle' type='checkbox' name='nombre[]'   value='" . $rowx->idempleado . "' /> </td>
-                                            <td>" . $rowx->Nombre . " " . $rowx->apellidos . "</td>
-                                                </tr>";
-                } else {
-
-                    $html.="<tr><td><input class='form-control input-circle' type='checkbox' name='nombre[]'  value='" . $rowx->idempleado . "' checked/> </td>
-                                              <td>" . $rowx->Nombre . " " . $rowx->apellidos . "</td>
-                                                </tr>";
-                }
-            }
-        }
-
-
-
-        $data['empleados'] = $html;
-
-        $query = $this->models_quincena->Buscar($idquincena);
-        $row = $query->row();
-        $data['idquin'] = $idquincena;
-        $data['infoquincena'] = $row->inicio . ' a ' . $row->final . ' PAGADO ' . $row->pagada;
-
-        $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
-
-        $datax['nombre'] = $nombrez;
-        $datax['puesto'] = $this->session->userdata('puesto');
-        $datax['menusolicitudes'] = "x";
-        $datax['menucatalogos'] = "x";
-        $datax['menuadmin'] = "active";
-        $datax['solictudesbus'] = "x";
-        $datax['solictudesnuevo'] = "x";
-        $datax['solictudesver'] = "x";
-        $datax['catalogost'] = "x";
-        $datax['catalogoso'] = "x";
-        $datax['catalogose'] = "x";
-        $datax['catalogosp'] = "x";
-        $datax['catalogosem'] = "x";
-        $datax['catalogoemp'] = "x";
-        $datax['adminq'] = "active";
-        $datax['adminc'] = "x";
-        $datax['admincc'] = "x";
-        $datax['admina'] = "x";
-
-        $data['nombre'] = $nombrez;
-        $data['idcapturista'] = $this->session->userdata('idempleado');
-        $data['menu'] = $this->load->view('plantilla/menu', $datax, true);
-        $data['head'] = $this->load->view('plantilla/head', true);
-        $this->load->view('recibo/registro', $data);
-    }
-
-    public function registro() {
-
-        $idquin = $_POST['idquincena'];
-
-        $recibo = $this->models_recibo->get($idquin, "ACTIVO");
-
-        if (isset($recibo)) {
-            foreach ($recibo->result() as $rowx) {
-
-
-                $data = array(
-                    'estado' => 'ELIMINAR');
-
-                $this->models_recibo->update($rowx->idrecibo, $data);
-            }
-        }
-
-
-        if (!empty($_POST['nombre'])) {
-
-            for ($i = 0; $i <= count($_POST['nombre']); $i++) {
-                if (!empty($_POST['nombre'][$i])) {
-
-                    $buscar = $this->models_recibo->Buscarquin($idquin, $_POST['nombre'][$i]);
+                $buscar = $this->models_recibo->Buscarquin($idquin, $_POST['nombre'][$i]);
 
                     //echo $_POST['nombre'][$i];
-                    if ($buscar == 0) {
+                if ($buscar == 0) {
 
-                        $data = array(
-                            'idquincena' => $idquin,
-                            'estado' => 'ACTIVO',
-                            'idempleado' => $_POST['nombre'][$i]);
-                        $this->models_recibo->insertar($data);
-                    } else {
-                        $data = array(
-                            'estado' => 'ACTIVO');
+                    $data = array(
+                        'idquincena' => $idquin,
+                        'estado' => 'ACTIVO',
+                        'idempleado' => $_POST['nombre'][$i]);
+                    $this->models_recibo->insertar($data);
+                } else {
+                    $data = array(
+                        'estado' => 'ACTIVO');
 
-                        $this->models_recibo->update($buscar, $data);
-                    }
+                    $this->models_recibo->update($buscar, $data);
                 }
             }
         }
-
-
-        $recibox = $this->models_recibo->get($idquin, "ELIMINAR");
-
-        if (isset($recibox)) {
-            foreach ($recibox->result() as $rowx) {
-
-                $this->models_recibo->eliminar($rowx->idrecibo);
-            }
-        }
-
-        redirect('recibo/trabajar?idquincena=' . $idquin, 'refresh');
     }
 
-    public function mostrar() {
 
+    $recibox = $this->models_recibo->get($idquin, "ELIMINAR");
 
-        $offset = $this->input->get('per_page');
-        $uri_segment = 0;
-        if ($offset == "") {
-            $offset = 0;
+    if (isset($recibox)) {
+        foreach ($recibox->result() as $rowx) {
+
+            $this->models_recibo->eliminar($rowx->idrecibo);
         }
-        $idquincena = $this->input->get('idquincena');
-        $nombre = trim($this->input->get('nombre'));
-        $data['idquincena'] = $idquincena;
+    }
 
-        $data['registros'] = $this->models_recibo->mostrar($nombre, $idquincena, $offset, $this->limite);
+    redirect('recibo/trabajar?idquincena=' . $idquin, 'refresh');
+}
 
-        $config['base_url'] = base_url() . 'recibo/mostrar?nombre=' . $nombre . '&idquincena=' . $idquincena;
-        $config['total_rows'] = $this->models_recibo->mostrarcount($nombre, $idquincena);
+public function mostrar() {
+
+
+    $offset = $this->input->get('per_page');
+    $uri_segment = 0;
+    if ($offset == "") {
+        $offset = 0;
+    }
+    $idquincena = $this->input->get('idquincena');
+    $nombre = trim($this->input->get('nombre'));
+    $data['idquincena'] = $idquincena;
+
+    $data['registros'] = $this->models_recibo->mostrar($nombre, $idquincena, $offset, $this->limite);
+
+    $config['base_url'] = base_url() . 'recibo/mostrar?nombre=' . $nombre . '&idquincena=' . $idquincena;
+    $config['total_rows'] = $this->models_recibo->mostrarcount($nombre, $idquincena);
         $config['per_page'] = $this->limite; //Número de registros mostrados por páginas
         $config['num_links'] = 5; //Número de links mostrados en la paginación
         $config['page_query_string'] = true;
@@ -224,8 +224,9 @@ class Recibo extends CI_Controller {
     public function actualizar() {
         $idregistro = $this->input->post('idrecibo');
 
+        
+
         $data = array(
-            'nomina' => $this->input->post('nomina'),
             'transferencia' => $this->input->post('transferencia'),
             'resta' => $this->input->post('resta'),
             'retardos' => $this->input->post('retardos'),
@@ -235,12 +236,34 @@ class Recibo extends CI_Controller {
             'a_cuenta' => $this->input->post('a_cuenta'),
             'extra' => $this->input->post('extra'),
             'Observaciones' => $this->input->post('observaciones'),
-            'total' => $this->input->post('total'),
             'pasajes' => $this->input->post('pasajes'));
 
         $this->models_recibo->update($idregistro, $data);
 
+
+
+
+        $suma = $this->models_recibo->calcularPago($idregistro);
+
+        $datay = array(
+            'total' => $suma);
+        $this->models_recibo->update($idregistro, $datay);
+
         redirect('recibo/editar?idrecibo=' . $idregistro, 'refresh');
+    }
+
+    public function actualizarTotalaPagar() {
+
+        $idrecibo = $this->input->get('idrecibo');
+        $suma = $this->models_recibo->calcularPago($idrecibo);
+
+        $data = array(
+            'total' => $suma);
+
+        $this->models_recibo->update($idrecibo, $data);
+
+        echo $res = '$ ' . $suma;
+
     }
 
     public function actulizarsubto() {
@@ -249,7 +272,9 @@ class Recibo extends CI_Controller {
         $idempleado = $this->input->get('idEmpleadosub');
         $idquince = $this->input->get('idquince');
 
-        $suma = $this->models_cantidad_conceptos->sum($idrecibo);
+        //$suma = $this->models_cantidad_conceptos->sum($idrecibo);
+
+        $sumaTT = $this->models_recibo->calcularPago($idrecibo);
 
         $otros = $this->models_recibo->conceptosotros($idquince, $idempleado);
         if (isset($otros)) {
@@ -258,6 +283,13 @@ class Recibo extends CI_Controller {
                 $suma+=$subx;
             }
         }
+
+
+        $data = array(
+            'nomina' => $suma,
+            'total' => $sumaTT);
+
+        $this->models_recibo->update($idrecibo, $data);
 
         echo $res = '$ ' . $suma;
     }
@@ -338,78 +370,78 @@ class Recibo extends CI_Controller {
                 $res = $this->models_cantidad_conceptos->Buscarcapturadocantidad($rowxc->idcosto_concepto, $idregistro);
                 if ($res == 0) {
                     $html.= ' <tr>
-                                        <td>' . $rowxc->nombre . '</td>
-                                        <td>' . $rowxc->costo . '</td>
-                                        <td><input value="0" type="text" id="can_' . $rowxc->idcosto_concepto . '" class="form-control input-circle"></td>
-                                        <td><label id="subtotal_' . $rowxc->idcosto_concepto . '">0</label></td>
-                                        <td><a href="#add"  name="' . $rowxc->costo . '" title="' . $rowxc->idcosto_concepto . '" class="btn btn-circle blue actualizarbtn">ACTUALIZAR</a>
+                    <td>' . $rowxc->nombre . '</td>
+                    <td>' . $rowxc->costo . '</td>
+                    <td><input value="0" type="text" id="can_' . $rowxc->idcosto_concepto . '" class="form-control input-circle"></td>
+                    <td><label id="subtotal_' . $rowxc->idcosto_concepto . '">0</label></td>
+                    <td><a href="#add"  name="' . $rowxc->costo . '" title="' . $rowxc->idcosto_concepto . '" class="btn btn-circle blue actualizarbtn">ACTUALIZAR</a>
 
-                                        </td>
-
-
-                                    </tr>';
-                } else {
-
-                    $sub = $rowxc->costo * $res;
-                    $suma+=$sub;
-                    $html.= ' <tr>
-                                        <td>' . $rowxc->nombre . '</td>
-                                        <td> $ ' . $rowxc->costo . '</td>
-                                        <td><input type="text" value="' . $res . '" id="can_' . $rowxc->idcosto_concepto . '" class="form-control input-circle"></td>
-                                             <td><label id="subtotal_' . $rowxc->idcosto_concepto . '"> $ ' . $sub . '</label></td>
-                                        <td><a href="#add"  name="' . $rowxc->costo . '" title="' . $rowxc->idcosto_concepto . '" class="btn btn-circle blue actualizarbtn">ACTUALIZAR</a>
-
-                                        </td>
+                    </td>
 
 
-                                    </tr>';
-                }
-            }
-        }
+                </tr>';
+            } else {
 
-        $otros = $this->models_recibo->conceptosotros($rowx->idquincena, $rowx->idempleado);
-        if (isset($otros)) {
-            foreach ($otros->result() as $rowot) {
-                $subx = $rowot->costo * $rowot->cantidad;
-                $suma+=$subx;
+                $sub = $rowxc->costo * $res;
+                $suma+=$sub;
                 $html.= ' <tr>
-                                        <td>' . $rowot->tipo . '</td>
-                                        <td> $ ' . $rowot->costo . '</td>
-                                        <td><label> ' . $rowot->cantidad . '</label></td>
-                                        <td><label> $ ' . $subx . '</label></td>
-                                        <td>
+                <td>' . $rowxc->nombre . '</td>
+                <td> $ ' . $rowxc->costo . '</td>
+                <td><input type="text" value="' . $res . '" id="can_' . $rowxc->idcosto_concepto . '" class="form-control input-circle"></td>
+                <td><label id="subtotal_' . $rowxc->idcosto_concepto . '"> $ ' . $sub . '</label></td>
+                <td><a href="#add"  name="' . $rowxc->costo . '" title="' . $rowxc->idcosto_concepto . '" class="btn btn-circle blue actualizarbtn">ACTUALIZAR</a>
 
-                                        </td>
+                </td>
 
 
-                                    </tr>';
-            }
+            </tr>';
         }
-
-
-        $data['sub'] = $suma;
-        $data['conceptos'] = $html;
-
-        $data['idrecibo'] = $idregistro;
-        $data['query'] = $squery;
-
-
-
-
-        $this->load->view('recibo/editar', $data);
     }
+}
 
-    public function actualizarestado() {
+$otros = $this->models_recibo->conceptosotros($rowx->idquincena, $rowx->idempleado);
+if (isset($otros)) {
+    foreach ($otros->result() as $rowot) {
+        $subx = $rowot->costo * $rowot->cantidad;
+        $suma+=$subx;
+        $html.= ' <tr>
+        <td>' . $rowot->tipo . '</td>
+        <td> $ ' . $rowot->costo . '</td>
+        <td><label> ' . $rowot->cantidad . '</label></td>
+        <td><label> $ ' . $subx . '</label></td>
+        <td>
 
-        $idregistro = $this->input->get('idrecibo');
-        $idquincena = $this->input->get('idquincena');
-        $estado = $this->input->get('estado');
-        $data = array(
-            'estado' => $estado);
+        </td>
 
-        $this->models_recibo->update($idregistro, $data);
 
-        redirect('recibo/mostrar?idquincena=' . $idquincena, 'refresh');
-    }
+    </tr>';
+}
+}
+
+
+$data['sub'] = $suma;
+$data['conceptos'] = $html;
+
+$data['idrecibo'] = $idregistro;
+$data['query'] = $squery;
+
+
+
+
+$this->load->view('recibo/editar', $data);
+}
+
+public function actualizarestado() {
+
+    $idregistro = $this->input->get('idrecibo');
+    $idquincena = $this->input->get('idquincena');
+    $estado = $this->input->get('estado');
+    $data = array(
+        'estado' => $estado);
+
+    $this->models_recibo->update($idregistro, $data);
+
+    redirect('recibo/mostrar?idquincena=' . $idquincena, 'refresh');
+}
 
 }
