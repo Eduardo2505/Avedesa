@@ -166,7 +166,7 @@ class Models_recibo extends CI_Model {
     function conceptos($idempleado,$estado) {
 
         $SQl = "SELECT 
-        c.nombre, cc.costo, cc.idcosto_concepto
+        c.nombre, cc.costo, cc.idcosto_concepto,c.idconcepto
         FROM
         concepto c,
         costo_concepto cc
@@ -186,8 +186,7 @@ class Models_recibo extends CI_Model {
         tipo, count(tipo) as cantidad,costo, observacion
         FROM
         avaluos
-        WHERE
-        idtipo IN (2,3) and idquincena = $idquince and idempleado=$idempleado
+        WHERE  idquincena = $idquince and idempleado=$idempleado
         group by costo,observacion,tipo";
 
 

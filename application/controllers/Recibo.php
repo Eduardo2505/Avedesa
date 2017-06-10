@@ -265,16 +265,16 @@ public function mostrar() {
         echo $res = '$ ' . $suma;
 
     }
-
+    // este metodo lo  utiliza el administrador
     public function actulizarsubto() {
 
         $idrecibo = $this->input->get('idrecibo');
         $idempleado = $this->input->get('idEmpleadosub');
         $idquince = $this->input->get('idquince');
 
-        //$suma = $this->models_cantidad_conceptos->sum($idrecibo);
+        $suma = $this->models_cantidad_conceptos->sum($idrecibo);
 
-        $sumaTT = $this->models_recibo->calcularPago($idrecibo);
+  
 
         $otros = $this->models_recibo->conceptosotros($idquince, $idempleado);
         if (isset($otros)) {
@@ -286,8 +286,7 @@ public function mostrar() {
 
 
         $data = array(
-            'nomina' => $suma,
-            'total' => $sumaTT);
+            'nomina' => $suma);
 
         $this->models_recibo->update($idrecibo, $data);
 

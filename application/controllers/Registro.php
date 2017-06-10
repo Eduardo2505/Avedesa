@@ -47,22 +47,22 @@ class Registro extends CI_Controller {
 
         $boolenVer=0;;
         if($clave!=''){
-         $boolenVer=1;
-     }
-     $datax['verSolicitudesBusqueda']=$boolenVer;
+           $boolenVer=1;
+       }
+       $datax['verSolicitudesBusqueda']=$boolenVer;
 
-     $datax['solicitudes'] = 'x';
-     $datax['menuquincena'] = "active";
+       $datax['solicitudes'] = 'x';
+       $datax['menuquincena'] = "active";
 
 
-     $data['idcapturista'] = $this->session->userdata('idempleado');
-     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-     $data['head'] = $this->load->view('plantilla/head', true);
-     $data['registros'] = $this->models_quincena->getactivos();
-     $this->load->view('registro/registro', $data);
- }
+       $data['idcapturista'] = $this->session->userdata('idempleado');
+       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+       $data['head'] = $this->load->view('plantilla/head', true);
+       $data['registros'] = $this->models_quincena->getactivos();
+       $this->load->view('registro/registro', $data);
+   }
 
- public function trabajar() {
+   public function trabajar() {
 
     $idquince = $this->input->get('idquincena');
     $idempleado = $this->session->userdata('idempleado');
@@ -84,17 +84,17 @@ class Registro extends CI_Controller {
 
     $boolenVer=0;;
     if($clave!=''){
-     $boolenVer=1;
- }
- $datax['verSolicitudesBusqueda']=$boolenVer;
- $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
- $data['head'] = $this->load->view('plantilla/head', true);
+       $boolenVer=1;
+   }
+   $datax['verSolicitudesBusqueda']=$boolenVer;
+   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+   $data['head'] = $this->load->view('plantilla/head', true);
 
 
- $squery = $this->models_recibo->Buscar($idregistro);
+   $squery = $this->models_recibo->Buscar($idregistro);
 
 
- if ($squery->num_rows() == 0) {
+   if ($squery->num_rows() == 0) {
     redirect('registro', 'refresh');
             //echo "no hay registro";
 } else {
@@ -181,67 +181,129 @@ $this->load->view('registro/editar', $data);
 public function registro() {
 
 
-    $valor = $this->models_avaluos->BuscarExistencia($this->input->post('avaluo'), $this->input->post('tipo'));
+    $idtipo=$this->input->post('idtipo');
+    $idConceptoInsertar=0;
+    $valor="-";
+    $costoPersonalizado= $this->input->post('costoPersonalizado');
 
-    if ($valor == "-") {
-        $tipo = "";
-        $observacion=$this->input->post('observacion');
-        $costo = 0;
-        if ($this->input->post('idtipo') == 2) {
-            list($tipox, $costox) = explode("-", $this->input->post('tipo'));
-            $tipo = $tipox;
-            $costo = $costox;
-        }else if($this->input->post('idtipo') ==3){
+    if ($idtipo == 2) {
+        if (empty($costoPersonalizado)){
 
-         list($tipox, $costox) = explode("-", $this->input->post('tipoConce'));
-         $observacion = $tipox;
-         $tipo= $tipox;
-         $costo = $costox;
+           list($tipox, $costox,$idConcepto) = explode("-", $this->input->post('tipo'));
+           $idConceptoInsertar=$idConcepto;
+       }
 
-     } else {
+   }else if($idtipo ==3){
+      if (empty($costoPersonalizado)){
 
-        $costo = $this->input->post('costo');
+        list($tipox, $costox,$idConcepto) = explode("-", $this->input->post('tipoConce'));
+        $idConceptoInsertar=$idConcepto;
     }
+}
+
+
+
+if (empty($costoPersonalizado)){
+
+   // echo "Entro a checar";
+
+    $valor = $this->models_avaluos->BuscarExistencia($this->input->post('avaluo'), $idConceptoInsertar);
+
+}
+$idrecibo=$this->input->post('idrecibo');
+$idquince=$this->input->post('idquincena');
+
+if ($valor == "-") {
+    $tipo = "";
+    $observacion=$this->input->post('observacion');
+    $costo = 0;
+    if ($idtipo == 2) {
+        list($tipox, $costox) = explode("-", $this->input->post('tipo'));
+        $tipo = $tipox;
+        $costo = $costox;
+    }else if($idtipo ==3){
+
+     list($tipox, $costox) = explode("-", $this->input->post('tipoConce'));
+     $observacion = $tipox;
+     $tipo= $tipox;
+     $costo = $costox;
+
+ } else {
+
+    $costo = $this->input->post('costo');
+}
 ////REVISIONES EXTERNAS
 ////Correcciones
 /////Avalúos
-    $costoPersonalizado= $this->input->post('costoPersonalizado');
-    $observacionPersonalizado= $this->input->post('observacionPersonalizado');
-    if (empty($costoPersonalizado)){
-        $data = array(
-            'idempleado' => $this->input->post('idEmpleado'),
-            'idquincena' => $this->input->post('idquincena'),
-            'tipo' => $tipo,
-            'costo' => $costo,
-            'observacion' => $observacion,
-            'idtipo' => $this->input->post('idtipo'),
-            'numero' => $this->input->post('avaluo'));
 
-        $this->models_avaluos->insertar($data);
+$observacionPersonalizado= $this->input->post('observacionPersonalizado');
+if (empty($costoPersonalizado)){
 
+    $data = array(
+        'idempleado' => $this->input->post('idEmpleado'),
+        'idquincena' => $idquince,
+        'tipo' => $tipo,
+        'costo' => $costo,
+        'observacion' => $observacion,
+        'idtipo' => $idConceptoInsertar,
+        'numero' => $this->input->post('avaluo'));
 
-
-    }else{
-
-        $data = array(
-            'idempleado' => $this->input->post('idEmpleado'),
-            'idquincena' => $this->input->post('idquincena'),
-            'tipo' =>  $observacionPersonalizado,
-            'costo' => $costoPersonalizado,
-            'observacion' =>  $observacionPersonalizado,
-            'idtipo' => $this->input->post('idtipo'),
-            'numero' => $this->input->post('avaluo'));
-
-        $this->models_avaluos->insertar($data);
-    }
+    $this->models_avaluos->insertar($data);
 
 
 
-    echo '<div class="block"><div class="alert alert-success"><h1> <b>Registro!</b> Se registro correctamente!</h1> <button type="button" class="close" data-dismiss="alert">×</button></div></div>';
+}else{
+
+    $data = array(
+        'idempleado' => $this->input->post('idEmpleado'),
+        'idquincena' => $idquince,
+        'tipo' =>  $observacionPersonalizado,
+        'costo' => $costoPersonalizado,
+        'observacion' =>  $observacionPersonalizado,
+        'idtipo' => -1,
+        'numero' => $this->input->post('avaluo'));
+
+    $this->models_avaluos->insertar($data);
+}
+
+if ($idtipo != 1) {
+
+
+
+    $this->actualizarTicket($idrecibo,$idquince);
+}
+
+    echo '1';
 } else {
 
     echo '<div class="block"><div class="alert alert-danger"><h1> <b>Error!</b> Ya está registrado este avaluó al empleado ' . $valor->Nombre . ' ' . $valor->apellidos . '</h1><button type="button" class="close" data-dismiss="alert">×</button></div></div>';
 }
+}
+
+private function actualizarTicket($idrecibo,$idquince) {
+
+
+    $idempleado = $this->session->userdata('idempleado');
+    
+    $suma = $this->models_cantidad_conceptos->sum($idrecibo);
+    $otros = $this->models_recibo->conceptosotros($idquince, $idempleado);
+    if (isset($otros)) {
+        foreach ($otros->result() as $rowot) {
+            $subx = $rowot->costo * $rowot->cantidad;
+            $suma+=$subx;
+        }
+    }
+    $data = array(
+        'nomina' => $suma);
+
+    $this->models_recibo->update($idrecibo, $data);
+        // actualizar
+
+    $sumaTT = $this->models_recibo->calcularPago($idrecibo);
+    $dataX= array(
+        'total' => $sumaTT);
+    $this->models_recibo->update($idrecibo, $dataX);
+
 }
 
 public function actualizarconceptos() {
@@ -285,6 +347,9 @@ public function actulizarsubto() {
     $idquince = $this->input->get('idquince');
 
     $suma = $this->models_cantidad_conceptos->sum($idrecibo);
+
+
+
     $otros = $this->models_recibo->conceptosotros($idquince, $idempleado);
     if (isset($otros)) {
         foreach ($otros->result() as $rowot) {
@@ -293,14 +358,23 @@ public function actulizarsubto() {
         }
     }
 
-    $suma = $this->models_cantidad_conceptos->sum($idrecibo);
+
     $data = array(
         'nomina' => $suma);
 
     $this->models_recibo->update($idrecibo, $data);
+        // actualizar
+
+    $sumaTT = $this->models_recibo->calcularPago($idrecibo);
+    $dataX= array(
+        'total' => $sumaTT);
+    $this->models_recibo->update($idrecibo, $dataX);
+
 
     echo $res = '$ ' . $suma;
+
 }
+
 
 public function mostrar() {
 
@@ -354,17 +428,17 @@ public function mostrar() {
 
         $boolenVer=0;;
         if($clave!=''){
-         $boolenVer=1;
-     }
-     $datax['verSolicitudesBusqueda']=$boolenVer;
-     $datax['menuquincena'] = "active";
+           $boolenVer=1;
+       }
+       $datax['verSolicitudesBusqueda']=$boolenVer;
+       $datax['menuquincena'] = "active";
 
-     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-     $data['head'] = $this->load->view('plantilla/head', true);
-     $this->load->view('registro/listar', $data);
- }
+       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+       $data['head'] = $this->load->view('plantilla/head', true);
+       $this->load->view('registro/listar', $data);
+   }
 
- public function eliminar() {
+   public function eliminar() {
 
     $idregistro = $this->input->get('idavaluos');
     $this->models_avaluos->eliminar($idregistro);
@@ -388,13 +462,13 @@ public function contrasena() {
 
     $boolenVer=0;;
     if($clave!=''){
-     $boolenVer=1;
- }
- $datax['verSolicitudesBusqueda']=$boolenVer;
- $data['idcapturista'] = $this->session->userdata('idempleado');
- $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
- $data['head'] = $this->load->view('plantilla/head', true);
- $this->load->view('empleado/contrasena', $data);
+       $boolenVer=1;
+   }
+   $datax['verSolicitudesBusqueda']=$boolenVer;
+   $data['idcapturista'] = $this->session->userdata('idempleado');
+   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+   $data['head'] = $this->load->view('plantilla/head', true);
+   $this->load->view('empleado/contrasena', $data);
 }
 
 public function actualizar() {
@@ -514,19 +588,19 @@ public function aprobados() {
 
         $boolenVer=0;;
         if($clave!=''){
-         $boolenVer=1;
-     }
-     $datax['verSolicitudesBusqueda']=$boolenVer;
+           $boolenVer=1;
+       }
+       $datax['verSolicitudesBusqueda']=$boolenVer;
 
-     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-     $data['head'] = $this->load->view('plantilla/head', true);
+       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+       $data['head'] = $this->load->view('plantilla/head', true);
 
         // usuario
-     $data['url'] = $this->config->item('urlarchivos');
-     $this->load->view('registro/listar_solicitudes_aprobados', $data);
- }
+       $data['url'] = $this->config->item('urlarchivos');
+       $this->load->view('registro/listar_solicitudes_aprobados', $data);
+   }
 
- public function mostrarsolicitudes() {
+   public function mostrarsolicitudes() {
     $this->load->model('models_estado_empleado');
     $offset = $this->input->get('per_page');
     $uri_segment = 0;
@@ -584,22 +658,22 @@ public function aprobados() {
 
         $boolenVer=0;;
         if($clave!=''){
-         $boolenVer=1;
-     }
-     $datax['verSolicitudesBusqueda']=$boolenVer;
+           $boolenVer=1;
+       }
+       $datax['verSolicitudesBusqueda']=$boolenVer;
 
-     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
        // $data['head'] = $this->load->view('plantilla/head', true);
 
         // usuario
-     $data['url'] = $this->config->item('urlarchivos');
-     $this->load->view('registro/listar_solicitudes', $data);
+       $data['url'] = $this->config->item('urlarchivos');
+       $this->load->view('registro/listar_solicitudes', $data);
 
 
 
- }
+   }
 
- public function actualizarFecha() {
+   public function actualizarFecha() {
 
     $this->load->model('models_registro');
     $idregistro = $this->input->get('idregistro');

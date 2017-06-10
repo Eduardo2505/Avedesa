@@ -109,13 +109,13 @@ class Models_avaluos extends CI_Model {
         return $query;
     }
 
-    function BuscarExistencia($numero, $idEmpleado) {
-        $SQl = "SELECT * FROM avaluos a , empleado e where  a.idempleado=e.idempleado and a.numero='$numero' and a.tipo='$idEmpleado'";
+    function BuscarExistencia($numero, $idtipo) {
+        $SQl = "SELECT * FROM avaluos a , empleado e where  a.idempleado=e.idempleado and a.numero='$numero' and a.idtipo='$idtipo'";
         $query = $this->db->query($SQl);
         $ve = $query->num_rows();
         $veri="";
         if($ve!=0){
-            $veri= $query->row();;
+            $veri= $query->row();
         }else{
             $veri="-";
         }
