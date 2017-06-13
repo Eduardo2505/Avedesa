@@ -39,18 +39,12 @@
                                 <img alt="" class="img-circle" src="<?php echo site_url('') ?>metronic/admin/layout/img/avatar3_small.jpg"/>
 
                                 <span class="username username-hide-on-mobile">
-                                    ¡Hola! <?php echo $nombre ?> ( <?php echo $puesto ?>) </span>
+                                    ¡Hola! <?php echo $nombre ?></span>
                             
                             </div>
                            
                         </li>
-                        <li class="dropdown dropdown-user" >
-                        <a href="<?php echo site_url('') ?>menu" class="dropdown-toggle">
-                                <i class="fa fa-bars"></i> <span class="username username-hide-on-mobile"> MENÚ</span>
-                            </a>
-                           
-
-                        </li>
+                      
                         <li class="dropdown dropdown-user" >
                         <a href="<?php echo site_url('') ?>salir/close" class="dropdown-toggle">
                                 <i class="icon-logout"></i> <span class="username username-hide-on-mobile"> SALIR</span>

@@ -45,7 +45,8 @@ class Antecedentesadmin extends CI_Controller {
     $newdata = array(
       'nombre' => $row->nombre.' '.$row->apellido,
       'mail' => $row->mail,
-      'idusuario' => $row->idusuario
+      'idusuario' => $row->idusuario,
+      'puesto' => 'Capturista'
       );
 
     $this->session->set_userdata($newdata);
