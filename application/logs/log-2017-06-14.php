@@ -127,3 +127,49 @@ ERROR - 2017-06-14 16:12:48 --> Severity: error --> Exception: Could not close z
 ERROR - 2017-06-14 16:12:53 --> Severity: Warning --> filesize(): stat failed for myfile.xlsx /Applications/XAMPP/xamppfiles/htdocs/Avedesa/application/controllers/Excel.php 130
 ERROR - 2017-06-14 16:12:53 --> Severity: Warning --> ZipArchive::close(): Failure to create temporary file: No such file or directory /Applications/XAMPP/xamppfiles/htdocs/Avedesa/application/libraries/Classes/PHPExcel/Writer/Excel2007.php 388
 ERROR - 2017-06-14 16:12:53 --> Severity: error --> Exception: Could not close zip file php://output. /Applications/XAMPP/xamppfiles/htdocs/Avedesa/application/libraries/Classes/PHPExcel/Writer/Excel2007.php 389
+ERROR - 2017-06-14 15:58:11 --> 404 Page Not Found: Excel/index
+ERROR - 2017-06-14 15:58:59 --> 404 Page Not Found: Excel/index
+ERROR - 2017-06-14 16:04:39 --> Severity: Error --> Class 'PHPExcel_Writer_Excel7' not found C:\wamp64\www\Avedesa\application\libraries\Classes\PHPExcel\IOFactory.php 139
+ERROR - 2017-06-14 16:04:39 --> Severity: Error --> Class 'PHPExcel_Writer_Excel7' not found C:\wamp64\www\Avedesa\application\libraries\Classes\PHPExcel\IOFactory.php 139
+ERROR - 2017-06-14 16:04:41 --> Severity: Error --> Class 'PHPExcel_Writer_Excel7' not found C:\wamp64\www\Avedesa\application\libraries\Classes\PHPExcel\IOFactory.php 139
+ERROR - 2017-06-14 16:05:14 --> Severity: Warning --> filesize(): stat failed for myfile.xlsx C:\wamp64\www\Avedesa\application\controllers\Excel.php 129
+ERROR - 2017-06-14 16:05:14 --> Severity: Warning --> readfile(myfile.xlsx): failed to open stream: No such file or directory C:\wamp64\www\Avedesa\application\controllers\Excel.php 133
+ERROR - 2017-06-14 16:06:21 --> Severity: Warning --> filesize(): stat failed for myfile.xlsx C:\wamp64\www\Avedesa\application\controllers\Excel.php 129
+ERROR - 2017-06-14 16:06:21 --> Severity: Warning --> readfile(myfile.xlsx): failed to open stream: No such file or directory C:\wamp64\www\Avedesa\application\controllers\Excel.php 133
+ERROR - 2017-06-14 16:58:11 --> Severity: Parsing Error --> syntax error, unexpected '', e.apellidos) AS nombre,' (T_CONSTANT_ENCAPSED_STRING) C:\wamp64\www\Avedesa\application\models\Models_recibo.php 220
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$Nombre C:\wamp64\www\Avedesa\application\controllers\Excel.php 98
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$apellidos C:\wamp64\www\Avedesa\application\controllers\Excel.php 98
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$transferencia C:\wamp64\www\Avedesa\application\controllers\Excel.php 99
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$deducciones C:\wamp64\www\Avedesa\application\controllers\Excel.php 100
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$retardos C:\wamp64\www\Avedesa\application\controllers\Excel.php 101
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$abono C:\wamp64\www\Avedesa\application\controllers\Excel.php 102
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$anticipo C:\wamp64\www\Avedesa\application\controllers\Excel.php 103
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$extra C:\wamp64\www\Avedesa\application\controllers\Excel.php 104
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$pasajes C:\wamp64\www\Avedesa\application\controllers\Excel.php 105
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$nomina C:\wamp64\www\Avedesa\application\controllers\Excel.php 106
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$total C:\wamp64\www\Avedesa\application\controllers\Excel.php 107
+ERROR - 2017-06-14 17:21:04 --> Severity: Notice --> Undefined property: stdClass::$observaciones C:\wamp64\www\Avedesa\application\controllers\Excel.php 108
+ERROR - 2017-06-14 17:21:04 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at C:\wamp64\www\Avedesa\system\core\Exceptions.php:272) C:\wamp64\www\Avedesa\application\controllers\Excel.php 116
+ERROR - 2017-06-14 17:21:04 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at C:\wamp64\www\Avedesa\system\core\Exceptions.php:272) C:\wamp64\www\Avedesa\application\controllers\Excel.php 117
+ERROR - 2017-06-14 17:21:04 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at C:\wamp64\www\Avedesa\system\core\Exceptions.php:272) C:\wamp64\www\Avedesa\application\controllers\Excel.php 118
+ERROR - 2017-06-14 17:21:04 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at C:\wamp64\www\Avedesa\system\core\Exceptions.php:272) C:\wamp64\www\Avedesa\application\controllers\Excel.php 119
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$Nombre C:\wamp64\www\Avedesa\application\controllers\Excel.php 98
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$apellidos C:\wamp64\www\Avedesa\application\controllers\Excel.php 98
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$transferencia C:\wamp64\www\Avedesa\application\controllers\Excel.php 99
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$deducciones C:\wamp64\www\Avedesa\application\controllers\Excel.php 100
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$retardos C:\wamp64\www\Avedesa\application\controllers\Excel.php 101
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$abono C:\wamp64\www\Avedesa\application\controllers\Excel.php 102
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$anticipo C:\wamp64\www\Avedesa\application\controllers\Excel.php 103
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$extra C:\wamp64\www\Avedesa\application\controllers\Excel.php 104
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$pasajes C:\wamp64\www\Avedesa\application\controllers\Excel.php 105
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$nomina C:\wamp64\www\Avedesa\application\controllers\Excel.php 106
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$total C:\wamp64\www\Avedesa\application\controllers\Excel.php 107
+ERROR - 2017-06-14 17:21:45 --> Severity: Notice --> Undefined property: stdClass::$observaciones C:\wamp64\www\Avedesa\application\controllers\Excel.php 108
+ERROR - 2017-06-14 17:21:45 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at C:\wamp64\www\Avedesa\system\core\Exceptions.php:272) C:\wamp64\www\Avedesa\application\controllers\Excel.php 116
+ERROR - 2017-06-14 17:21:45 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at C:\wamp64\www\Avedesa\system\core\Exceptions.php:272) C:\wamp64\www\Avedesa\application\controllers\Excel.php 117
+ERROR - 2017-06-14 17:21:45 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at C:\wamp64\www\Avedesa\system\core\Exceptions.php:272) C:\wamp64\www\Avedesa\application\controllers\Excel.php 118
+ERROR - 2017-06-14 17:21:45 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at C:\wamp64\www\Avedesa\system\core\Exceptions.php:272) C:\wamp64\www\Avedesa\application\controllers\Excel.php 119
+ERROR - 2017-06-14 20:52:25 --> Severity: Error --> Call to undefined method PHPExcel_Worksheet::getFont() C:\wamp64\www\Avedesa\application\controllers\Excel.php 161
+ERROR - 2017-06-14 20:53:37 --> Severity: Notice --> Undefined variable: filaTota C:\wamp64\www\Avedesa\application\controllers\Excel.php 160
+ERROR - 2017-06-14 20:53:48 --> Severity: Notice --> Undefined variable: filaTota C:\wamp64\www\Avedesa\application\controllers\Excel.php 160
+ERROR - 2017-06-14 20:55:16 --> Severity: Notice --> Undefined variable: filaTota C:\wamp64\www\Avedesa\application\controllers\Excel.php 160

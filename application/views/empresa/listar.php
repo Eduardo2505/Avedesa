@@ -158,7 +158,7 @@
 
 
 
-                                                                            <a href="<?php echo site_url('') ?>empresa/editar?idregistro=<?php echo $rowx->idempresa ?>"   class="btn default btn-xs optenerID"> <i class="fa fa-edit"></i> EDITAR</a>
+                                                                            <a href="<?php echo site_url('') ?>empresa/editar?idregistro=<?php echo $rowx->idempresa ?>"   class="btn btn blue optenerID"> <i class="fa fa-edit"></i></a>
 
 
                                                                         </td>

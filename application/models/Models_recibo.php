@@ -205,4 +205,26 @@ class Models_recibo extends CI_Model {
         return $b->idrecibo;
     }
 
+    function reporteRecibo($idquincena) {
+
+      $this->db->select('e.Nombre as nombre,
+    e.apellidos,
+    r.transferencia,
+    r.retardos,
+    r.abono,
+    r.anticipo,
+    r.deducciones,
+    r.a_cuenta,
+    r.extra,
+    r.pasajes,
+    r.observaciones,
+    r.total,
+    r.nomina');
+      $this->db->from('recibo r');
+      $this->db->join('empleado e', 'r.idempleado = e.idempleado');
+      $this->db->where('r.idquincena', $idquincena);
+      $query = $this->db->get();
+      return $query;
+  }
+
 }

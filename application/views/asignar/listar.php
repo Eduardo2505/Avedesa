@@ -173,7 +173,7 @@
                                                                             }
                                                                             ?></td>
 
-                                                                        <td><a href="#" name="<?php echo $rowx->idestado_empleado ?>" title="<?php echo $rowx->idestado_empleado ?>&idestado_registro=<?php echo $rowx->idestado_registro; ?>&id=<?php echo $rowx->idregistro; ?>"   class="btn default btn-xs eliminarclass"> <i class="fa fa-remove"></i> ELIMINAR</a></td>
+                                                                        <td><a href="#" name="<?php echo $rowx->idestado_empleado ?>" title="<?php echo $rowx->idestado_empleado ?>&idestado_registro=<?php echo $rowx->idestado_registro; ?>&id=<?php echo $rowx->idregistro; ?>"   class="btn btn red eliminarclass"> <i class="fa fa-remove"></i></a></td>
 
 
 

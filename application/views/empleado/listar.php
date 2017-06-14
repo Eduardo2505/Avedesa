@@ -201,10 +201,10 @@
 
 
 
-                                                                                <a href="<?php echo site_url('') ?>empleado/editar?idregistro=<?php echo $rowx->idempleado ?>"   class="btn default btn-xs "> <i class="fa fa-edit"></i> EDITAR</a>
+                                                                                <a href="<?php echo site_url('') ?>empleado/editar?idregistro=<?php echo $rowx->idempleado ?>"   class="btn btn blue "> <i class="fa fa-edit"></i></a>
 
 
-                                                                                <a href="#" title="<?php echo $rowx->idempleado ?>" class="btn default btn-xs privi" ><i class="fa fa-search"></i> Privilegios</a>
+                                                                                <a href="#" title="<?php echo $rowx->idempleado ?>" class="btn btn green privi" ><i class="fa fa-key"></i></a>
 
 
                                                                             </td>
@@ -288,7 +288,7 @@
                 ComponentsPickers.init();
                 Metronic.init(); // init metronic core components
                 Demo.init(); // init demo features
-                UIExtendedModals.init();
+               // UIExtendedModals.init();
 
             });
         </script>
