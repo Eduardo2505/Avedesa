@@ -226,6 +226,7 @@
                                             $('#btnaceptar').click(function() {
                                                 var id = $('#idcam').val();
                                                 var dataString = 'idavaluos=' + id;
+                                                console.log("<?php echo site_url('') ?>registro/eliminar?"+dataString)
 
 
                                                 $.ajax({
@@ -304,7 +305,7 @@
                 ComponentsPickers.init();
                 Metronic.init(); // init metronic core components
                 Demo.init(); // init demo features
-                UIExtendedModals.init();
+               // UIExtendedModals.init();
             });
         </script>
 

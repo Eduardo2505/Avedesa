@@ -273,7 +273,7 @@ if ($idtipo != 1) {
     $this->actualizarTicket($idrecibo,$idquince);
 }
 
-    echo '1';
+echo '1';
 } else {
 
     echo '<div class="block"><div class="alert alert-danger"><h1> <b>Error!</b> Ya está registrado este avaluó al empleado ' . $valor->Nombre . ' ' . $valor->apellidos . '</h1><button type="button" class="close" data-dismiss="alert">×</button></div></div>';
@@ -440,9 +440,18 @@ public function mostrar() {
 
    public function eliminar() {
 
-    $idregistro = $this->input->get('idavaluos');
-    $this->models_avaluos->eliminar($idregistro);
-    redirect('registro/mostrar', 'refresh');
+    $idavaluos = $this->input->get('idavaluos');
+
+    $query =  $this->models_avaluos->Buscar($idavaluos);
+    $b= $query->row();
+    $idquince = $b->idquincena;
+    $idempleado = $b->idempleado;
+    $idrecibo =  $this->models_recibo->busquedaidrecibo($idquince,$idempleado);
+    $this->models_avaluos->eliminar($idavaluos);
+    
+    $this->actualizarTicket($idrecibo,$idquince);
+
+     redirect('registro/mostrar', 'refresh');
 }
 
     //actualizacion de los datos 

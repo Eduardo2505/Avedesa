@@ -195,4 +195,14 @@ class Models_recibo extends CI_Model {
         return $query;
     }
 
+
+    function busquedaidrecibo($idquincena, $idempleado) {
+        $this->db->select('idrecibo');
+        $this->db->where('idquincena', $idquincena);
+        $this->db->where('idempleado', $idempleado);
+        $query = $this->db->get('recibo');
+        $b= $query->row();
+        return $b->idrecibo;
+    }
+
 }
