@@ -41,7 +41,7 @@ class App extends CI_Controller {
     $buscar = $this->input->get('buscar');
     $tipo = $this->input->get('tipo');
     $offset= $this->input->get('offset');
-    $registros=$this->models_archivos->mostrar($buscar, $idregistro, $tipo, $offset, $this->limite);
+    $registros=$this->models_archivos->mostrarapp($buscar, $idregistro, $tipo, $offset, $this->limite);
     echo json_encode($registros->result());
 
   }
@@ -266,11 +266,34 @@ public function cerrarAsiganar() {
 
       }
 
- 
+
+      public function addAnexo() {
+
+        $idregistro = $this->input->post('idregistro');
+        $url = $this->input->post('url');
+        $usuario = $this->input->post('usuario');
+        $tipo = $this->input->post('tipo');
+        $data = array(
+          'url' => $url,
+          'descripcion' => $url,
+          'usuario' => $usuario,
+          'tipo' => $tipo,
+          'dropbox' => 0);
+
+        $valor = $this->models_archivos->insertar($data);
+
+        // si es 1 se inserto correctamente 
+        // 0 no se inserto
+
+        echo '{"mensaje":"'.$valor.'"}';
+
+      }
 
 
 
 
 
 
-}
+
+
+    }

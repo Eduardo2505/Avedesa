@@ -12,14 +12,16 @@ class Models_archivos extends CI_Model {
 
     function insertar($data) {
 
-       $this->db->trans_begin();
-       $this->db->insert('archivos', $data);
+     $this->db->trans_begin();
+     $this->db->insert('archivos', $data);
 
-       if ($this->db->trans_status() === FALSE) {
-          $this->db->trans_rollback();
-      }  else {
-        $this->db->trans_commit();
-    }
+     if ($this->db->trans_status() === FALSE) {
+      $this->db->trans_rollback();
+      return 0;
+  }  else {
+    $this->db->trans_commit();
+    return 1;
+}
 
 
 
@@ -84,6 +86,19 @@ function mostrar($nombre, $idregistro, $tipo, $offset, $limin) {
 
     return $query;
 }
+function mostrarapp($nombre, $idregistro, $tipo, $offset, $limin) {
+
+
+    $SQl = "SELECT descripcion,IFNULL(urlDropbox,1) as urlDropbox , url FROM archivos where descripcion like '%$nombre%' and estado=1 and idregistro=$idregistro and tipo=$tipo  order by registro desc  ";
+
+
+    $SQl .="  limit $offset, $limin";
+//echo $SQl;
+
+    $query = $this->db->query($SQl);
+
+    return $query;
+}
 
 function Buscar($id) {
 
@@ -123,16 +138,16 @@ function limpiar($string) {
 
 function countArchivos($idregistro) {
 
-   $SQl = "Select 
-   count(*) as num, tipo
-   from
-   archivos
-   where
-   idregistro = $idregistro and estado=1 group by tipo;";
+ $SQl = "Select 
+ count(*) as num, tipo
+ from
+ archivos
+ where
+ idregistro = $idregistro and estado=1 group by tipo;";
 
-   $query = $this->db->query($SQl);
+ $query = $this->db->query($SQl);
 
-   return $query;
+ return $query;
 
 }
 
