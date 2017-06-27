@@ -274,9 +274,10 @@ public function cerrarAsiganar() {
         $usuario = $this->input->post('usuario');
         $tipo = $this->input->post('tipo');
         $data = array(
-          'url' => $url,
+          'url' => "ionic/uploads/".$url,
           'descripcion' => $url,
           'usuario' => $usuario,
+          'idregistro' => $idregistro,
           'tipo' => $tipo,
           'dropbox' => 0);
 
