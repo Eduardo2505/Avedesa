@@ -67,26 +67,26 @@ class Solicitudes extends CI_Controller {
     <i class="fa fa-home"></i>
     <a href="'.site_url('').'solicitudes">NUEVA BUSQUEDA</a>
     <i class="fa fa-angle-right"></i>
-</li>
-<li>
+    </li>
+    <li>
     <a href="'.site_url('').'solicitudes/registro">NUEVO REGISTRO</a>
     <i class="fa fa-angle-right"></i>
-</li>
-<li>
+    </li>
+    <li>
     <a href="'.site_url('').'solicitudes/mostrar">VER SOLICITUDES</a>
-</li>';
-$data['urlBusqueda'] ="".site_url('')."solicitudes/mostrar";
-$data['nombre'] = $nombrez;
-$data['idcapturista'] = $this->session->userdata('idempleado');
-$data['menu'] = $this->load->view('plantilla/menu', $datax, true);
+    </li>';
+    $data['urlBusqueda'] ="".site_url('')."solicitudes/mostrar";
+    $data['nombre'] = $nombrez;
+    $data['idcapturista'] = $this->session->userdata('idempleado');
+    $data['menu'] = $this->load->view('plantilla/menu', $datax, true);
 
-$data['tipo_avaluo'] = $this->models_tipo_avaluo->get();
-$data['objetivo_avaluo'] = $this->models_objetivo_avaluo->get();
-$data['empleados'] = $this->models_empleado->getInspector();
-$data['capturista'] = $this->models_empleado->capturista();
-$data['estado_registro'] = $this->models_estado_registro->get();
+    $data['tipo_avaluo'] = $this->models_tipo_avaluo->get();
+    $data['objetivo_avaluo'] = $this->models_objetivo_avaluo->get();
+    $data['empleados'] = $this->models_empleado->getInspector();
+    $data['capturista'] = $this->models_empleado->capturista();
+    $data['estado_registro'] = $this->models_estado_registro->get();
 
-$this->load->view('welcome_message', $data);
+    $this->load->view('welcome_message', $data);
 }
 
 public function registro() {
@@ -118,12 +118,12 @@ public function registro() {
 
         }else{
 
-         $numexpediente="";
-     }
+           $numexpediente="";
+       }
 
 
 
-     if ($this->input->post('fecha_de_inspeccion') != "") {
+       if ($this->input->post('fecha_de_inspeccion') != "") {
 
                 //fecha de inspeccion
         $f1 = $this->input->post('fecha_de_inspeccion');
@@ -318,30 +318,30 @@ public function registro() {
     if ($this->input->post('fecha_de_inspeccion') != ""&&$this->input->post('idempleado') != "") {
 
 
-       $datac = array(
+     $datac = array(
         'idestado_registro' => $this->input->post('idestado_registro'),
         'idregistro' => $valor,
         'idempleado' => $this->input->post('idempleado'),
         'estado' => 0);
 
-       $this->models_estado_empleado->insertar($datac);
+     $this->models_estado_empleado->insertar($datac);
 
        //=============================== SE ASIGNA AUTOMATICAMENTE ENTEGA DE VISITA===========================
         //=============================================================================================
       //  =============================================================================================
-       $idEmpleadoGlobal = $this->config->item('idEmpleado');
-       $datav = array(
+     $idEmpleadoGlobal = $this->config->item('idEmpleado');
+     $datav = array(
         'idestado_registro' => 3,
         'idregistro' => $valor,
         'idempleado' => $idEmpleadoGlobal,
         'estado' => 0);
 
-       $this->models_estado_empleado->insertar($datav);
+     $this->models_estado_empleado->insertar($datav);
 
 
-   }
+ }
 
-   $data['msn'] = $valor;
+ $data['msn'] = $valor;
 } else {
     $data['msn'] = -1;
 }
@@ -589,107 +589,107 @@ public function mostrar() {
 
                 $hoy ="";                                                                        
                 if ($veri->num_rows()!=0) {
-                 $row = $veri->row();
-                 $date = date_create($row->registro);
+                   $row = $veri->row();
+                   $date = date_create($row->registro);
 
-                 $hoy =date_format($date, 'Y-m-d');
+                   $hoy =date_format($date, 'Y-m-d');
 
 
-             }else{
+               }else{
                   $hoy = date("Y-m-d");
 
-          }
+              }
 
-          $cantidad = (strtotime($fecha_de_entrega) - strtotime($hoy));
-          $cantidaddi = $cantidad / 86400;
-          $dias_uno = abs($cantidaddi);
+              $cantidad = (strtotime($fecha_de_entrega) - strtotime($hoy));
+              $cantidaddi = $cantidad / 86400;
+              $dias_uno = abs($cantidaddi);
              // $cantidaddi  = $dias_uno;
-          $mensajeVer="";
-          $mensaje2 ="";
-          if($cantidaddi<0){
-              $mensajeVer="Retraso de ";
-              if($dias_uno==1){
-                $mensaje2 ="Día";
-            }else{
-                $mensaje2 ="Días";
+              $mensajeVer="";
+              $mensaje2 ="";
+              if($cantidaddi<0){
+                  $mensajeVer="Retraso de ";
+                  if($dias_uno==1){
+                    $mensaje2 ="Día";
+                }else{
+                    $mensaje2 ="Días";
+                }
+
+            }
+            if ($veri->num_rows()!=0) {
+
+               $row = $veri->row();
+               $estado=$row->estado;
+               if($estado==1){
+
+                  if ($cantidaddi < 0) {
+                      $color_uno = "badge-danger";
+                  } else {
+                      $color_uno = "badge-success";
+
+                  }
+
+              }else{
+                $color_uno = "";
             }
 
-        }
-        if ($veri->num_rows()!=0) {
-
-         $row = $veri->row();
-         $estado=$row->estado;
-         if($estado==1){
-
-          if ($cantidaddi < 0) {
-              $color_uno = "badge-danger";
-          } else {
-              $color_uno = "badge-success";
-
-          }
-
-      }else{
-        $color_uno = "";
-    }
 
 
 
+        }else{
 
-}else{
+          $color_uno = "badge-warning";
 
-  $color_uno = "badge-warning";
-
-}
-$cantidaddi = $mensajeVer." ".$dias_uno." ".$mensaje2;
+      }
+      $cantidaddi = $mensajeVer." ".$dias_uno." ".$mensaje2;
 
               //===================================== Fecha de Entrega de Visita ===============================
                 // =============================================================================================
                 // =============================================================================================
 
-$veri2 = $this->models_registro->verificarDias($rowx->idregistro,3);
-$hoy2 ="";                                                                           
+      $veri2 = $this->models_registro->verificarDias($rowx->idregistro,3);
+      $hoy2 ="";                                                                           
+      if ($veri2->num_rows()!=0) {
+
+        $row = $veri2->row();
+        $date = date_create($row->registro);
+        $hoy2 =date_format($date, 'Y-m-d');
+
+    }else{
+
+        $hoy2 = date("Y-m-d");
+    }
+
+    $cantidadb = (strtotime($fecha_asigancion) - strtotime($hoy2));
+    $cantidadbd = $cantidadb / 86400;
+    $dias_dos = abs($cantidadbd);
+
+    $mensajeVer3="";
+    $mensaje23 ="";
+    if($cantidadbd<0){
+      $mensajeVer3="Retraso de ";
+      if($dias_dos==1){
+        $mensaje23 ="Día";
+    }else{
+        $mensaje23 ="Días";
+    }
+
+}
+
+
+
 if ($veri2->num_rows()!=0) {
 
-    $row = $veri2->row();
-    $date = date_create($row->registro);
-    $hoy2 =date_format($date, 'Y-m-d');
-
-}else{
-
-    $hoy2 = date("Y-m-d");
-}
-
-$cantidadb = (strtotime($fecha_asigancion) - strtotime($hoy2));
-$cantidadbd = $cantidadb / 86400;
-$dias_dos = abs($cantidadbd);
-
-$mensajeVer3="";
-$mensaje23 ="";
-if($cantidadbd<0){
-  $mensajeVer3="Retraso de ";
-  if($dias_dos==1){
-    $mensaje23 ="Día";
-}else{
-    $mensaje23 ="Días";
-}
-
-}
-
-
-
-if ($veri2->num_rows()!=0) {
-
- $row = $veri2->row();
- $estado=$row->estado;
- if($estado==1){
+   $row = $veri2->row();
+   $estado=$row->estado;
+   if($estado==1){
 
     if ($cantidadbd < 0) {
 
 
-     $color_dos = "badge-danger";
- } else {
-     $color_dos = "badge-success";
- }
+       $color_dos = "badge-danger";
+   } else {
+       $color_dos = "badge-success";
+   }
 }else{
   $color_dos = "";
 
@@ -718,7 +718,7 @@ if ($veri3->num_rows()!=0) {
     $hoy21 =date_format($date, 'Y-m-d');
 
 }else{
-   $hoy21 = date("Y-m-d");
+ $hoy21 = date("Y-m-d");
 }
 
 $cantidadc = (strtotime($fecha_captura) - strtotime($hoy21));
@@ -769,14 +769,14 @@ $veri4 = $this->models_registro->verificarDias($rowx->idregistro,5);
 $hoy3="";                                                                        
 if ($veri4->num_rows()!=0) {
 
-   $row = $veri4->row();
-   $date = date_create($row->registro);
+ $row = $veri4->row();
+ $date = date_create($row->registro);
 
 
-   $hoy3 =date_format($date, 'Y-m-d');
+ $hoy3 =date_format($date, 'Y-m-d');
 
 }else{
-   $hoy3 = date("Y-m-d");
+ $hoy3 = date("Y-m-d");
 }
                                                                     // echo $fecha_cierre;
 $cantidadd = (strtotime($fecha_cierre) - strtotime($hoy3));
@@ -799,9 +799,9 @@ if($cantidaddd<0){
 
 if ($veri4->num_rows()!=0) {
 
- $row = $veri4->row();
- $estado=$row->estado;
- if($estado==1){
+   $row = $veri4->row();
+   $estado=$row->estado;
+   if($estado==1){
 
     if ($cantidaddd < 0) {
 
@@ -811,7 +811,7 @@ if ($veri4->num_rows()!=0) {
     }
 
 }else{
- $color_cuatro = "";
+   $color_cuatro = "";
 
 }
 }else{
@@ -820,6 +820,9 @@ if ($veri4->num_rows()!=0) {
 }
 
 $cantidaddd = $mensajeVer5." ".$dias_cuatro." ".$mensaje25;
+
+
+
 //===================================== Verificar Cierre ====================================
 // =============================================================================================
 // =============================================================================================
@@ -830,10 +833,10 @@ $hoy4 ="";
 if ($veri5->num_rows()!=0) {
 
 
-   $row = $veri5->row();
-   $date = date_create($row->registro);
+ $row = $veri5->row();
+ $date = date_create($row->registro);
 
-   $hoy4 =date_format($date, 'Y-m-d');
+ $hoy4 =date_format($date, 'Y-m-d');
 
 }else{
     $hoy4 = date("Y-m-d");
@@ -862,24 +865,44 @@ if($cantidaCierred<0){
 
 if ($veri5->num_rows()!=0) {
 
- $row = $veri5->row();
- $estado=$row->estado;
- if($estado==1){
+   $row = $veri5->row();
+   $estado=$row->estado;
+   if($estado==1){
 
     if ($cantidaCierred < 0) {
 
         $color_quinto = "badge-danger";
     } else {
-     $color_quinto = "badge-success";
- }
+       $color_quinto = "badge-success";
+   }
 }else{
     $color_quinto = "";
 
 }
 }else{
- $color_quinto = "badge-warning";
+   $color_quinto = "badge-warning";
 }
 $cantidaCierred = $mensajeVer6." ".$diasCierre." ".$mensaje26;
+
+//===================================== Verificar Calculo ======================================
+// =============================================================================================
+// =============================================================================================
+
+$veri6 = $this->models_registro->verificarDias($rowx->idregistro,8);
+if ($veri6->num_rows()!=0) {
+
+   $row = $veri6->row();
+   $estado=$row->estado;
+             if($estado==1){
+
+                 $color_sexto = "badge-success";
+             }else{
+                $color_sexto = "";
+
+            }
+}else{
+    $color_sexto = "badge-warning";
+}
 
 //========================================= FIN ================================================
 // =============================================================================================
@@ -887,75 +910,82 @@ $cantidaCierred = $mensajeVer6." ".$diasCierre." ".$mensaje26;
 $registroConsulta.= '
 
 <tr>
-    <td style="font-size:12px;width: 5%">'.str_pad($rowx->idregistro, 5, "0", STR_PAD_LEFT).'</td>
-    <td style="font-size:12px;width: 7%">'.$rowx->num_expediente.'</td>
-    <td style="font-size:12px;width: 10%">'.$rowx->referencia.'</td>
-    <td style="font-size:12px;width: 7%">'.$rowx->nomobjetivo.'</td>
-    <td style="font-size:12px;width:20%">'.$rowx->ubicacion.'</td>
-    <td style="font-size:12px"> $ '.number_format($rowx->costo).'</td>  
-    <td style="font-size:12px;background-color: '.$rowx->color.'"><strong>'.$rowx->inspector.'</strong></td>
-    <td style="width: 13%;">
+<td style="font-size:12px;width: 5%">'.str_pad($rowx->idregistro, 5, "0", STR_PAD_LEFT).'</td>
+<td style="font-size:12px;width: 7%">'.$rowx->num_expediente.'</td>
+<td style="font-size:12px;width: 10%">'.$rowx->referencia.'</td>
+<td style="font-size:12px;width: 7%">'.$rowx->nomobjetivo.'</td>
+<td style="font-size:12px;width:20%">'.$rowx->ubicacion.'</td>
+<td style="font-size:12px"> $ '.number_format($rowx->costo).'</td>  
+<td style="font-size:12px;background-color: '.$rowx->color.'"><strong>'.$rowx->inspector.'</strong></td>
+<td style="width: 13%;">
 
-     <div class="btn-group-vertical margin-right-10">
-
-
-        <a href="#" >
-            <span class="badge '.$color_uno.'">
-                Inspección  ( '.$cantidaddi.' )</span>
-
-            </a>    <br>      <br>                
-            <a href="#" >                                
+<div class="btn-group-vertical margin-right-10">
 
 
-             <span class="badge '.$color_dos.'">
-              Entrega de visita ( '.$cantidadbd.')</span>
+<a href="#" >
+<span class="badge '.$color_uno.'">
+Inspección  ( '.$cantidaddi.' )</span>
+
+</a>    <br>      <br>                
+<a href="#" >                                
 
 
-
-          </a><br> <br> 
-          <a href="#" >                                
+<span class="badge '.$color_dos.'">
+Entrega de visita ( '.$cantidadbd.')</span>
 
 
 
-            <span class="badge '.$color_tres.'">
-             Asiganción ( '.$cantidadcd.' )</span>
-
-         </a><br> <br> 
-         <a href="#">                                
-
-
-             <span class="badge '.$color_cuatro.'">
-                 Captura ( '.$cantidaddd.' )</span>
-             </a>
-         </a><br> <br> 
-         <a href="#">                                
-
-
-             <span class="badge '.$color_quinto.'">
-                Cierre ( '.$cantidaCierred.' )</span>
-            </a>
-
-        </div>
-
-    </td>
-    <td style="width:10%">
-
-
-        <div class="btn-group-vertical margin-right-10">
-
-            <a href="#" class="btn default btn-xs  asignacion" title="'.$rowx->idregistro.'&fecha_de_inspeccion='.$rowx->fecha_de_inspeccion.'"><i class="fa fa-search"></i> ASIGNAR </a> <br> 
-            <a href="'.site_url('').'solicitudes/editar?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> EDITAR </a> <br> 
-            <a href="'.site_url('').'pdfs/generar?idregistro='.$rowx->idregistro.'" target="_blank"  class="btn default btn-xs  optenerID"><i class="fa fa-font"></i> CITA </a> <br> 
-            <a href="'.site_url('').'anexos/acreditado?idregistro='.$rowx->idregistro.'" class="btn default btn-xs optenerID"><i class="fa fa-file-o"></i> ARCHIVOS </a><br>
-            <a href="'.site_url('').'pagos/registro?id='.$rowx->idregistro.'" class="btn default btn-xs optenerID"><i class="fa fa-money"></i> PAGOS </a>
+</a><br> <br> 
+<a href="#" >   
+<span class="badge '.$color_sexto.'">
+Cálculo </span>
 
 
 
+</a><br> <br> 
+<a href="#" >                                
 
 
-        </div>
 
-    </td>
+<span class="badge '.$color_tres.'">
+Asiganción ( '.$cantidadcd.' )</span>
+
+</a><br> <br> 
+<a href="#">                                
+
+
+<span class="badge '.$color_cuatro.'">
+Captura ( '.$cantidaddd.' )</span>
+</a>
+</a><br> <br> 
+<a href="#">                                
+
+
+<span class="badge '.$color_quinto.'">
+Cierre ( '.$cantidaCierred.' )</span>
+</a>
+
+</div>
+
+</td>
+<td style="width:10%">
+
+
+<div class="btn-group-vertical margin-right-10">
+
+<a href="#" class="btn default btn-xs  asignacion" title="'.$rowx->idregistro.'&fecha_de_inspeccion='.$rowx->fecha_de_inspeccion.'"><i class="fa fa-search"></i> ASIGNAR </a> <br> 
+<a href="'.site_url('').'solicitudes/editar?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> EDITAR </a> <br> 
+<a href="'.site_url('').'pdfs/generar?idregistro='.$rowx->idregistro.'" target="_blank"  class="btn default btn-xs  optenerID"><i class="fa fa-font"></i> CITA </a> <br> 
+<a href="'.site_url('').'anexos/acreditado?idregistro='.$rowx->idregistro.'" class="btn default btn-xs optenerID"><i class="fa fa-file-o"></i> ARCHIVOS </a><br>
+<a href="'.site_url('').'pagos/registro?id='.$rowx->idregistro.'" class="btn default btn-xs optenerID"><i class="fa fa-money"></i> PAGOS </a>
+
+
+
+
+
+</div>
+
+</td>
 </tr>';
 
 
@@ -1224,25 +1254,25 @@ $valor = $this->models_registro->update($idregistro, $data);
 if ($this->input->post('fecha_de_inspeccion') != ""&&$this->input->post('idempleado') !=0) {
 
 
-   $canti = $this->models_estado_empleado->comprobarActualizacion($this->input->post('idestado_registro'), $idregistro);
+ $canti = $this->models_estado_empleado->comprobarActualizacion($this->input->post('idestado_registro'), $idregistro);
 
-   if($canti==0){
-       $datac = array(
+ if($canti==0){
+     $datac = array(
         'idestado_registro' => $this->input->post('idestado_registro'),
         'idregistro' => $idregistro,
         'idempleado' => $this->input->post('idempleado'),
         'estado' => 0);
 
-       $valorv=$this->models_estado_empleado->insertar($datac);
+     $valorv=$this->models_estado_empleado->insertar($datac);
 
-       $datay = array(
-           'idempleado' => $this->input->post('idempleado'));
-       $valor = $this->models_registro->update($idregistro, $datay);
-
-
+     $datay = array(
+         'idempleado' => $this->input->post('idempleado'));
+     $valor = $this->models_registro->update($idregistro, $datay);
 
 
-   }else{
+
+
+ }else{
     $valor=2;
 }
 

@@ -141,7 +141,7 @@
                         <div class="form-group">
                           <label class="col-md-3 control-label">ANTICIPO : *</label>
                           <div class="col-md-4">
-                            <input type="text" class="form-control input-circle" maxlength="45" name="anticipo" placeholder="ANTICIPO" required pattern="[0-9]{1,8}">
+                            <input type='number' step='0.01' max="9999999.99" class="form-control input-circle" maxlength="45" name="anticipo" placeholder="ANTICIPO" required>
 
                           </div>
                         </div>

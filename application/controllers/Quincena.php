@@ -24,44 +24,48 @@ class Quincena extends CI_Controller {
         if ($idpuesto != 1&&$idpuesto != 6) {
 
            redirect('registro', 'refresh');
-        }*/
+       }*/
 
 
-        $this->load->model('models_quincena');
-    }
+       $this->load->model('models_quincena');
+   }
 
-    public function index() {
+   public function index() {
 
-        $data['msn'] = -2;
-        $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+    $data['msn'] = -2;
+    $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
 
-        $datax['nombre'] = $nombrez;
-        $datax['puesto'] = $this->session->userdata('puesto');
-        $datax['menusolicitudes'] = "x";
-        $datax['menucatalogos'] = "x";
-        $datax['menuadmin'] = "active";
-        $datax['solictudesbus'] = "x";
-        $datax['solictudesnuevo'] = "x";
-        $datax['solictudesver'] = "x";
-        $datax['catalogost'] = "x";
-        $datax['catalogoso'] = "x";
-        $datax['catalogose'] = "x";
-        $datax['catalogosp'] = "x";
-        $datax['catalogosem'] = "x";
-        $datax['catalogoemp'] = "x";
-        $datax['adminq'] = "active";
-        $datax['adminc'] = "x";
-        $datax['admincc'] = "x";
-        $datax['admina'] = "x";
+    $datax['nombre'] = $nombrez;
+    $datax['puesto'] = $this->session->userdata('puesto');
+    $datax['menusolicitudes'] = "x";
+    $datax['menucatalogos'] = "x";
+    $datax['menuadmin'] = "active";
+    $datax['solictudesbus'] = "x";
+    $datax['solictudesnuevo'] = "x";
+    $datax['solictudesver'] = "x";
+    $datax['catalogost'] = "x";
+    $datax['catalogoso'] = "x";
+    $datax['catalogose'] = "x";
+    $datax['catalogosp'] = "x";
+    $datax['catalogosem'] = "x";
+    $datax['catalogoemp'] = "x";
+    $datax['adminq'] = "active";
+    $datax['adminc'] = "x";
+    $datax['admincc'] = "x";
+    $datax['admina'] = "x";
 
-        $data['nombre'] = $nombrez;
-        $data['idcapturista'] = $this->session->userdata('idempleado');
-        $data['menu'] = $this->load->view('plantilla/menu', $datax, true);
-        $data['head'] = $this->load->view('plantilla/head', true);
-        $this->load->view('quincena/registro', $data);
-    }
+    $data['nombre'] = $nombrez;
+    $data['idcapturista'] = $this->session->userdata('idempleado');
+    $data['menu'] = $this->load->view('plantilla/menu', $datax, true);
+    $data['head'] = $this->load->view('plantilla/head', true);
+    $this->load->view('quincena/registro', $data);
+}
 
-    public function registro() {
+public function registro() {
+
+
+
+    if(empty($this->input->post('pagada'))!=1){
 
 
 
@@ -73,89 +77,103 @@ class Quincena extends CI_Controller {
 
         $date2 = date_create($this->input->post('inicio'));
         $date3 = date_create($this->input->post('final'));
+        $estatus="";
+        $verificarEsta=$this->models_quincena->getBuscarActivos();
+        if($verificarEsta==0){
+           $estatus="Activo";
+       }else{
+           $estatus="Inactivo";
+       }
 
 
-        $data = array(
-            'inicio' => date_format($date2, 'Y-m-d'),
-            'final' => date_format($date3, 'Y-m-d'),
-            'pagada' => date_format($date1, 'Y-m-d'));
+       $data = array(
+        'inicio' => date_format($date2, 'Y-m-d'),
+        'final' => date_format($date3, 'Y-m-d'),
+        'estado' => $estatus,
+        'pagada' => date_format($date1, 'Y-m-d'));
 
-        $valor = $this->models_quincena->insertar($data);
-        $this->load->model('models_recibo');
-        $this->load->model('models_empleado');
-          
-        
+       $valor = $this->models_quincena->insertar($data);
+       $this->load->model('models_recibo');
+       $this->load->model('models_empleado');
+
+
       //  echo $valor;
-        
-        $datInfo = $this->models_empleado->get();
-       
-        if (isset($datInfo)) {
-            foreach ($datInfo->result() as $row) {
-               
-                
-                 $data = array(
-                    'idquincena' => $valor,
-                    'estado' => 'ACTIVO',
-                    'idempleado' => $row->idempleado);
-                  $this->models_recibo->insertar($data);
-            }
-        }
-        
+
+       $datInfo = $this->models_empleado->get();
+
+       if (isset($datInfo)) {
+        foreach ($datInfo->result() as $row) {
+
+
+         $data = array(
+            'idquincena' => $valor,
+            'estado' => 'ACTIVO',
+            'idempleado' => $row->idempleado);
+         $this->models_recibo->insertar($data);
+     }
+
+
+ }
 
 
 
 
-        $data['msn'] = $valor;
 
-        $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
-        $datax['nombre'] = $nombrez;
-        $datax['puesto'] = $this->session->userdata('puesto');
-        $datax['menusolicitudes'] = "x";
-        $datax['menucatalogos'] = "x";
-        $datax['menuadmin'] = "active";
-        $datax['solictudesbus'] = "x";
-        $datax['solictudesnuevo'] = "x";
-        $datax['solictudesver'] = "x";
-        $datax['catalogost'] = "x";
-        $datax['catalogoso'] = "x";
-        $datax['catalogose'] = "x";
-        $datax['catalogosp'] = "x";
-        $datax['catalogosem'] = "x";
-        $datax['catalogoemp'] = "x";
-        $datax['adminq'] = "active";
-        $datax['adminc'] = "x";
-        $datax['admincc'] = "x";
-        $datax['admina'] = "x";
-        $data['nombre'] = $nombrez;
-        $data['idcapturista'] = $this->session->userdata('idempleado');
-        $data['menu'] = $this->load->view('plantilla/menu', $datax, true);
-        $data['head'] = $this->load->view('plantilla/head', true);
-        $this->load->view('quincena/registro', $data);
+ $data['msn'] = $valor;
+
+ $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+ $datax['nombre'] = $nombrez;
+ $datax['puesto'] = $this->session->userdata('puesto');
+ $datax['menusolicitudes'] = "x";
+ $datax['menucatalogos'] = "x";
+ $datax['menuadmin'] = "active";
+ $datax['solictudesbus'] = "x";
+ $datax['solictudesnuevo'] = "x";
+ $datax['solictudesver'] = "x";
+ $datax['catalogost'] = "x";
+ $datax['catalogoso'] = "x";
+ $datax['catalogose'] = "x";
+ $datax['catalogosp'] = "x";
+ $datax['catalogosem'] = "x";
+ $datax['catalogoemp'] = "x";
+ $datax['adminq'] = "active";
+ $datax['adminc'] = "x";
+ $datax['admincc'] = "x";
+ $datax['admina'] = "x";
+ $data['nombre'] = $nombrez;
+ $data['idcapturista'] = $this->session->userdata('idempleado');
+ $data['menu'] = $this->load->view('plantilla/menu', $datax, true);
+ $data['head'] = $this->load->view('plantilla/head', true);
+ $this->load->view('quincena/registro', $data);
+
+}else{
+   redirect('quincena', 'refresh');
+}
+}
+
+public function mostrar() {
+
+
+    $offset = $this->input->get('per_page');
+    $uri_segment = 0;
+    if ($offset == "") {
+        $offset = 0;
     }
 
-    public function mostrar() {
+    $inicio = trim($this->input->get('inicial'));
+    $final = trim($this->input->get('finali'));
+    $date1 = date_create($inicio);
+    $date2 = date_create($final);
 
-
-        $offset = $this->input->get('per_page');
-        $uri_segment = 0;
-        if ($offset == "") {
-            $offset = 0;
-        }
-
-        $inicio = trim($this->input->get('inicial'));
-        $final = trim($this->input->get('finali'));
-        $date1 = date_create($inicio);
-        $date2 = date_create($final);
-
-        if ($inicio == "") {
-            $data['registros'] = $this->models_quincena->mostrar($inicio, $final, $offset, $this->limite);
-            $config['base_url'] = base_url() . 'quincena/mostrar?inicial=' . $inicio . '&finali=' . $final;
-            $config['total_rows'] = $this->models_quincena->mostrarcount($inicio, $final);
-        } else {
-            $data['registros'] = $this->models_quincena->mostrar(date_format($date1, 'Y-m-d'), date_format($date2, 'Y-m-d'), $offset, $this->limite);
-            $config['base_url'] = base_url() . 'quincena/mostrar?inicial=' . date_format($date1, 'Y-m-d') . '&finali=' . date_format($date2, 'Y-m-d');
-            $config['total_rows'] = $this->models_quincena->mostrarcount(date_format($date1, 'Y-m-d'), date_format($date2, 'Y-m-d'));
-        }
+    if ($inicio == "") {
+        $data['registros'] = $this->models_quincena->mostrar($inicio, $final, $offset, $this->limite);
+        $config['base_url'] = base_url() . 'quincena/mostrar?inicial=' . $inicio . '&finali=' . $final;
+        $config['total_rows'] = $this->models_quincena->mostrarcount($inicio, $final);
+    } else {
+        $data['registros'] = $this->models_quincena->mostrar(date_format($date1, 'Y-m-d'), date_format($date2, 'Y-m-d'), $offset, $this->limite);
+        $config['base_url'] = base_url() . 'quincena/mostrar?inicial=' . date_format($date1, 'Y-m-d') . '&finali=' . date_format($date2, 'Y-m-d');
+        $config['total_rows'] = $this->models_quincena->mostrarcount(date_format($date1, 'Y-m-d'), date_format($date2, 'Y-m-d'));
+    }
 
 
 
@@ -240,10 +258,10 @@ class Quincena extends CI_Controller {
         $valor = $this->models_quincena->update($idregistro, $data);
 
         echo '<br><br>
-                                    <div class="alert alert-warning">
-                                        <h1> Se actualizo correctamente!</h1> 
-                                        <button type="button" class="close" data-dismiss="alert">×</button>
-                                    </div>';
+        <div class="alert alert-warning">
+        <h1> Se actualizo correctamente!</h1> 
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        </div>';
     }
 
     public function editar() {
@@ -282,14 +300,25 @@ class Quincena extends CI_Controller {
 
     public function actualizarestado() {
 
-        $idregistro = $this->input->get('idquincena');
+        $verificarEsta=$this->models_quincena->getBuscarActivos();
         $estado = $this->input->get('estado');
-        $data = array(
+        if($verificarEsta==0||strcmp($estado,'Inactivo')== 0){
+          $idregistro = $this->input->get('idquincena');
+          $data = array(
             'estado' => $estado);
 
-        $this->models_quincena->update($idregistro, $data);
+          $this->models_quincena->update($idregistro, $data);
 
-        redirect('quincena/mostrar', 'refresh');
-    }
+          echo 1;
+
+      }else{
+
+        
+       echo 0;
+   }
+
+
+    // redirect('quincena/mostrar', 'refresh');
+}
 
 }

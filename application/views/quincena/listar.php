@@ -109,158 +109,205 @@
                                                 <div class="input-group input-large date-picker input-daterange"  data-date-format="yyyy-mm-dd">
                                                     <input type="text" class="form-control"  name="inicial">
                                                     <span class="input-group-addon">
-                                                        a </span>
-                                                        <input type="text" class="form-control" name="finali">
-                                                    </div>
-
-
+                                                    a </span>
+                                                    <input type="text" class="form-control" name="finali">
                                                 </div>
-                                                <span class="input-group-btn">
-                                                    <button type="submit" class="btn green-haze">
-                                                        Buscar &nbsp; <i class="m-icon-swapright m-icon-white"></i>
-                                                    </button>
-                                                </span>
+
+
                                             </div>
-                                        </form>
-                                    </div>
+                                            <span class="input-group-btn">
+                                                <button type="submit" class="btn green-haze">
+                                                    Buscar &nbsp; <i class="m-icon-swapright m-icon-white"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="tabbable-line boxless tabbable-reversed">
+                            </div>
+                            <div class="tabbable-line boxless tabbable-reversed">
 
-                                    <div class="tab-content">
+                                <div class="tab-content">
+
+                                    <script type="text/javascript">
+
+                                        $(document).ready(function() {
+                                            $('.camEstatus').click(function() {
+                                               var idquincena = $(this).attr("name");
+                                               var dataString = 'idquincena=' + idquincena;
+                                               $.ajax({
+                                                type: "GET",
+                                                url: '<?php echo site_url('') ?>quincena/actualizarestado',
+                                                data: dataString,
+                                                success: function(data) {
+
+                                                    if(data!=0){
+
+                                                        $(location).attr('href','<?php echo site_url('') ?>quincena/mostrar');
+                                                    }else{
+                                                       toastr.options = {
+                                                          "closeButton": true,
+                                                          "debug": false,
+                                                          "positionClass": "toast-top-right",
+                                                          "onclick": null,
+                                                          "showDuration": "1000",
+                                                          "hideDuration": "1000",
+                                                          "timeOut": "5000",
+                                                          "extendedTimeOut": "1000",
+                                                          "showEasing": "swing",
+                                                          "hideEasing": "linear",
+                                                          "showMethod": "fadeIn",
+                                                          "hideMethod": "fadeOut"
+                                                      }
+                                                      toastr.error("Se encuentra una quincena Activa", "Error");
+                                                  }
 
 
-                                        <div class="tab-pane active" id="tab_1">
-                                            <div class="portlet box blue">
-                                                <div class="portlet-title">
-                                                    <div class="caption">
-                                                        <i class="fa fa-gift"></i>QUINCENA
-                                                    </div>
+
+                                              }
+                                          });
+
+                                           }
 
 
+                                           );
+                                        });
+                                    </script>
+
+
+
+                                    <div class="tab-pane active" id="tab_1">
+                                        <div class="portlet box blue">
+                                            <div class="portlet-title">
+                                                <div class="caption">
+                                                    <i class="fa fa-gift"></i>QUINCENA
                                                 </div>
-                                                <div class="portlet-body">
-                                                    <div class="table-scrollable">
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                                <tr>
-
-                                                                    <th>INICIO</th>
-                                                                    <th>FINAL</th>
-                                                                    <th>PAGADO</th>
-                                                                    <th>ESTADO</th>
-                                                                    <th>ACCIONES</th>
 
 
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-
-
-
-                                                                <?php
-                                                                if (isset($registros)) {
-                                                                    foreach ($registros->result() as $rowx) {
-                                                                        ?>
-
-
-                                                                        <tr>
-
-                                                                            <td><?php echo $rowx->inicio; ?></td>
-                                                                            <td><?php echo $rowx->final; ?></td>
-                                                                            <td><?php echo $rowx->pagada; ?></td>
-                                                                            <td><?php echo $rowx->estado; ?></td>
-
-
-                                                                            <td>
-
-
-
-                                                                                <a href="<?php echo site_url('') ?>quincena/editar?idquincena=<?php echo $rowx->idquincena ?>"   class="btn btn-lg blue" title="Editar"><i class="fa fa-edit"></i></a>
-                                                                                <a href="<?php echo site_url('') ?>recibo/trabajar?idquincena=<?php echo $rowx->idquincena ?>"   class="btn btn-lg blue" title="Trabajadores" ><i class="fa fa-users"></i></a>
-                                                                                <a href="<?php echo site_url('') ?>recibo/mostrar?idquincena=<?php echo $rowx->idquincena ?>"    class="btn btn-lg blue" title="Trabajar"> <i class="fa fa-gear"></i></a>
-                                                                                <a href="<?php echo site_url('') ?>excel/reporterecibo?idquincena=<?php echo $rowx->idquincena ?>"    class="btn btn-lg green" title="Reporte Quincenal"> <i class="fa fa-file-excel-o"></i></a>
-                                                                                <?php
-                                                                                if ($rowx->estado == 'Activo') {
-                                                                                    ?>
-                                                                                    <a href="<?php echo site_url('') ?>quincena/actualizarestado?idquincena=<?php echo $rowx->idquincena ?>&estado=Inactivo"    title="Desactivar" class="btn btn-lg blue"><i class="fa fa-check"></i></a>
-                                                                                    <?php
-                                                                                } else {
-                                                                                    ?>
-                                                                                    <a href="<?php echo site_url('') ?>quincena/actualizarestado?idquincena=<?php echo $rowx->idquincena ?>&estado=Activo"   title="Activar"  class="btn btn-lg red"><i class="fa fa-exclamation"></i></a>
-                                                                                    <?php
-                                                                                }
-                                                                                ?>
-
-
-                                                                            </td>
-                                                                        </tr>
-
-
-
-                                                                        <?php
-                                                                    }
-                                                                }
-                                                                ?>  
-
-
-
-
-
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
-
-                                                </div>
-                                                <div class="pull-right" >
-
-                                                    <?php echo $pagination; ?>
-
-                                                </div>
                                             </div>
+                                            <div class="portlet-body">
+                                                <div class="table-scrollable">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>INICIO</th>
+                                                                <th>FINAL</th>
+                                                                <th>PAGADO</th>
+                                                                <th>ESTADO</th>
+                                                                <th>ACCIONES</th>
 
 
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+
+
+                                                            <?php
+                                                            if (isset($registros)) {
+                                                                foreach ($registros->result() as $rowx) {
+                                                                    ?>
+
+
+                                                                    <tr>
+
+                                                                        <td><?php echo $rowx->inicio; ?></td>
+                                                                        <td><?php echo $rowx->final; ?></td>
+                                                                        <td><?php echo $rowx->pagada; ?></td>
+                                                                        <td><?php echo $rowx->estado; ?></td>
+
+
+                                                                        <td>
+
+
+
+                                                                            <a href="<?php echo site_url('') ?>quincena/editar?idquincena=<?php echo $rowx->idquincena ?>"   class="btn btn-lg blue" title="Editar"><i class="fa fa-edit"></i></a>
+                                                                            <a href="<?php echo site_url('') ?>recibo/trabajar?idquincena=<?php echo $rowx->idquincena ?>"   class="btn btn-lg blue" title="Trabajadores" ><i class="fa fa-users"></i></a>
+                                                                            <a href="<?php echo site_url('') ?>recibo/mostrar?idquincena=<?php echo $rowx->idquincena ?>"    class="btn btn-lg blue" title="Trabajar"> <i class="fa fa-gear"></i></a>
+                                                                            <a href="<?php echo site_url('') ?>excel/reporterecibo?idquincena=<?php echo $rowx->idquincena ?>"    class="btn btn-lg green" title="Reporte Quincenal"> <i class="fa fa-file-excel-o"></i></a>
+                                                                            <?php
+                                                                            if ($rowx->estado == 'Activo') {
+                                                                                ?>
+                                                                                <a href="#estatus" name="<?php echo $rowx->idquincena ?>&estado=Inactivo"    title="Desactivar" class="btn btn-lg blue camEstatus"><i class="fa fa-check"></i></a>
+                                                                                <?php
+                                                                            } else {
+                                                                                ?>
+                                                                                <a href="#estatus" name="<?php echo $rowx->idquincena ?>&estado=Activo"   title="Activar"  class="btn btn-lg red camEstatus"><i class="fa fa-exclamation"></i></a>
+                                                                                <?php
+                                                                            }
+                                                                            ?>
+
+
+                                                                        </td>
+                                                                    </tr>
+
+
+
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>  
+
+
+
+
+
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="pull-right" >
+
+                                                <?php echo $pagination; ?>
+
+                                            </div>
                                         </div>
 
 
-
-
-
-
-
-
-
                                     </div>
+
+
+
+
+
+
+
+
+
                                 </div>
                             </div>
                         </div>
-                        <!-- END PAGE CONTENT-->
                     </div>
-                </div>
-                <!-- END CONTENT -->
-
-            </div>
-            <!-- END CONTAINER -->
-            <!-- BEGIN FOOTER -->
-            <div class="page-footer">
-                <div class="page-footer-inner">
-                    2016 &copy; HelpMex.com.mx
-                </div>
-                <div class="scroll-to-top">
-                    <i class="icon-arrow-up"></i>
+                    <!-- END PAGE CONTENT-->
                 </div>
             </div>
+            <!-- END CONTENT -->
 
-            <!-- END JAVASCRIPTS -->
+        </div>
+        <!-- END CONTAINER -->
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div class="page-footer-inner">
+                2016 &copy; HelpMex.com.mx
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
 
-            <script>
-                jQuery(document).ready(function() {
+        <!-- END JAVASCRIPTS -->
+
+        <script>
+            jQuery(document).ready(function() {
                 // initiate layout and plugins
 
                 Layout.init(); // init current layout
                 QuickSidebar.init(); // init quick sidebar
                 Demo.init(); // init demo features
                 ComponentsPickers.init();
+                UIToastr.init();
             });
         </script>
 

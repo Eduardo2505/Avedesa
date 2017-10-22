@@ -28,6 +28,10 @@
 <link id="style_color" href="<?php echo site_url('') ?>metronic/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo site_url('') ?>metronic/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
+
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link rel="stylesheet" type="text/css" href="<?php echo site_url('') ?>metronic/global/plugins/bootstrap-toastr/toastr.min.css"/>
+<!-- END PAGE LEVEL STYLES -->
 <link rel="shortcut icon" href="<?php echo site_url('') ?>favicon.ico"/>
 
 <script type="text/javascript">
@@ -78,3 +82,6 @@
 
 
 
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="<?php echo site_url('') ?>metronic/global/plugins/bootstrap-toastr/toastr.min.js"></script>
+<!-- END PAGE LEVEL SCRIPTS -->

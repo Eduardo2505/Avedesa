@@ -267,29 +267,19 @@ public function cerrarAsiganar() {
       }
 
 
-      public function addAnexo() {
+      public function actualizarPass() {
 
-        $idregistro = $this->input->post('idregistro');
-        $url = $this->input->post('url');
-        $usuario = $this->input->post('usuario');
-        $tipo = $this->input->post('tipo');
+        $idempleado=$this->input->post('idempleado');
         $data = array(
-          'url' => "ionic/uploads/".$url,
-          'descripcion' => $url,
-          'usuario' => $usuario,
-          'idregistro' => $idregistro,
-          'tipo' => $tipo,
-          'dropbox' => 0);
+          'pass' => $this->input->post('passworduno'));
 
-        $valor = $this->models_archivos->insertar($data);
+        $valor = $this->models_empleado->updatepass($idempleado,$data);
 
-        // si es 1 se inserto correctamente 
-        // 0 no se inserto
 
         echo '{"mensaje":"'.$valor.'"}';
 
-      }
 
+      }
 
 
 

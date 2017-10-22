@@ -225,7 +225,6 @@ class Models_estado_empleado extends CI_Model {
         where
         idestado_registro = $idEstadoRegistro
         and idregistro = $idregistro";
-
         $query = $this->db->query($SQl);
 
 

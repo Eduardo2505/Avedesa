@@ -132,35 +132,35 @@
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">- TRANSFERENCIA: *</label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control input-circle" value="<?php echo $row->transferencia; ?>" maxlength="45" name="transferencia" placeholder="TRANSFERENCIA" required="">
+                                                            <input type='number' step='0.01' max="9999999.99" class="form-control input-circle" value="<?php echo $row->transferencia; ?>" maxlength="45" name="transferencia" placeholder="TRANSFERENCIA" required="">
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">  - DEDUCCIONES: *</label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control input-circle" value="<?php echo $row->deducciones; ?>" maxlength="45" name="deducciones" placeholder="DEDUCCIONES" required="">
+                                                            <input type='number' step='0.01' max="9999999.99" class="form-control input-circle" value="<?php echo $row->deducciones; ?>" maxlength="45" name="deducciones" placeholder="DEDUCCIONES" required="">
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label"> - RETARDOS: *</label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control input-circle" value="<?php echo $row->retardos; ?>" maxlength="45" name="retardos" placeholder="RETARDOS" required="">
+                                                            <input type='number' step='0.01' max="9999999.99" class="form-control input-circle" value="<?php echo $row->retardos; ?>" maxlength="45" name="retardos" placeholder="RETARDOS" required="">
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">  - ABONO: *</label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control input-circle" value="<?php echo $row->abono; ?>" maxlength="45" name="abono" placeholder="ABONO" required="">
+                                                            <input type='number' step='0.01' max="9999999.99" class="form-control input-circle" value="<?php echo $row->abono; ?>" maxlength="45" name="abono" placeholder="ABONO" required="">
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">  - ANTICIPO: *</label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control input-circle" value="<?php echo $row->anticipo; ?>" maxlength="45" name="anticipo" placeholder="ANTICIPO" required="">
+                                                            <input type='number' step='0.01' max="9999999.99" class="form-control input-circle" value="<?php echo $row->anticipo; ?>" maxlength="45" name="anticipo" placeholder="ANTICIPO" required="">
 
                                                         </div>
                                                     </div>
@@ -171,14 +171,14 @@
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label">  + EXTRA: *</label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control input-circle" value="<?php echo $row->extra; ?>" maxlength="45" name="extra" placeholder="EXTRA" required="">
+                                                            <input type='number' step='0.01' max="9999999.99" class="form-control input-circle" value="<?php echo $row->extra; ?>" maxlength="45" name="extra" placeholder="EXTRA" required="">
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-md-3 control-label"> + PASAJES: *</label>
                                                         <div class="col-md-4">
-                                                            <input type="text" class="form-control input-circle" value="<?php echo $row->pasajes; ?>" maxlength="45" name="pasajes" placeholder="PASAJES" required="">
+                                                            <input type='number' step='0.01' max="9999999.99" class="form-control input-circle" value="<?php echo $row->pasajes; ?>" maxlength="45" name="pasajes" placeholder="PASAJES" required="">
 
                                                         </div>
                                                     </div>

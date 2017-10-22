@@ -112,4 +112,12 @@ order by idquincena desc";
         return $query;
     }
 
+     function getBuscarActivos() {
+
+       
+        $this->db->where('estado', 'Activo');
+        $query = $this->db->get('quincena');
+        return $query->num_rows();
+    }
+
 }

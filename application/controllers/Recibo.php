@@ -371,7 +371,7 @@ public function mostrar() {
                     $html.= ' <tr>
                     <td>' . $rowxc->nombre . '</td>
                     <td>' . $rowxc->costo . '</td>
-                    <td><input value="0" type="text" id="can_' . $rowxc->idcosto_concepto . '" class="form-control input-circle"></td>
+                    <td><input value="0" type="number"  id="can_' . $rowxc->idcosto_concepto . '" class="form-control input-circle"></td>
                     <td><label id="subtotal_' . $rowxc->idcosto_concepto . '">0</label></td>
                     <td><a href="#add"  name="' . $rowxc->costo . '" title="' . $rowxc->idcosto_concepto . '" class="btn btn-circle blue actualizarbtn">ACTUALIZAR</a>
 
@@ -386,7 +386,7 @@ public function mostrar() {
                 $html.= ' <tr>
                 <td>' . $rowxc->nombre . '</td>
                 <td> $ ' . $rowxc->costo . '</td>
-                <td><input type="text" value="' . $res . '" id="can_' . $rowxc->idcosto_concepto . '" class="form-control input-circle"></td>
+                <td><input type="number"  value="' . $res . '" id="can_' . $rowxc->idcosto_concepto . '" class="form-control input-circle"></td>
                 <td><label id="subtotal_' . $rowxc->idcosto_concepto . '"> $ ' . $sub . '</label></td>
                 <td><a href="#add"  name="' . $rowxc->costo . '" title="' . $rowxc->idcosto_concepto . '" class="btn btn-circle blue actualizarbtn">ACTUALIZAR</a>
 

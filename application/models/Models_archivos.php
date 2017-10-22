@@ -12,16 +12,14 @@ class Models_archivos extends CI_Model {
 
     function insertar($data) {
 
-     $this->db->trans_begin();
-     $this->db->insert('archivos', $data);
+       $this->db->trans_begin();
+       $this->db->insert('archivos', $data);
 
-     if ($this->db->trans_status() === FALSE) {
-      $this->db->trans_rollback();
-      return 0;
-  }  else {
-    $this->db->trans_commit();
-    return 1;
-}
+       if ($this->db->trans_status() === FALSE) {
+          $this->db->trans_rollback();
+      }  else {
+        $this->db->trans_commit();
+    }
 
 
 
@@ -138,16 +136,16 @@ function limpiar($string) {
 
 function countArchivos($idregistro) {
 
- $SQl = "Select 
- count(*) as num, tipo
- from
- archivos
- where
- idregistro = $idregistro and estado=1 group by tipo;";
+   $SQl = "Select 
+   count(*) as num, tipo
+   from
+   archivos
+   where
+   idregistro = $idregistro and estado=1 group by tipo;";
 
- $query = $this->db->query($SQl);
+   $query = $this->db->query($SQl);
 
- return $query;
+   return $query;
 
 }
 
