@@ -26,8 +26,8 @@ class App extends CI_Controller {
   public function login() {
 
 
-    $email = $this->input->post('email');
-    $password= $this->input->post('password');
+    $email = $this->input->get('email');
+    $password= $this->input->get('password');
     $nota=$this->models_empleado->login($email,$password);
     echo json_encode($nota->result());
 
