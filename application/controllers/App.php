@@ -2,7 +2,9 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class App extends CI_Controller {
+require(APPPATH.'libraries/REST_Controller.php');
+//use Restserver\Libraries\REST_Controller;
+class App extends REST_Controller {
 
 	private $limite = 20;
 	private $limiteinicio = 8;
@@ -11,10 +13,14 @@ class App extends CI_Controller {
 
 		parent::__construct();
 
-		$this->load->model('models_estado_registro');
-		$this->load->model('models_empleado');
-		$this->load->model('models_estado_empleado');
-		$this->load->model('models_registro');
+    header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
+    header("Access-Control-Allow-Origin: *");
+
+    $this->load->model('models_estado_registro');
+    $this->load->model('models_empleado');
+    $this->load->model('models_estado_empleado');
+    $this->load->model('models_registro');
     $this->load->model('models_pagos');
     $this->load->model('models_pagoseliminados');
     $this->load->model('models_archivos');
@@ -23,13 +29,24 @@ class App extends CI_Controller {
 
 
 
-  public function login() {
+  public function login_post() {
 
 
-    $email = $this->input->get('email');
-    $password= $this->input->get('password');
+  
+    $data=$this->post();
+
+    if(!isset($data['email']) OR !isset($data['password'])){
+
+      $respuesta=array();
+      $this->response($respuesta,REST_Controller::HTTP_BAD_REQUEST);
+      return;
+    }
+
+    $email=$data['email'];
+    $password=$data['password'];
     $nota=$this->models_empleado->login($email,$password);
-    echo json_encode($nota->result());
+    $this->response($nota->result());
+  
 
   }
 
