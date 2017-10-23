@@ -51,7 +51,7 @@ class App extends REST_Controller {
   }
 
 
-  public function mostraAnexos() {
+  public function mostraAnexos_get() {
 
 
     $idregistro = $this->input->get('idregistro');
@@ -59,76 +59,76 @@ class App extends REST_Controller {
     $tipo = $this->input->get('tipo');
     $offset= $this->input->get('offset');
     $registros=$this->models_archivos->mostrarapp($buscar, $idregistro, $tipo, $offset, $this->limite);
-    echo json_encode($registros->result());
+    $this->response($registros->result());
 
   }
 
 
-  public function solicitudesPedientes() {
+  public function solicitudesPedientes_get() {
 
 
     $idempleado = $this->input->get('idempleado');
     $buscar = $this->input->get('buscar');
     $offset= $this->input->get('offset');
     $registros=$this->models_estado_empleado->listarApp($buscar, "0", $idempleado, $offset, $this->limite);
-    echo json_encode($registros->result());
+    $this->response($registros->result());
 
   }
-  public function solicitudesInicio() {
+  public function solicitudesInicio_get() {
 
 
     $idempleado = $this->input->get('idempleado');
     $buscar = $this->input->get('buscar');
     $offset= $this->input->get('offset');
     $registros=$this->models_estado_empleado->listarApp($buscar, "0", $idempleado, $offset, $this->limiteinicio);
-    echo json_encode($registros->result());
+    $this->response($registros->result());
 
   }
-  public function solicitudesAprobados() {
+  public function solicitudesAprobados_get() {
 
 
     $idempleado = $this->input->get('idempleado');
     $buscar = $this->input->get('buscar');
     $offset= $this->input->get('offset');
     $registros=$this->models_estado_empleado->listarApp($buscar, "1", $idempleado, $offset, $this->limite);
-    echo json_encode($registros->result());
+    $this->response($registros->result());
 
   }
 
-  public function buscar() {
+  public function buscar_get() {
 
 
     $idregistro = $this->input->get('idregistro');
     $registros=$this->models_registro->buscar($idregistro);
-    echo json_encode($registros->result());
+    $this->response($registros->result());
 
   }
 
-  public function buscarconsultarfechas() {
+  public function buscarconsultarfechas_get() {
 
 
     $idregistro = $this->input->get('idregistro');
     $registros=$this->models_estado_registro->consultarfechas($idregistro);
-    echo json_encode($registros->result());
+    $this->response($registros->result());
 
   }
 
 
-  public function listaempleados() {
+  public function listaempleados_get() {
 
     $registros = $this->models_empleado->get();
-    echo json_encode($registros->result());
+    $this->response($registros->result());
   }
-  public function estadosIndividuales() {
+  public function estadosIndividuales_get() {
 
    $idregistro = $this->input->get('idregistro'); 
    $registros = $this->models_estado_empleado->mostrarRegistro($idregistro);  
-   echo json_encode($registros->result());
+   $this->response($registros->result());
  }
 
 
 
- public function actualizestado() {
+ public function actualizestado_get() {
 
   $idestado_empleado = $this->input->get('idestado_empleado');
   $data = array(
@@ -143,7 +143,7 @@ class App extends REST_Controller {
 
 
 
-public function comprobarIncial() {
+public function comprobarIncial_get() {
 
   $idregistro = $this->input->get('idregistro');
   $idestado_registro = $this->input->get('idestado_registro');
@@ -157,7 +157,7 @@ public function comprobarIncial() {
   }
 }
 
-public function comprobarcierre() {
+public function comprobarcierre_get() {
 
   $idregistro = $this->input->get('idregistro');
   $idestado_registro = $this->input->get('idestado_registro');
@@ -241,7 +241,7 @@ public function cerrarAsiganar() {
           $idempleado = $this->input->get('idempleado'); 
           $idregistro = $this->input->get('idregistro'); 
           $registros = $this->models_pagos->getPagosUsuario($idempleado,$idregistro);  
-          echo json_encode($registros->result());
+          $this->response($registros->result());
         }
 
 
