@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $dominio="http://localhost/";
 
-//$dominio="http://desa.pvessy.com/";
+//$dominio="http://adminave.pvessy.com/";
 $config['base_url'] = $dominio.'Avedesa/';
 
 
