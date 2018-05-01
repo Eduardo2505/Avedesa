@@ -784,3 +784,7 @@ ERROR - 2018-05-01 07:42:02 --> Severity: Notice --> Trying to get property of n
 ERROR - 2018-05-01 07:42:02 --> Severity: Notice --> Trying to get property of non-object C:\wamp64\www\Ave\application\views\solicitudes\registroEnviarGYS.php 1183
 ERROR - 2018-05-01 07:42:02 --> Severity: Notice --> Trying to get property of non-object C:\wamp64\www\Ave\application\views\solicitudes\registroEnviarGYS.php 1192
 ERROR - 2018-05-01 07:42:03 --> Severity: Notice --> Trying to get property of non-object C:\wamp64\www\Ave\application\views\solicitudes\registroEnviarGYS.php 1202
+ERROR - 2018-05-01 08:03:35 --> Severity: Warning --> mysqli::real_connect(): (HY000/1049): Unknown database 'carritoe_ave_v2' C:\wamp64\www\Avedesa\system\database\drivers\mysqli\mysqli_driver.php 202
+ERROR - 2018-05-01 08:03:35 --> Unable to connect to the database
+ERROR - 2018-05-01 08:04:01 --> Severity: Warning --> mysqli::real_connect(): (HY000/1049): Unknown database 'carritoe_ave_v2' C:\wamp64\www\Avedesa\system\database\drivers\mysqli\mysqli_driver.php 202
+ERROR - 2018-05-01 08:04:01 --> Unable to connect to the database
