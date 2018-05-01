@@ -6,13 +6,13 @@ if (!defined('BASEPATH'))
 
 class Visita
 {
-  function __construct() {
-    parent::__construct();
+  /*function __construct() {
+   // parent::__construct();
 
-  }
+  }*/
 
 
-  function Visita($fechaVisita,$visitaExitosa,$contactoVisita,$telefono)
+  function __construct($fechaVisita,$visitaExitosa,$contactoVisita,$telefono)
   {
 
     $this->FechaVisita = $fechaVisita;
@@ -25,12 +25,9 @@ class Visita
 class Solicitante
 {
 
-  function __construct() {
-    parent::__construct();
+  
 
-  }
-
-  function Solicitante($nombre,
+  function __construct($nombre,
     $apellidoPaterno,
     $apellidoMaterno,
     $personaMoral,
@@ -69,12 +66,9 @@ class Inmueble
 {
 
 
-  function __construct() {
-    parent::__construct();
+  
 
-  }
-
-  function Inmueble($claveTipoInmueble,
+  function __construct($claveTipoInmueble,
     $codigoPostal,
     $claveEntidad,
     $claveMunicipio,
@@ -126,11 +120,8 @@ class Inmueble
       class Archivo
       {
 
-       function __construct() {
-        parent::__construct();
-
-      }
-      function Archivo($base64File,
+     
+      function __construct($base64File,
         $nombre)
       {
 
@@ -142,12 +133,9 @@ class Inmueble
     class SolicitudIndividual
     {
 
-      function __construct() {
-        parent::__construct();
+     
 
-      }
-      
-      function SolicitudIndividual($token,
+      function __construct($token,
         $configuracion,
         $inmueble,
         $solicitante,
@@ -169,12 +157,10 @@ class Inmueble
     class Configuracion
     {
 
-     function __construct() {
-      parent::__construct();
+    
+     
 
-    }
-
-    function Configuracion($fechaCompromisoEntrega,
+    function __construct($fechaCompromisoEntrega,
       $fechaSolicitado,
       $folioCliente,
       $claveOperador,
@@ -205,12 +191,9 @@ class Inmueble
   class RespuestaSolicitudIndividual
   {
 
-   function __construct() {
-    parent::__construct();
+   
 
-  }
-
-  function RespuestaSolicitudIndividual($exito,
+  function __construct($exito,
     $mensaje)
   {
 
