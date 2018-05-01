@@ -96,7 +96,7 @@
                                         <i class="fa fa-angle-right"></i>
                                     </li>
                                     <li>
-                                        <a href="<?php echo site_url('') ?>solicitudes/registro">NUEVO REGISTRO</a>
+                                        <a href="<?php echo site_url('') ?>solicitudesWebService">NUEVO REGISTRO</a>
                                         <i class="fa fa-angle-right"></i>
                                     </li>
                                     <li>

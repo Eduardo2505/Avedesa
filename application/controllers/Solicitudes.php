@@ -69,7 +69,7 @@ class Solicitudes extends CI_Controller {
     <i class="fa fa-angle-right"></i>
     </li>
     <li>
-    <a href="'.site_url('').'solicitudes/registro">NUEVO REGISTRO</a>
+    <a href="'.site_url('').'solicitudesWebService">NUEVO REGISTRO</a>
     <i class="fa fa-angle-right"></i>
     </li>
     <li>
@@ -379,7 +379,8 @@ $data['empleados'] = $this->models_empleado->getInspector();
 $data['asigno'] = $this->models_empleado->getAsignador();
 //$data['estado_registro'] = $this->models_estado_registro->get();
         // $data['intermediario'] = $this->models_intermediario->get();
-$this->load->view('solicitudes/registro', $data);
+//$this->load->view('solicitudes/registro', $data);
+redirect('solicitudesWebService', 'refresh');
 }
 
 public function mostrar() {
@@ -915,7 +916,7 @@ $registroConsulta.= '
 <td style="font-size:12px;width: 10%">'.$rowx->referencia.'</td>
 <td style="font-size:12px;width: 7%">'.$rowx->nomobjetivo.'</td>
 <td style="font-size:12px;width:20%">'.$rowx->ubicacion.'</td>
-<td style="font-size:12px"> $ '.number_format($rowx->costo).'</td>  
+<td style="font-size:12px"> <a href="#" onclick="verPagos('.$rowx->idregistro.')">$ '.number_format($rowx->costo).'</a></td>  
 <td style="font-size:12px;background-color: '.$rowx->color.'"><strong>'.$rowx->inspector.'</strong></td>
 <td style="width: 13%;">
 
@@ -973,9 +974,25 @@ Cierre ( '.$cantidaCierred.' )</span>
 
 <div class="btn-group-vertical margin-right-10">
 
-<a href="#" class="btn default btn-xs  asignacion" title="'.$rowx->idregistro.'&fecha_de_inspeccion='.$rowx->fecha_de_inspeccion.'"><i class="fa fa-search"></i> ASIGNAR </a> <br> 
-<a href="'.site_url('').'solicitudes/editar?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> EDITAR </a> <br> 
-<a href="'.site_url('').'pdfs/generar?idregistro='.$rowx->idregistro.'" target="_blank"  class="btn default btn-xs  optenerID"><i class="fa fa-font"></i> CITA </a> <br> 
+<a href="#" class="btn default btn-xs  asignacion" title="'.$rowx->idregistro.'&fecha_de_inspeccion='.$rowx->fecha_de_inspeccion.'"><i class="fa fa-search"></i> ASIGNAR </a> <br> ';
+
+$registroConsulta.='';
+
+if($rowx->tipoRegistro==1){
+
+  $registroConsulta.='<a href="'.site_url('').'solicitudesWebService/editar?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> EDITAR </a> <br>';  
+  $registroConsulta.='<a href="'.site_url('').'solicitudesWebService/enviarGYS?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> ENVIAR GYS </a> <br>';  
+
+}else{
+
+  $registroConsulta.='<a href="'.site_url('').'solicitudes/editar?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> EDITAR </a> <br>';  
+}
+
+
+ 
+
+
+$registroConsulta.='<a href="'.site_url('').'pdfs/generar?idregistro='.$rowx->idregistro.'" target="_blank"  class="btn default btn-xs  optenerID"><i class="fa fa-font"></i> CITA </a> <br> 
 <a href="'.site_url('').'anexos/acreditado?idregistro='.$rowx->idregistro.'" class="btn default btn-xs optenerID"><i class="fa fa-file-o"></i> ARCHIVOS </a><br>
 <a href="'.site_url('').'pagos/registro?id='.$rowx->idregistro.'" class="btn default btn-xs optenerID"><i class="fa fa-money"></i> PAGOS </a>
 
@@ -1376,7 +1393,56 @@ public function editar() {
     $data['arryCount'] = $arrayFechas;
     $this->load->view('solicitudes/editar', $data);
 }
+    public function verpagos() {
 
+        $idregistro = $this->input->get('idregistro');
+        $query=$this->models_registro->infoPagos($idregistro);
+        $row = $query->row();
+
+ 
+        $resto=$row->costo-$row->pagos;
+
+        $html='<table>
+        <tr>
+        <td colspan="2">RESUMEN DE PAGOS</td>
+        </tr>
+        <tr>
+        <td colspan="2"><br></td>
+        </tr>
+
+        <tr>
+        <td>COSTO : </td>
+        <td> $ '.number_format($row->costo, 2,'.', ',').'</td>
+        </tr>
+
+        <tr>
+        <td>PAGOS : </td>
+        <td> $ '.number_format($row->pagos, 2,'.', ',').'</td>
+        </tr>
+
+        <tr>
+        <td></td>
+        <td>______________</td>
+        </tr>
+        <tr>
+        <td>RESTANTE : </td>
+        <td> $ '.number_format($resto, 2,'.', ',').'</td>
+        </tr>
+
+         <tr>
+        <td colspan="2"><br></td>
+        </tr>
+
+         <tr>
+        <td>PAGOS REVISADOS : </td>
+        <td> $ '.number_format($row->pagados, 2,'.', ',').'</td>
+        </tr>
+
+        </table>';
+
+      
+        echo $html;
+    }
 
 
 }

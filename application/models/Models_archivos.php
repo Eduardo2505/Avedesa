@@ -17,8 +17,10 @@ class Models_archivos extends CI_Model {
 
        if ($this->db->trans_status() === FALSE) {
           $this->db->trans_rollback();
+           return 0;
       }  else {
         $this->db->trans_commit();
+           return 1;
     }
 
 
@@ -87,7 +89,12 @@ function mostrar($nombre, $idregistro, $tipo, $offset, $limin) {
 function mostrarapp($nombre, $idregistro, $tipo, $offset, $limin) {
 
 
-    $SQl = "SELECT descripcion,IFNULL(urlDropbox,1) as urlDropbox , url FROM archivos where descripcion like '%$nombre%' and estado=1 and idregistro=$idregistro and tipo=$tipo  order by registro desc  ";
+    $SQl = "SELECT descripcion,urlDropbox,url,dropbox 
+    FROM archivos where descripcion 
+    like '%$nombre%' and estado=1 
+    and idregistro=$idregistro 
+    and tipo=$tipo  
+    order by registro desc  ";
 
 
     $SQl .="  limit $offset, $limin";

@@ -122,6 +122,7 @@ WHERE
         AND e.email = '$email'
         AND e.pass = '$password'";
 
+
         $query = $this->db->query($sql);
         return $query;
     }

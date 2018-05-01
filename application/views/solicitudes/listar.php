@@ -89,7 +89,7 @@
                                         <i class="fa fa-angle-right"></i>
                                     </li>
                                     <li>
-                                        <a href="<?php echo site_url('') ?>solicitudes/registro">NUEVO REGISTRO</a>
+                                        <a href="<?php echo site_url('') ?>solicitudesWebService">NUEVO REGISTRO</a>
                                         <i class="fa fa-angle-right"></i>
                                     </li>
                                     <li>
@@ -178,9 +178,36 @@
 
 
                             <script type="text/javascript">
+                                function verPagos(id) {
+
+                                  
+                                     var dataString = 'idregistro=' + id;
+
+                                        var url = "<?php echo site_url('') ?>solicitudes/verpagos";
+
+                                        $.ajax({
+                                            type: "GET",
+                                            url: url,
+                                            data: dataString,
+                                            success: function(data) {
+
+
+
+                                                $("#mostrarpagos").html(data);
+                                                $("#btnmodal2").click();
+
+
+                                                return false;
+                                            }
+
+                                        });
+   
+                                    }
 
                                 $(document).ready(function() {
                                     $('.asignacion').click(function() {
+
+
                                         var idregistro = $(this).attr("title");
                                         var dataString = 'idregistro=' + idregistro;
 
@@ -213,6 +240,8 @@
                             <div style="display: none;">
                                 <a class="btn default" data-target="#static" data-toggle="modal" id="btnmodal">
                                     View Demo </a>
+                                     <a class="btn default" data-target="#modal2" data-toggle="modal" id="btnmodal2">
+                                    View Demo2 </a>
                                 </div>
 
 
@@ -222,6 +251,20 @@
                                     <div class="modal-body"  id="mostrarprivi">
                                         <p>
                                           xx
+                                      </p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" data-dismiss="modal" class="btn blue">SALIR</button>
+
+                                </div>
+                            </div>
+                            <!-- modal 2 -->
+                            <div id="modal2" class="modal fade" tabindex="-1" data-backdrop="modal2" data-keyboard="false">
+                                    
+
+                                    <div class="modal-body"  id="mostrarpagos">
+                                        <p>
+                                          PAgos
                                       </p>
                                   </div>
                                   <div class="modal-footer">

@@ -24,7 +24,7 @@ class App extends REST_Controller {
     $this->load->model('models_pagos');
     $this->load->model('models_pagoseliminados');
     $this->load->model('models_archivos');
-    
+		
   }
 
 
@@ -32,7 +32,7 @@ class App extends REST_Controller {
   public function login_post() {
 
 
-  
+
     $data=$this->post();
 
     if(!isset($data['email']) OR !isset($data['password'])){
@@ -46,7 +46,7 @@ class App extends REST_Controller {
     $password=$data['password'];
     $nota=$this->models_empleado->login($email,$password);
     $this->response($nota->result());
-  
+
 
   }
 
@@ -121,8 +121,8 @@ class App extends REST_Controller {
   }
   public function estadosIndividuales_get() {
 
-   $idregistro = $this->input->get('idregistro'); 
-   $registros = $this->models_estado_empleado->mostrarRegistro($idregistro);  
+   $idregistro = $this->input->get('idregistro');
+   $registros = $this->models_estado_empleado->mostrarRegistro($idregistro);
    $this->response($registros->result());
  }
 
@@ -137,7 +137,9 @@ class App extends REST_Controller {
 
   $respuesta=$this->models_estado_empleado->update($idestado_empleado, $data);
 
-  echo '{"mensaje":"'. $respuesta.'"}';
+
+  $respuestax = array('mensaje' => $respuesta);
+              $this->response($respuestax);
 }
 
 
@@ -151,9 +153,13 @@ public function comprobarIncial_get() {
 
   $canti = $this->models_estado_empleado->comprobar($idestado_registro, $idregistro,1);
   if ($canti == 0) {
-    echo '{"mensaje":"1"}';
+
+    $respuesta = array('mensaje' => 1);
+              $this->response($respuesta);
   }else{
-    echo '{"mensaje":"0"}';
+
+    $respuesta = array('mensaje' => 0);
+              $this->response($respuesta);
   }
 }
 
@@ -165,13 +171,17 @@ public function comprobarcierre_get() {
 
   $canti = $this->models_estado_empleado->comprobar($idestado_registro, $idregistro,0);
   if ($canti == 0) {
-    echo '{"mensaje":"1"}';
+
+             $respuesta = array('mensaje' => 1);
+              $this->response($respuesta);
   }else{
-   echo '{"mensaje":"0"}';
+
+             $respuesta = array('mensaje' => 0);
+              $this->response($respuesta);
  }
 }
 
-public function cerrarAsiganar() {
+public function cerrarAsiganar_get() {
 
   $idregistro = $this->input->get('idregistro');
   $idempleado = $this->input->get('idempleado');
@@ -179,7 +189,7 @@ public function cerrarAsiganar() {
 
 
   $canti = $this->models_estado_empleado->comprobar($idestado_registro, $idregistro,0);
-  
+
   if ($canti == 0) {
     $data = array(
       'idestado_registro' => $idestado_registro,
@@ -209,7 +219,7 @@ public function cerrarAsiganar() {
                     'num_expediente' => $numexpediente,
                     'idempleado' => $idempleado);
 
-                  
+
 
                 }else{
                  $datax = array(
@@ -221,14 +231,17 @@ public function cerrarAsiganar() {
 
 
              }
-             echo '{"mensaje":"1"}';
+              $respuesta = array('mensaje' => 1);
+              $this->response($respuesta);
+
            } else {
 
-            echo '{"mensaje":"0"}';
+             $respuesta = array('mensaje' => 0);
+              $this->response($respuesta);
           }
 
 
-          
+
 
 
 
@@ -236,16 +249,16 @@ public function cerrarAsiganar() {
 
         }
 
-        public function getPagosUsuario() {
+        public function getPagosUsuario_get() {
 
-          $idempleado = $this->input->get('idempleado'); 
-          $idregistro = $this->input->get('idregistro'); 
-          $registros = $this->models_pagos->getPagosUsuario($idempleado,$idregistro);  
+          $idempleado = $this->input->get('idempleado');
+          $idregistro = $this->input->get('idregistro');
+          $registros = $this->models_pagos->getPagosUsuario($idempleado,$idregistro);
           $this->response($registros->result());
         }
 
 
-        public function registroPago() {
+        public function registroPago_post() {
 
          $data = array(
           'usuario' => $this->input->post('usuario'),
@@ -257,14 +270,18 @@ public function cerrarAsiganar() {
          $valor = $this->models_pagos->insertar($data);
 
 
-         echo '{"mensaje":"'.$valor.'"}';
-         
+          $respuesta = array(
+          'mensaje' => $valor);
+
+
+           $this->response($respuesta);
+
 
        }
 
 
 
-       public function eliminarPago() {
+       public function eliminarPago_post() {
 
         $idregistro = $this->input->post('idregistro');
         $idpagos = $this->input->post('idpagos');
@@ -279,12 +296,16 @@ public function cerrarAsiganar() {
 
         $valor = $this->models_pagos->update($idpagos,$data);
 
-        echo '{"mensaje":"'.$valor.'"}';
+         $respuesta = array(
+          'mensaje' => $valor);
+
+
+           $this->response($respuesta);
 
       }
 
 
-      public function actualizarPass() {
+      public function actualizarPass_post() {
 
         $idempleado=$this->input->post('idempleado');
         $data = array(
@@ -293,10 +314,47 @@ public function cerrarAsiganar() {
         $valor = $this->models_empleado->updatepass($idempleado,$data);
 
 
-        echo '{"mensaje":"'.$valor.'"}';
+         $respuesta = array(
+          'mensaje' => $valor);
+
+
+           $this->response($respuesta);
 
 
       }
+
+
+      public function insetarimg_get() {
+
+          $idempleado = $this->input->get('idempleado');
+          $idregistro = $this->input->get('idregistro');
+          $archivo = $this->input->get('archivo');
+          $tipo = $this->input->get('tipo');
+
+           $info = $this->models_empleado->Buscar($idempleado);
+           $row = $info->row();
+
+
+
+          $data = array(
+          'url' => $archivo,
+          'urlDropbox' => '-',
+          'descripcion' =>$archivo,
+          'idregistro' => $idregistro,
+          'usuario' => $row->Nombre.' '.$row->apellidos,
+          'tipo' => $tipo,
+          'dropbox'=>0);
+
+
+          $registros = $this->models_archivos->insertar($data);
+
+          $respuesta = array(
+          'mensaje' => $registros);
+
+          $this->response($respuesta);
+
+
+        }
 
 
 

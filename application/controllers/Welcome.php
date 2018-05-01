@@ -28,9 +28,7 @@ class Welcome extends CI_Controller {
         $email = $this->input->post('email');
         $pass = $this->input->post('pass');
         $valor = $this->models_empleado->login($email, $pass);
-
         $cantidad=$valor->num_rows() ;
-
         if ($cantidad!= 0) {
 
             $row = $valor->row();

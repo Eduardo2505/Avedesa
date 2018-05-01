@@ -51,6 +51,11 @@ class Models_registro extends CI_Model {
         return $query = $this->db->get('registro');
     }
 
+    function getEliminarfecha($atributo) {
+              $this->db->where($atributo, '0000-00-00');
+        return $query = $this->db->get('registro');
+    }
+
     function filtro($filtro) {
         $SQl = "SELECT 
     *
@@ -95,6 +100,7 @@ class Models_registro extends CI_Model {
         r.adelanto_pago,
         r.num_expediente,
         r.idestado_registro,
+        r.tipoRegistro,
         er.estado,
         (select 
         concat(Nombre, ' ', apellidos)
@@ -136,8 +142,12 @@ class Models_registro extends CI_Model {
         and r.num_avaluo like '%$numava%'
         and r.num_expediente like '%$numExpediente%'
         and r.costo like '%$costo%'
-        and er.estado like '%$estado_registro%'
-        and r.hora_de_inspeccion like '%$hora_de_inspeccion%' ";
+        and er.estado like '%$estado_registro%' ";
+        if ($hora_de_inspeccion != "") {
+          
+           $SQl .=" and r.hora_de_inspeccion like '%$hora_de_inspeccion%' ";
+        }
+
         if ($idempleado != "") {
             $SQl .="and e.idempleado=$idempleado ";
         }
@@ -175,7 +185,7 @@ class Models_registro extends CI_Model {
         $SQl .=" order by r.idregistro desc limit $offset, $limin";
 
 
-       // echo  "<h1>".$SQl."<h1>";
+     
 
         $query = $this->db->query($SQl);
 
@@ -210,8 +220,11 @@ class Models_registro extends CI_Model {
         and r.num_expediente like '%$numExpediente%'
         and r.ubicacion like '%$ubicacion%'
         and r.costo like '%$costo%'
-        and er.estado like '%$estado_registro%'
-        and r.hora_de_inspeccion like '%$hora_de_inspeccion%' ";
+        and er.estado like '%$estado_registro%'";
+        if ($hora_de_inspeccion != "") {
+
+          $SQl .=" and r.hora_de_inspeccion like '%$hora_de_inspeccion%' ";
+        }
         if ($idempleado != "") {
             $SQl .="and e.idempleado=$idempleado ";
         }
@@ -269,6 +282,7 @@ class Models_registro extends CI_Model {
         r.monto_credito,
         r.monto_venta,
         e.color,
+        r.tipoRegistro,
         r.intermediario nomIntermediria,
         (SELECT 
         CONCAT(Nombre, ' ', apellidos)
@@ -361,6 +375,16 @@ class Models_registro extends CI_Model {
         return $SQl;
     }
 
+    function buscarObj($idregistro) {
+
+        $this->db->where('idregistro', $idregistro);
+        $query = $this->db->get('registro');
+        $row = $query->row();
+        return $row;
+
+
+    }
+
     function buscar($idregistro) {
         $sQl = "SELECT 
         r.idregistro,
@@ -392,6 +416,7 @@ class Models_registro extends CI_Model {
         r.adelanto_pago,
         r.id_asigno,
         r.num_avaluo,
+        r.tipoRegistro,
         r.idestado_registro,
         er.estado,
         (select 
@@ -573,5 +598,86 @@ class Models_registro extends CI_Model {
 
       return $query;
   }
+
+
+   function infoPagos($idregistro) {
+
+        $SQl = "SELECT 
+    (SELECT 
+            costo
+        FROM
+            registro
+        WHERE
+            idregistro = $idregistro) costo,
+    (SELECT 
+            IFNULL(SUM(anticipo), 0) pagos
+        FROM
+            pagos
+        WHERE
+            idregistro = $idregistro AND estado != 0) pagos,
+    (SELECT 
+            IFNULL(SUM(p.anticipo), 0) pagodos
+        FROM
+            pagosaceptados a,
+            pagos p
+        WHERE
+            a.idpagos = p.idpagos
+                AND p.idregistro = $idregistro
+                AND estado != 0) pagados";
+      // echo  $SQl;
+        $query = $this->db->query($SQl);
+
+        return $query;
+    }
+
+
+   
+
+    function buscarObjv2($idregistro) {
+
+         $SQl="SELECT 
+    r.fecha_de_entrega,
+    r.registro,
+    r.num_expediente,
+    (SELECT 
+            clave_gys
+        FROM
+            empleado
+        WHERE
+            idempleado = r.idOperador) AS idOperador,            
+            (SELECT 
+            clave_gys
+        FROM
+            empleado
+        WHERE
+            idempleado = r.idempleado) AS ClaveVisitador,
+                        (SELECT 
+            clave_gys
+        FROM
+            empleado
+        WHERE
+            idempleado = r.idcapturista) AS ClaveEjecutivo,
+            (SELECT 
+            id_gys
+        FROM
+            objetivo_avaluo
+        WHERE
+            idobjetivo_avaluo = r.idobjetivo_avaluo) ClaveProducto,
+             (SELECT 
+            id_gys
+        FROM
+            tipo_avaluo
+        WHERE
+            idtipo_avaluo = r.idtipo_avaluo) ClavePropositoAvaluo,
+            clave,
+            reporteTesoreria
+FROM
+    registro r where idregistro=$idregistro";
+
+
+        $query = $this->db->query($SQl);
+        $row = $query->row();
+        return $row;
+    }
 
 }

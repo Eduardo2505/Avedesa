@@ -68,7 +68,8 @@ function getPagosUsuario($idempleado,$idregistro) {
 function Buscar($idregistro) {
 
     $this->db->where('idregistro', $idregistro);
-    $this->db->where('estado', 1);
+    $estado = array(1,2);
+    $this->db->where_in('estado', $estado);
     $query = $this->db->get('pagos');
     return $query;
 }

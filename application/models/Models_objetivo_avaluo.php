@@ -37,6 +37,12 @@ class Models_objetivo_avaluo extends CI_Model {
         }
     }
 
+    function getWebservice() {
+
+        $this->db->where('p_gys', 1);
+        return $query = $this->db->get('objetivo_avaluo');
+    }
+
     function get() {
 
 

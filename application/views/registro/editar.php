@@ -193,7 +193,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="row">
-                                                        <form class="formenviar" class="form-horizontal">
+                                                        <form class="formenviar form-horizontal" >
 
                                                             <input type="hidden" name="idEmpleado" value="<?php echo $idcapturista ?>" class="labelidemple">
                                                             <input type="hidden" name="idquincena" value="<?php echo $idquincena ?>" >
@@ -220,153 +220,127 @@
                                                                         <div id="inputid"></div>
 
                                                                         <br> <select name="tipoConce" id="changeFolio"  required="" class="form-control input-circle">
-                                                                        <option value="">Seleccione</option>
+                                                                            <option value="">Seleccione</option>
 
-                                                                        <?php
-                                                                        if (isset($conceptosAvaluos)) {
-                                                                            foreach ($conceptosAvaluos->result() as $rowcc) {
-                                                                                ?>
-                                                                                <option value="<?php echo $rowcc->nombre; ?>-<?php echo $rowcc->costo; ?>-<?php echo $rowcc->idconcepto; ?>"><?php echo $rowcc->nombre; ?> ($ <?php echo $rowcc->costo; ?>)</option>
-                                                                                <?php
+                                                                            <?php
+                                                                            if (isset($conceptosAvaluos)) {
+                                                                                foreach ($conceptosAvaluos->result() as $rowcc) {
+                                                                                    ?>
+                                                                                    <option value="<?php echo $rowcc->nombre; ?>-<?php echo $rowcc->costo; ?>-<?php echo $rowcc->idconcepto; ?>"><?php echo $rowcc->nombre; ?> ($ <?php echo $rowcc->costo; ?>)</option>
+                                                                                    <?php
+                                                                                }
                                                                             }
-                                                                        }
-                                                                        ?>
-                                                                        <option value="-1">OTRO COSTO</option>
-                                                                    </select>
-                                                                    <div id="divPersonalizaAvaluos" style="display: none">
-                                                                        <br>
-                                                                        <input type="text" disabled="" pattern="[0-9]{1,8}" class="form-control input-circle classPer" maxlength="9" name="costoPersonalizado" placeholder="Costo"  required=""/>
-                                                                        <br>
-                                                                        <textarea disabled=""  placeholder="Observciones" required="" maxlength="40" name="observacionPersonalizado" class="form-control input-circle classPer"></textarea>
+                                                                            ?>
+                                                                            <option value="N-0-0">OTRO COSTO</option>
+                                                                        </select>
+                                                                        <div id="divPersonalizaAvaluos" style="display: none">
+                                                                            <br>
+                                                                            <input type="text" disabled="" pattern="[0-9]{1,8}" class="form-control input-circle classPer" maxlength="9" name="costoPersonalizado" placeholder="Costo"  required=""/>
+                                                                            <br>
+                                                                            <textarea disabled=""  placeholder="Observciones" required="" maxlength="40" name="observacionPersonalizado" class="form-control input-circle classPer"></textarea>
+
+                                                                        </div>
+
 
                                                                     </div>
-
-
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <button type="submit" class="btn btn-circle blue">GUARDAR</button>
+                                                                    <div class="col-md-3">
+                                                                        <button type="submit" class="btn btn-circle blue">GUARDAR</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
 
-                                                    <br>
-
+                                                        <br>
 
 
 
 
 
 
-                                                </div>
-                                                <hr />
-                                                <div class="row">
 
-                                                    <form class="formenviar"  class="form-horizontal">
-                                                        <input type="hidden" name="idEmpleado" value="<?php echo $idcapturista ?>" class="labelidemple">
-                                                        <input type="hidden" name="idquincena" value="<?php echo $idquincena ?>" >
-                                                        <input type="hidden" name="observacion" value="-" >
-                                                        <input type="hidden" name="idtipo" value="2" >
-                                                        <input type="hidden" name="idrecibo" value="<?php echo $idrecibo; ?>" >
-                                                        <div class="form-body">
-                                                            <div class="form-group">
-                                                                <label class="col-md-2 control-label">CÁLCULO</label>
-                                                                <div class="col-md-6">
-                                                                    <input type="text" class="form-control input-circle" maxlength="45" name="avaluo" placeholder="Num. Cálculo"  required=""/>
+                                                    </div>
+                                                    <hr />
+                                                    <div class="row">
+
+                                                        <form class="formenviar form-horizontal">
+                                                            <input type="hidden" name="idEmpleado" value="<?php echo $idcapturista ?>" class="labelidemple">
+                                                            <input type="hidden" name="idquincena" value="<?php echo $idquincena ?>" >
+                                                            <input type="hidden" name="observacion" value="-" >
+                                                            <input type="hidden" name="idtipo" value="2" >
+                                                            <input type="hidden" name="idrecibo" value="<?php echo $idrecibo; ?>" >
+                                                            <div class="form-body">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-2 control-label">CÁLCULO</label>
+                                                                    <div class="col-md-6">
+                                                                        <input type="text" class="form-control input-circle" maxlength="45" name="avaluo" placeholder="Num. Cálculo"  required=""/>
 
 
-                                                                    <br> <select name="tipo" required="" class="form-control input-circle">
+                                                                        <br> <select name="tipo" required="" class="form-control input-circle">
 
-                                                                    <?php
-                                                                    if (isset($conceptoscalotros)) {
-                                                                        foreach ($conceptoscalotros->result() as $rowcc) {
-                                                                            ?>
-                                                                            <option value="<?php echo $rowcc->nombre; ?>-<?php echo $rowcc->costo; ?>-<?php echo $rowcc->idconcepto; ?>"><?php echo $rowcc->nombre; ?> ($ <?php echo $rowcc->costo; ?>)</option>
                                                                             <?php
-                                                                        }
-                                                                    }
-                                                                    ?>
+                                                                            if (isset($conceptoscalotros)) {
+                                                                                foreach ($conceptoscalotros->result() as $rowcc) {
+                                                                                    ?>
+                                                                                    <option value="<?php echo $rowcc->nombre; ?>-<?php echo $rowcc->costo; ?>-<?php echo $rowcc->idconcepto; ?>"><?php echo $rowcc->nombre; ?> ($ <?php echo $rowcc->costo; ?>)</option>
+                                                                                    <?php
+                                                                                }
+                                                                            }
+                                                                            ?>
 
-                                                                </select>
-                                                                <br>
+                                                                        </select>
+                                                                        <br>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <button type="submit" class="btn btn-circle blue">GUARDAR</button>
+                                                                    </div>
+                                                                </div>
+
+
+
                                                             </div>
-                                                            <div class="col-md-4">
-                                                                <button type="submit" class="btn btn-circle blue">GUARDAR</button>
-                                                            </div>
-                                                        </div>
-
-
+                                                        </form>
 
                                                     </div>
-                                                </form>
-
-                                            </div>
-                                            <hr />
-
-                                        <!--     <div class="row">
-
-
-                                                <form class="formenviar"  class="form-horizontal">
-                                                    <input type="hidden" name="idEmpleado" value="<?php echo $idcapturista ?>" class="labelidemple">
-                                                    <input type="hidden" name="idquincena" value="<?php echo $idquincena ?>" >
-                                                    <input type="hidden" name="costo" value="0" >                                                        
-                                                    <input type="hidden" name="idtipo" value="1" >
-                                                    <input type="hidden" name="idrecibo" value="<?php echo $idrecibo; ?>" >
-                                                    <input type="hidden" name="tipo" value="OBSERVACIONES" >
-                                                    <div class="form-body">
-                                                        <div class="form-group">
-                                                            <label class="col-md-2 control-label">OTROS</label>
-                                                            <div class="col-md-6">
-                                                                <input type="text" class="form-control input-circle" maxlength="45" name="avaluo" placeholder="Num. Observación"  required=""/>
-                                                                <br>
-                                                                <textarea placeholder="Observciones" name="observacion" class="form-control input-circle"></textarea>
-
-                                                                <br>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <button type="submit" class="btn btn-circle blue">GUARDAR</button>
-                                                            </div>
+                                                    <hr />
+                                                    <div class="row">
+                                                         <div class="col-md-8"></div>
+                                                        <div class="col-md-4">
+                                                            <a href="<?php echo site_url('') ?>registro/cargaMasiva?idquincena=<?php echo $idquincena ?>" class="btn btn-circle red" >Carga Masiva de Avaluos y Cálculos</a>
                                                         </div>
-
-
-
                                                     </div>
-                                                </form>
 
-                                            </div>
- -->
-                                        </div> 
+                                                </div> 
 
 
-                                        <script type="text/javascript">
+                                                <script type="text/javascript">
 
-                                          $(document).ready(function() { 
-                                            $('#changeFolio').click(function() {
-                                                var veri=$(this).val();
-                                                if(veri==-1){
-                                                    $('#divPersonalizaAvaluos').show();
-                                                    $('.classPer').prop('disabled', false);
-
-
-                                                }else{
-                                                    $('#divPersonalizaAvaluos').hide();
-                                                    $('.classPer').prop('disabled', true);
-                                                }
-
-                                            });
-                                        });
-
-                                          $(document).ready(function() {
-                                            $('.actualizarbtn').click(function() {
-                                                var id = $(this).attr("title");
-                                                var costo = $(this).attr("name");
-                                                var cant = $('#can_' + id).val();
-                                                var idrecibo = '<?php echo $idrecibo; ?>';
-                                                var idquince = '<?php echo $idquincena; ?>';
-                                                var dataString = 'idcosto_concepto=' + id + '&cantidad=' + cant + '&costo=' + costo + '&idrecibo=' + idrecibo + '&idquince=' + idquince;
+                                                  $(document).ready(function() { 
+                                                    $('#changeFolio').click(function() {
+                                                        var veri=String($(this).val());
+                                                        if(veri==='N-0-0'){
+                                                            $('#divPersonalizaAvaluos').show();
+                                                            $('.classPer').prop('disabled', false);
 
 
-                                                $('#subtotal_' + id).html('Guardando...');
+                                                        }else{
+                                                            $('#divPersonalizaAvaluos').hide();
+                                                            $('.classPer').prop('disabled', true);
+                                                        }
+
+                                                    });
+                                                });
+
+                                                  $(document).ready(function() {
+                                                    $('.actualizarbtn').click(function() {
+                                                        var id = $(this).attr("title");
+                                                        var costo = $(this).attr("name");
+                                                        var cant = $('#can_' + id).val();
+                                                        var idrecibo = '<?php echo $idrecibo; ?>';
+                                                        var idquince = '<?php echo $idquincena; ?>';
+                                                        var dataString = 'idcosto_concepto=' + id + '&cantidad=' + cant + '&costo=' + costo + '&idrecibo=' + idrecibo + '&idquince=' + idquince;
+
+
+                                                        $('#subtotal_' + id).html('Guardando...');
 
                                                             //alert(dataString);
                                                             $.ajax({
@@ -403,81 +377,81 @@
 
 
                                                         );
-                                        });
+                                                });
 
-                                    </script>
+                                            </script>
 
-                                    <div class="col-md-6"><br>
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>CONCEPTO</th>
-                                                    <th>COSTO</th>
-                                                    <th>CANTIDAD</th>
-                                                    <th>SUBTOTAL</th>
-                                                    <th>ACCION</th>
+                                            <div class="col-md-6"><br>
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>CONCEPTO</th>
+                                                            <th>COSTO</th>
+                                                            <th>CANTIDAD</th>
+                                                            <th>SUBTOTAL</th>
+                                                            <th>ACCION</th>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                echo $conceptos;
-                                                ?>  
-
-
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        echo $conceptos;
+                                                        ?>  
 
 
-                                                <tr><td colspan="4">TOTAL :</td><td><samp id="ttotal"> $ <?php echo $sub ?></samp></td><tr>
-                                                </tbody>
-                                            </table>
+
+
+                                                        <tr><td colspan="4">TOTAL :</td><td><samp id="ttotal"> $ <?php echo $sub ?></samp></td><tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+
+                                            </div>
+
+
+
+
                                         </div>
-
-
                                     </div>
 
-
-
-
                                 </div>
+
+
+
+
+
+
+
+
+
                             </div>
-
                         </div>
-
-
-
-
-
-
-
-
-
                     </div>
+
+
                 </div>
+                <!-- END PAGE CONTENT-->
             </div>
-
-
         </div>
-        <!-- END PAGE CONTENT-->
-    </div>
-</div>
-<!-- END CONTENT -->
+        <!-- END CONTENT -->
 
-</div>
-<!-- END CONTAINER -->
-<!-- BEGIN FOOTER -->
-<div class="page-footer">
-    <div class="page-footer-inner">
-        2016 &copy; HelpMex.com.mx
     </div>
-    <div class="scroll-to-top">
-        <i class="icon-arrow-up"></i>
+    <!-- END CONTAINER -->
+    <!-- BEGIN FOOTER -->
+    <div class="page-footer">
+        <div class="page-footer-inner">
+            2016 &copy; HelpMex.com.mx
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
     </div>
-</div>
 
-<!-- END JAVASCRIPTS -->
+    <!-- END JAVASCRIPTS -->
 
-<script>
-    jQuery(document).ready(function() {
+    <script>
+        jQuery(document).ready(function() {
             // initiate layout and plugins
 
             Layout.init(); // init current layout

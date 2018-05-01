@@ -120,61 +120,61 @@ class Registro extends CI_Controller {
                     </td>
 
 
-                </tr>';
-            } else {
+                    </tr>';
+                } else {
 
-                $sub = $rowxc->costo * $res;
-                $suma+=$sub;
+                    $sub = $rowxc->costo * $res;
+                    $suma+=$sub;
+                    $html.= ' <tr>
+                    <td>' . $rowxc->nombre . '</td>
+                    <td> $ ' . $rowxc->costo . '</td>
+                    <td><input class="form-control input-circle" type="text" value="' . $res . '" id="can_' . $rowxc->idcosto_concepto . '"></td>
+                    <td><label id="subtotal_' . $rowxc->idcosto_concepto . '"> $ ' . $sub . '</label></td>
+                    <td><a href="#add"  name="' . $rowxc->costo . '" title="' . $rowxc->idcosto_concepto . '" class="btn default btn-xs actualizarbtn">ACTUALIZAR</a>
+
+                    </td>
+
+
+                    </tr>';
+                }
+            }
+        }
+        $otros = $this->models_recibo->conceptosotros($idquince, $idempleado);
+        if (isset($otros)) {
+            foreach ($otros->result() as $rowot) {
+                $subx = $rowot->costo * $rowot->cantidad;
+                $suma+=$subx;
                 $html.= ' <tr>
-                <td>' . $rowxc->nombre . '</td>
-                <td> $ ' . $rowxc->costo . '</td>
-                <td><input class="form-control input-circle" type="text" value="' . $res . '" id="can_' . $rowxc->idcosto_concepto . '"></td>
-                <td><label id="subtotal_' . $rowxc->idcosto_concepto . '"> $ ' . $sub . '</label></td>
-                <td><a href="#add"  name="' . $rowxc->costo . '" title="' . $rowxc->idcosto_concepto . '" class="btn default btn-xs actualizarbtn">ACTUALIZAR</a>
+                <td>' . $rowot->tipo.'</td>
+                <td> $ ' . $rowot->costo . '</td>
+                <td><label> ' . $rowot->cantidad . '</label></td>
+                <td><label> $ ' . $subx . '</label></td>
+                <td>
 
                 </td>
 
 
-            </tr>';
+                </tr>';
+            }
         }
-    }
-}
-$otros = $this->models_recibo->conceptosotros($idquince, $idempleado);
-if (isset($otros)) {
-    foreach ($otros->result() as $rowot) {
-        $subx = $rowot->costo * $rowot->cantidad;
-        $suma+=$subx;
-        $html.= ' <tr>
-        <td>' . $rowot->tipo.'</td>
-        <td> $ ' . $rowot->costo . '</td>
-        <td><label> ' . $rowot->cantidad . '</label></td>
-        <td><label> $ ' . $subx . '</label></td>
-        <td>
-
-        </td>
-
-
-    </tr>';
-}
-}
 
 
 
-$data['sub'] = $suma;
-$data['conceptos'] = $html;
-$data['conceptoscalotros'] = $this->models_recibo->conceptos($rowx->idempleado, 2);
-$data['conceptosAvaluos'] = $this->models_recibo->conceptos($rowx->idempleado, 3);
+        $data['sub'] = $suma;
+        $data['conceptos'] = $html;
+        $data['conceptoscalotros'] = $this->models_recibo->conceptos($rowx->idempleado, 2);
+        $data['conceptosAvaluos'] = $this->models_recibo->conceptos($rowx->idempleado, 3);
 
-$data['idrecibo'] = $idregistro;
-$data['query'] = $squery;
+        $data['idrecibo'] = $idregistro;
+        $data['query'] = $squery;
 
 
 
-$this->load->view('registro/editar', $data);
-} else {
+        $this->load->view('registro/editar', $data);
+    } else {
                 //  echo "no hay registro abajo";
-    redirect('registro', 'refresh');
-}
+        redirect('registro', 'refresh');
+    }
 }
 }
 
@@ -186,30 +186,34 @@ public function registro() {
     $valor="-";
     $costoPersonalizado= $this->input->post('costoPersonalizado');
 
-    if ($idtipo == 2) {
-        if (empty($costoPersonalizado)){
 
-           list($tipox, $costox,$idConcepto) = explode("-", $this->input->post('tipo'));
-           $idConceptoInsertar=$idConcepto;
-       }
+    
+
+    if ($idtipo == 2) {
+
+
+       list($tipox, $costox,$idConcepto) = explode("-", $this->input->post('tipo'));
+       $idConceptoInsertar=$idConcepto;
+
 
    }else if($idtipo ==3){
-      if (empty($costoPersonalizado)){
-
-        list($tipox, $costox,$idConcepto) = explode("-", $this->input->post('tipoConce'));
+    $valorv=$this->input->post('tipoConce');
+    list($tipox, $costox,$idConcepto) = explode("-", $valorv);
+    if($idConcepto==0){
+        $idConceptoInsertar=-1;
+    }else{
         $idConceptoInsertar=$idConcepto;
     }
+
+        //echo $idConceptoInsertar.'<br>';
+    
 }
 
 
 
-if (empty($costoPersonalizado)){
+$valor = $this->models_avaluos->BuscarExistencia($this->input->post('avaluo'), $idtipo);
 
-   // echo "Entro a checar";
 
-    $valor = $this->models_avaluos->BuscarExistencia($this->input->post('avaluo'), $idConceptoInsertar);
-
-}
 $idrecibo=$this->input->post('idrecibo');
 $idquince=$this->input->post('idquincena');
 
@@ -246,6 +250,7 @@ if (empty($costoPersonalizado)){
         'costo' => $costo,
         'observacion' => $observacion,
         'idtipo' => $idConceptoInsertar,
+        'c_tipo'=>$idtipo,
         'numero' => $this->input->post('avaluo'));
 
     $this->models_avaluos->insertar($data);
@@ -261,17 +266,18 @@ if (empty($costoPersonalizado)){
         'costo' => $costoPersonalizado,
         'observacion' =>  $observacionPersonalizado,
         'idtipo' => -1,
+        'c_tipo'=>$idtipo,
         'numero' => $this->input->post('avaluo'));
 
     $this->models_avaluos->insertar($data);
 }
 
-if ($idtipo != 1) {
 
 
 
-    $this->actualizarTicket($idrecibo,$idquince);
-}
+
+$this->actualizarTicket($idrecibo,$idquince);
+
 
 echo '1';
 } else {
@@ -451,7 +457,7 @@ public function mostrar() {
     
     $this->actualizarTicket($idrecibo,$idquince);
 
-     redirect('registro/mostrar', 'refresh');
+    redirect('registro/mostrar', 'refresh');
 }
 
     //actualizacion de los datos 
@@ -837,7 +843,215 @@ public function actualizestadoYasigar() {
     redirect('registro/aprobados', 'refresh');
 }
 
+// caraga masiva
+
+public function cargaMasiva() {
+
+    $idquince = $this->input->get('idquincena');
+    $idempleado = $this->session->userdata('idempleado');   
+    $idregistro = $this->models_recibo->Buscarquin($idquince, $idempleado);
+    $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+    $datax['nombre'] = $nombrez;
+    $datax['puesto'] = $this->session->userdata('puesto');
+    $data['nombre'] = $nombrez;
+    $data['idcapturista'] = $idempleado;
+    $data['idquincena'] = $idquince;
+    $datax['menuantecedentes'] = 'x';
+    $datax['solicitudes'] = 'x';
+    $datax['menuquincena'] = "active";
+    $pila = $this->session->userdata('listpuesto');
+    $clave = array_search('8',$pila); 
+    $boolenVer=0;;
+    if($clave!=''){
+       $boolenVer=1;
+   }
+   $datax['verSolicitudesBusqueda']=$boolenVer;
+   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+   $data['head'] = $this->load->view('plantilla/head', true);
 
 
+   $squery = $this->models_recibo->Buscar($idregistro);
+   $rowx = $squery->row();
+
+   $data['query'] = $squery;
+   $data['idrecibo'] = $idregistro;
+   $data['conceptoscalotros'] = $this->models_recibo->conceptos($rowx->idempleado, 2);
+   $data['conceptosAvaluos'] = $this->models_recibo->conceptos($rowx->idempleado, 3);
+
+
+
+
+
+   $this->load->view('registro/cargaMasiva', $data);
+
+
+}
+
+
+
+
+public function registroMasivo() {
+
+
+    if (empty($_POST)){
+     redirect('registro', 'refresh');
+ } else{
+
+
+
+    $filename = $_FILES['sel_file']['tmp_name'];
+    $handle = fopen($filename, "r");
+
+    $idtipo = $this->input->post('idtipo');
+    $tipoConce = $this->input->post('tipoConce');
+    $idEmpleado = $this->input->post('idEmpleado');
+    $idrecibo = $this->input->post('idrecibo');
+    $idquincena = $this->input->post('idquincena');
+    $costoPersonalizado = $this->input->post('costoPersonalizado');
+    $observacionPersonalizado = $this->input->post('observacionPersonalizado');
+
+    $valorInsertar=0;
+
+    $tabla="";
+
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+    {
+       // echo $data[0].'<br>';
+        $valor = $this->models_avaluos->BuscarExistencia($data[0], $idtipo);
+
+        if ($valor == "-") {
+
+
+            list($tipox, $costox,$idConcepto) = explode("-", $tipoConce);
+            if($idConcepto==0){
+                $idConceptoInsertar=-1;
+                $observacion=$observacionPersonalizado;
+                $costo=$costoPersonalizado;
+            }else{
+                $idConceptoInsertar=$idConcepto;
+                $observacion=$tipox;
+                $costo=$costox;
+            }
+
+            if($tipox==='N'){
+                $tipox=$observacion;
+            }
+
+            $datax = array(
+                'idempleado' => $idEmpleado,
+                'idquincena' => $idquincena,
+                'tipo' => $tipox,
+                'costo' => $costo,
+                'observacion' => $observacion,
+                'idtipo' => $idConceptoInsertar,
+                'c_tipo'=>$idtipo,
+                'numero' => $data[0]);
+
+           // print_r($datax);
+
+            $this->models_avaluos->insertar($datax);
+
+            $tabla.="<tr><td>$data[0]</td><td>INSERTADO</td></tr>";
+
+            //echo 'Se inserto <> '.$data[0].'<br>';
+
+            
+        }else{
+            $tabla.="<tr><td>$data[0]</td><td>DUPLICADO</td></tr>";
+           // echo ' No se insertara <> '.$data[0].'<br>';
+            
+        }
+
+    }
+    $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+    $datax['nombre'] = $nombrez;
+    $datax['puesto'] = $this->session->userdata('puesto');
+    $idregistro = $this->models_recibo->Buscarquin($idquincena, $idEmpleado);
+    $squery = $this->models_recibo->Buscar($idregistro);
+    $data['query'] = $squery;
+    $pila = $this->session->userdata('listpuesto');
+    $clave = array_search('8',$pila); 
+    $boolenVer=0;;
+    if($clave!=''){
+       $boolenVer=1;
+   }
+   $datax['verSolicitudesBusqueda']=$boolenVer;
+   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+   $data['head'] = $this->load->view('plantilla/head', true);
+   $data['tabla'] = $tabla;
+   $data['idquincena'] = $idquincena;
+   $this->load->view('registro/verificarMasiva', $data);
+}
+
+}
+
+
+public function registroMasivoCalculos() {
+
+
+    $filename = $_FILES['sel_file']['tmp_name'];
+    $handle = fopen($filename, "r");
+    $idtipo = $this->input->post('idtipo');
+    $tipoConce = $this->input->post('tipo');
+    $idEmpleado = $this->input->post('idEmpleado');
+    $idrecibo = $this->input->post('idrecibo');
+    $idquincena = $this->input->post('idquincena');
+
+
+    $valorInsertar=0;
+
+    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+    {
+       // echo $data[0].'<br>';
+        $valor = $this->models_avaluos->BuscarExistencia($data[0], $idtipo);
+
+        if ($valor == "-") {
+
+
+            list($tipox, $costox,$idConcepto) = explode("-", $tipoConce);
+            $idConceptoInsertar=$idConcepto;
+            $observacion=$tipox;
+            $costo=$costox;
+
+            $datax = array(
+                'idempleado' => $idEmpleado,
+                'idquincena' => $idquincena,
+                'tipo' => $tipox,
+                'costo' => $costo,
+                'observacion' => $observacion,
+                'idtipo' => $idConceptoInsertar,
+                'c_tipo'=>$idtipo,
+                'numero' => $data[0]);
+
+           // print_r($datax);
+
+            $this->models_avaluos->insertar($datax);
+
+            echo 'Se inserto <> '.$data[0].'<br>';
+
+            
+        }else{
+            echo ' No se insertara <> '.$data[0].'<br>';
+            $valorInsertar=0;
+        }
+
+    }
+    $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+    $datax['nombre'] = $nombrez;
+    $datax['puesto'] = $this->session->userdata('puesto');
+    $idregistro = $this->models_recibo->Buscarquin($idquincena, $idEmpleado);
+    $squery = $this->models_recibo->Buscar($idregistro);
+    $data['query'] = $squery;
+    $pila = $this->session->userdata('listpuesto');
+    $clave = array_search('8',$pila); 
+    $boolenVer=0;;
+    if($clave!=''){
+       $boolenVer=1;
+   }
+   $datax['verSolicitudesBusqueda']=$boolenVer;
+   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+   $data['head'] = $this->load->view('plantilla/head', true);
+   $this->load->view('registro/verificarMasiva', $data);
+}
 
 }

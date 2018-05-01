@@ -39,6 +39,12 @@ class Models_tipo_avaluo extends CI_Model {
         }
     }
 
+    function getWebservice() {
+
+        $this->db->where('p_gys',1);
+        return $query = $this->db->get('tipo_avaluo');
+    }
+
     function get() {
 
 

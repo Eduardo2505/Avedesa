@@ -6,34 +6,12 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 
-/*$db['default'] = array(
-	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => 'seiter',
-	'database' => 'carritoe_ave',
-	'dbdriver' => 'mysqli',
-	'dbprefix' => '',
-	'pconnect' => FALSE,
-	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
-	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
-	'swap_pre' => '',
-	'encrypt' => FALSE,
-	'compress' => FALSE,
-	'stricton' => FALSE,
-	'failover' => array(),
-	'save_queries' => TRUE
-);*/
-
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => 'seiter',
-	'database' => 'carritoe_ave_demo',
+	'database' => 'carritoe_ave_v2',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -55,7 +33,7 @@ $db['antecedentes'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => 'seiter',
-	'database' => 'essy_ave',
+	'database' => 'essy_ave_v2',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

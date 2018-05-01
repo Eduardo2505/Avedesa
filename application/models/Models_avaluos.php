@@ -51,6 +51,14 @@ class Models_avaluos extends CI_Model {
         }
     }
 
+    function getAva() {
+
+         $this->db->like('tipo','CALCUL');
+        //$this->db->where('idavaluos', $id);
+        //$this->db->where('idtipo', -1);
+        return $query = $this->db->get('avaluos');
+    }
+
     function get() {
 
 
@@ -110,19 +118,22 @@ class Models_avaluos extends CI_Model {
     }
 
     function BuscarExistencia($numero, $idtipo) {
-        $SQl = "SELECT * FROM avaluos a , empleado e where  a.idempleado=e.idempleado and a.numero='$numero' and a.idtipo='$idtipo'";
-        $query = $this->db->query($SQl);
-        $ve = $query->num_rows();
-        $veri="";
-        if($ve!=0){
-            $veri= $query->row();
-        }else{
-            $veri="-";
-        }
+    
 
-        return $veri;
-        
-       
+    $SQl = "SELECT * FROM avaluos a , empleado e where  a.idempleado=e.idempleado and a.numero='$numero' and a.c_tipo=$idtipo";
+
+    $query = $this->db->query($SQl);
+    $ve = $query->num_rows();
+    $veri="";
+    if($ve!=0){
+        $veri= $query->row();
+    }else{
+        $veri="-";
     }
+
+    return $veri;
+
+
+}
 
 }
