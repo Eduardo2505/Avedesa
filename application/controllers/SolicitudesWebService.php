@@ -78,6 +78,7 @@ class SolicitudesWebService extends CI_Controller {
    $data['objetivo_avaluo'] = $this->models_objetivo_avaluo->getWebservice();
    $data['empleados'] = $this->models_empleado->getInspector();
    $data['asigno'] = $this->models_empleado->getAsignador();
+   $data['operador'] = $this->models_empleado->getOperador();
    $data['entidades'] = $this->models_c_entidades_municipios->getEstados();
    $data['tipoInmueble'] = $this->models_tipoinmueble->get();
    $data['intemediarios'] = $this->models_intermediariofinanciero->get();
@@ -93,7 +94,7 @@ class SolicitudesWebService extends CI_Controller {
 
   $municipios= $this->models_c_entidades_municipios->getMunicipios($idEstado);
 
-  $combo='<option value="-1">Seleccione</option>';
+  $combo='<option value="">Seleccione</option>';
 
   if (isset($municipios)) {
     foreach ($municipios->result() as $rowx) {
@@ -134,8 +135,8 @@ public function registro() {
   $rfc_s=$this->input->post('rfc_s');
   $cp_s=$this->input->post('cp_s');
   $col_s=$this->input->post('col_s');
-  $idEntidad_s=$this->input->post('idEntidad_s');
-  $idMunicipio_s=$this->input->post('id_muni_s');
+  $idEntidad_s=str_replace("",-1,$this->input->post('idEntidad_s'));
+  $idMunicipio_s=str_replace("",-1,$this->input->post('id_muni_s'));
   $calle_s=$this->input->post('calle_s');
   $num_int_s=$this->input->post('num_int_s');
   $num_ext_s=$this->input->post('num_ext_s');
@@ -149,13 +150,14 @@ public function registro() {
     $nombreEstado=$this->models_c_entidades_municipios->getNombreEstado($idEntidad_s);
   }
   if($idMunicipio_s!=-1){
-    $nombreMuni=$this->models_c_entidades_municipios->getNombreMunicipio($idEntidad_s);
+    $nombreMuni=$this->models_c_entidades_municipios->getNombreMunicipio($idEntidad_s,$idMunicipio_s);
   }
 
   $ubicacion=$calle_s." ,Num. Ext. ".$num_ext_s." ,Num. Int.".$num_int_s." ,Col.".$col_s." ,C.P.".$cp_s." , Mpio. ".$nombreMuni." ,".$nombreEstado;
 
 
   $idestado_registro=2;
+  $sum=0;
 
   if ($fecha_de_inspeccion != ""&&$idInsepctor != "") {
 
@@ -164,7 +166,8 @@ public function registro() {
     $count = $this->models_registro->countFolio($fecha_de_inspeccion,$idInsepctor);
     $sum=$count+1;
     $fechax=date("dmy", strtotime($fecha_de_inspeccion));
-    $numexpediente=$fechax."".$row->iniciales."".$sum;
+    $numexpediente="F-".$fechax."".$row->iniciales."".$sum;
+    
 
   }else{
    $numexpediente="";
@@ -173,26 +176,33 @@ public function registro() {
 
 
  $resultadoFinal = array();
+
+ $vowels = array(",", "$",".00");
+
  $resultadoFinal["referencia"] = $nomRefer;
+ $resultadoFinal["num_folio"] = $sum;
  $resultadoFinal["num_expediente"] = $numexpediente;
  $resultadoFinal["num_avaluo"] = $this->input->post('folio_cliente');
  $resultadoFinal["id_asigno"] = $this->input->post('idEjecutivo');
- $resultadoFinal["telefono"] = $this->input->post('telefono_v');   
+ $resultadoFinal["telefono"] = $this->input->post('telefono_v2');
+ //$resultadoFinal["telefono_v2"] = $this->input->post('telefono_v');    
  $resultadoFinal["email"]= $this->input->post('email_v');
  $resultadoFinal["idtipo_avaluo"]= $idtipo_avaluo;
  $resultadoFinal["otros"]= $this->input->post('otros');
  $resultadoFinal["ubicacion"]= strtoupper($ubicacion);
- $resultadoFinal["costo"]= str_replace(".", "", $this->input->post('costo'));
+ $resultadoFinal["costo"]= str_replace($vowels, "", $this->input->post('costo'));
  $resultadoFinal["registro_inicial"]= $this->models_registro->Horafecha();
- $resultadoFinal["monto_venta"]= str_replace(".", "", $this->input->post('monto_venta'));
- $resultadoFinal["monto_credito"]= str_replace(".", "", $this->input->post('monto_credito'));
+ $resultadoFinal["monto_venta"]= str_replace($vowels, "", $this->input->post('monto_venta'));
+ $resultadoFinal["monto_credito"]= str_replace($vowels, "", $this->input->post('monto_credito'));
  $resultadoFinal["idcapturista"]= $this->session->userdata('idempleado');
  $resultadoFinal["observaciones"]= $this->input->post('observaciones');
  $resultadoFinal["adelanto_pago"]= 0;
  $resultadoFinal["usuario_update"]= $nombrez;
  $resultadoFinal["idestado_registro"]= $idestado_registro;
  $resultadoFinal["tipoRegistro"]= 1;
- $resultadoFinal["idOperador"]= $this->input->post('idOperador');
+ $idOperador=$this->input->post('idOperador');
+ $resultadoFinal["idOperador"]= $idOperador;
+
  $resultadoFinal["reporteTesoreria"]= $this->input->post('reporteTesoreria');
  $resultadoFinal["usuario_entrega"]= $this->input->post('usuario_entrega');
 
@@ -220,11 +230,13 @@ public function registro() {
 }
 
 $intermediario=$this->input->post('idIntemediario');
+$resultadoFinal["recomienda"]=$this->input->post('otro_intermediario');
 if ($intermediario != "") {
 
  if($intermediario==-1) {
 
-  $resultadoFinal["intermediario"]=$this->input->post('otro_intermediario');
+  $resultadoFinal["recomienda"]=$this->input->post('otro_intermediario');
+  $resultadoFinal["clave"]= $intermediario;
 }else{
 
  $resultadoFinal["intermediario"]= $this->models_intermediariofinanciero->buscardescripcion($intermediario);
@@ -234,13 +246,13 @@ if ($intermediario != "") {
 }else{
   $resultadoFinal["intermediario"]="";
 }   
-
+$resultadoFinal["tipoSnc"]=$this->input->post('tipoSnc');
 $valor = $this->models_registro->insertar($resultadoFinal);
 
 if ($fecha_de_inspeccion != ""&&$idInsepctor != "") {
 
 
- $this->asignarInspecion($idInsepctor,$valor);
+ $this->asignarInspecion($idInsepctor,$valor,$idOperador);
 
 
 }
@@ -286,28 +298,66 @@ $solicitanter["idregistro"] = $valor;
 $this->models_solicitante->insertar($solicitanter);
 
 //===================Inmueble ==============
-$idtipo_avaluo_i=$this->input->post('idtipo_avaluo_i');
-$cp_i=$this->input->post('cp_i');
-$idEntidad_i=$this->input->post('idEntidad_i');
-$id_muni_i=$this->input->post('id_muni_i');
-$col_i=$this->input->post('col_i');
-$calle_i=$this->input->post('calle_i');
-$num_int_i=$this->input->post('num_int_i');
-$num_ex_i=$this->input->post('num_ex_i');
-$mz_i=$this->input->post('mz_i');
-$lt_i=$this->input->post('lt_i');
-$condominio_i=$this->input->post('condominio_i');
-$entrada_i=$this->input->post('entrada_i');
-$edificio_i=$this->input->post('edificio_i');
-$depto_i=$this->input->post('depto_i');
-$entre_calle_i=$this->input->post('entre_calle_i');
-$yCalle_i=$this->input->post('yCalle_i');
-$ciudad_i=$this->input->post('ciudad_i');
-$latitud_i=$this->input->post('latitud_i');
-$longitud_i=$this->input->post('longitud_i');
-$altitud_i=$this->input->post('altitud_i');
+$mismoSolicitante=$this->input->post('mismoSolicitante');
+$idtipo_avaluo_i=-1;
+$cp_i=-1;
+$idEntidad_i=-1;
+$id_muni_i=-1;
+$col_i="";
+$calle_i="";
+$num_int_i="";
+$num_ex_i="";
+$latitud_i=-1;
+$longitud_i=-1;
+$altitud_i=-1;
+
+if($mismoSolicitante==1){
+
+  $idtipo_avaluo_i=$this->input->post('idtipo_avaluo_i');
+  $cp_i=$cp_s;
+  $idEntidad_i=$idEntidad_s;
+  $id_muni_i=$idMunicipio_s;
+  $col_i=$col_s;
+  $calle_i=$calle_s;
+  $num_int_i=$num_int_s;
+  $num_ex_i=$num_ext_s;
+  $mz_i=$this->input->post('mz_i');
+  $lt_i=$this->input->post('lt_i');
+  $condominio_i=$this->input->post('condominio_i');
+  $entrada_i=$this->input->post('entrada_i');
+  $edificio_i=$this->input->post('edificio_i');
+  $depto_i=$this->input->post('depto_i');
+  $entre_calle_i=$this->input->post('entre_calle_i');
+  $yCalle_i=$this->input->post('yCalle_i');
+  $ciudad_i=$this->input->post('ciudad_i');
+
+
+}else{
+
+  $idtipo_avaluo_i=$this->input->post('idtipo_avaluo_i');
+  $cp_i=$this->input->post('cp_i');
+  $idEntidad_i=$this->input->post('idEntidad_i');
+  $id_muni_i=$this->input->post('id_muni_i');
+  $col_i=$this->input->post('col_i');
+  $calle_i=$this->input->post('calle_i');
+  $num_int_i=$this->input->post('num_int_i');
+  $num_ex_i=$this->input->post('num_ex_i');
+  $mz_i=$this->input->post('mz_i');
+  $lt_i=$this->input->post('lt_i');
+  $condominio_i=$this->input->post('condominio_i');
+  $entrada_i=$this->input->post('entrada_i');
+  $edificio_i=$this->input->post('edificio_i');
+  $depto_i=$this->input->post('depto_i');
+  $entre_calle_i=$this->input->post('entre_calle_i');
+  $yCalle_i=$this->input->post('yCalle_i');
+  $ciudad_i=$this->input->post('ciudad_i');
+  /*$latitud_i=$this->input->post('latitud_i');
+  $longitud_i=$this->input->post('longitud_i');
+  $altitud_i=$this->input->post('altitud_i');*/
+}
 
 $inmuebleArray = array();
+$inmuebleArray["mismoSolicitante"] = $mismoSolicitante;
 $inmuebleArray["CodigoPostal"] = $cp_i;
 $inmuebleArray["ClaveEntidad"] = $idEntidad_i;
 $inmuebleArray["ClaveMunicipio"] = $id_muni_i;
@@ -331,6 +381,55 @@ $inmuebleArray["Altitud"] = $altitud_i;
 $inmuebleArray["idregistro"] = $valor;
 $inmuebleArray["idtipoInmueble"] = $idtipo_avaluo_i;
 
+$registroDireccionArray = array();
+$nombreEstado="";
+$nombreMuni="";
+if($idEntidad_s!=-1){
+  $nombreEstado=$this->models_c_entidades_municipios->getNombreEstado($idEntidad_i);
+}
+if($idMunicipio_s!=-1){
+  $nombreMuni=$this->models_c_entidades_municipios->getNombreMunicipio($idEntidad_i,$id_muni_i);
+}
+
+if($condominio_i!==''){
+ $condominio_i=", Cond. ".$condominio_i;
+}
+if($lt_i!==''){
+ $lt_i=", Lt. ".$lt_i;
+}
+if($mz_i!==''){
+ $mz_i=", Mz. ".$mz_i;
+}
+
+if($entrada_i!==''){
+ $entrada_i=", Ent. ".$entrada_i;
+}
+
+if($edificio_i!==''){
+ $edificio_i=", Edf. ".$edificio_i;
+}
+
+if($depto_i!==''){
+ $depto_i=", Depto. ".$depto_i;
+}
+
+if($entre_calle_i!==''){
+ $entre_calle_i=", Entre Cll. ".$entre_calle_i." y Cll".$yCalle_i;
+}
+
+if($ciudad_i!==''){
+ $ciudad_i=", Ciudad ".$ciudad_i;
+}
+
+$ubicacion=$calle_i." ,Num. Ext. ".$num_ex_i." 
+,Num. Int.".$num_int_i.$mz_i.$lt_i.$condominio_i.$entrada_i.$edificio_i.$depto_i.$entre_calle_i."
+,Col.".$col_i." ,C.P.".$cp_i." , Mpio. ".$nombreMuni." ,".$nombreEstado.$ciudad_i;
+
+$registroDireccionArray["ubicacion"] = $ubicacion;
+
+$this->models_registro->update($valor,$registroDireccionArray);
+
+
 $this->models_inmueble->insertar($inmuebleArray);
 
 redirect('solicitudesWebService/index?ms=1', 'refresh');
@@ -338,7 +437,7 @@ redirect('solicitudesWebService/index?ms=1', 'refresh');
 
 }
 
-public function asignarInspecion($idInsepctor,$idRegistro) {
+public function asignarInspecion($idInsepctor,$idRegistro,$idOperador) {
 
   $datac = array(
     'idestado_registro' => 2,
@@ -346,19 +445,24 @@ public function asignarInspecion($idInsepctor,$idRegistro) {
     'idempleado' => $idInsepctor,
     'estado' => 0);
 
-  $this->models_estado_empleado->insertar($datac);
+  $veri=$this->models_estado_empleado->comprobarEstadoEmpleado($idRegistro,$idInsepctor,2,0);
+  if( $veri==0){
+    $this->models_estado_empleado->insertar($datac);
+  }
 
        //=============================== SE ASIGNA AUTOMATICAMENTE ENTEGA DE VISITA===========================
         //=============================================================================================
       //  =============================================================================================
-  $idEmpleadoGlobal = $this->config->item('idEmpleado');
+ // $idEmpleadoGlobal = $this->config->item('idEmpleado');
   $datav = array(
     'idestado_registro' => 3,
     'idregistro' => $idRegistro,
-    'idempleado' => $idEmpleadoGlobal,
+    'idempleado' => $idOperador,
     'estado' => 0);
-
-  $this->models_estado_empleado->insertar($datav);
+  $veriv=$this->models_estado_empleado->comprobarEstadoEmpleado($idRegistro,$idOperador,3,0);
+  if( $veriv==0){
+    $this->models_estado_empleado->insertar($datav);
+  }
 
 
 }
@@ -544,6 +648,7 @@ public function editar() {
  $data['objetivo_avaluo'] = $this->models_objetivo_avaluo->getWebservice();
  $data['empleados'] = $this->models_empleado->getInspector();
  $data['asigno'] = $this->models_empleado->getAsignador();
+ $data['operador'] = $this->models_empleado->getOperador();
  $data['entidades'] = $this->models_c_entidades_municipios->getEstados();
  $data['tipoInmueble'] = $this->models_tipoinmueble->get();
  $data['intemediarios'] = $this->models_intermediariofinanciero->get();
@@ -570,8 +675,10 @@ public function editarCaptura() {
 
   $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');  
   $numexpediente="";
-  $fecha_de_inspeccion=$this->input->post('fecha_visita');      
+  $fecha_de_inspeccion=$this->input->post('fecha_visita'); 
+  $fecha_visitaaux=$this->input->post('fecha_visitaaux');      
   $idInsepctor=$this->input->post('idInsepctor');
+  $idInsepctorAux=$this->input->post('idInsepctorAux');
   $objetivoAvaluo=$this->input->post('objetivoAvaluo');
   $idtipo_avaluo=$this->input->post('idtipo_avaluo');
   $nomRefer=$this->input->post('nomRefer');
@@ -584,101 +691,128 @@ public function editarCaptura() {
   $rfc_s=$this->input->post('rfc_s');
   $cp_s=$this->input->post('cp_s');
   $col_s=$this->input->post('col_s');
-  $idEntidad_s=$this->input->post('idEntidad_s');
-  $idMunicipio_s=$this->input->post('id_muni_s');
+  $idEntidad_s=str_replace("",-1,$this->input->post('idEntidad_s'));
+  $idMunicipio_s=str_replace("",-1,$this->input->post('id_muni_s'));
   $calle_s=$this->input->post('calle_s');
   $num_int_s=$this->input->post('num_int_s');
   $num_ext_s=$this->input->post('num_ext_s');
   $telefono_s=$this->input->post('telefono_s');
   $email_s=$this->input->post('email_s');
   $visita_exitosa=$this->input->post('visita_exitosa');
+  $sum=$this->input->post('num_folio');
 
       // se agrego para editar 
   $idregistro=$this->input->post('idregistro');
       ///
+      ///
+  
+  $updateEdit=$this->input->post('updateEdit');
+  if($updateEdit!=1){
+    if ($idInsepctor != ""){
 
-  $nombreEstado="";
-  $nombreMuni="";
-  if($idEntidad_s!=-1){
-    $nombreEstado=$this->models_c_entidades_municipios->getNombreEstado($idEntidad_s);
+
+      $this->models_estado_empleado->eliminarEstatus($idregistro);
+
+    }
   }
-  if($idMunicipio_s!=-1){
-    $nombreMuni=$this->models_c_entidades_municipios->getNombreMunicipio($idEntidad_s);
-  }
-
-  $ubicacion=$calle_s." ,Num. Ext. ".$num_ext_s." ,Num. Int.".$num_int_s." ,Col.".$col_s." ,C.P.".$cp_s." , Mpio. ".$nombreMuni." ,".$nombreEstado;
 
 
-  $idestado_registro=2;
+  if ($fecha_de_inspeccion === ""||$idInsepctor===""){
 
-  if ($fecha_de_inspeccion != ""&&$idInsepctor != "") {
+   $this->models_estado_empleado->eliminarFechaRegistro($idregistro);
+   $arrayFechas = array();
+   $arrayFechas["fecha_de_inspeccion"]= null;
+   $arrayFechas["hora_de_inspeccion"]= null;
+   $arrayFechas["fecha_de_entrega"]= null;
+   $arrayFechas["fecha_captura"]= null;
+   $arrayFechas["fecha_cierre"]=null;
+   $arrayFechas["fecha_final"]= null;
+   $arrayFechas["fecha_asigancion"]= null;
+   $this->models_registro->update($idregistro,$arrayFechas);
+   $sum=0;
+ }
+
+
+ $idestado_registro=2;
+ if ($fecha_de_inspeccion != ""&&$idInsepctor != "") {
+
+  if($fecha_de_inspeccion!=$fecha_visitaaux || $idInsepctor!=$idInsepctorAux){
 
     $idempleadobuscar =$this->models_empleado->Buscar($idInsepctor);
     $row = $idempleadobuscar->row();
     $count = $this->models_registro->countFolio($fecha_de_inspeccion,$idInsepctor);
     $sum=$count+1;
     $fechax=date("dmy", strtotime($fecha_de_inspeccion));
-    $numexpediente=$fechax."".$row->iniciales."".$sum;
+    $numexpediente="F-".$fechax."".$row->iniciales."".$sum;
 
   }else{
-   $numexpediente="";
- }
+    $numexpediente=$this->input->post('numExpediente');
+  }
+
+}else{
+ $numexpediente="";
+}
 
 
 
- $resultadoFinal = array();
- $resultadoFinal["referencia"] = $nomRefer;
- $resultadoFinal["num_expediente"] = $numexpediente;
- $resultadoFinal["num_avaluo"] = $this->input->post('folio_cliente');
- $resultadoFinal["id_asigno"] = $this->input->post('idEjecutivo');
- $resultadoFinal["telefono"] = $this->input->post('telefono_v');   
- $resultadoFinal["email"]= $this->input->post('email_v');
- $resultadoFinal["idtipo_avaluo"]= $idtipo_avaluo;
- $resultadoFinal["otros"]= $this->input->post('otros');
- $resultadoFinal["ubicacion"]= strtoupper($ubicacion);
- $resultadoFinal["costo"]= str_replace(".", "", $this->input->post('costo'));
- $resultadoFinal["registro_inicial"]= $this->models_registro->Horafecha();
- $resultadoFinal["monto_venta"]= str_replace(".", "", $this->input->post('monto_venta'));
- $resultadoFinal["monto_credito"]= str_replace(".", "", $this->input->post('monto_credito'));
- $resultadoFinal["idcapturista"]= $this->session->userdata('idempleado');
- $resultadoFinal["observaciones"]= $this->input->post('observaciones');
- $resultadoFinal["adelanto_pago"]= 0;
- $resultadoFinal["usuario_update"]= $nombrez;
- $resultadoFinal["idestado_registro"]= $idestado_registro;
- $resultadoFinal["tipoRegistro"]= 1;
- $resultadoFinal["idOperador"]= $this->input->post('idOperador');
- $resultadoFinal["reporteTesoreria"]= $this->input->post('reporteTesoreria');
- $resultadoFinal["usuario_entrega"]= $this->input->post('usuario_entrega');
+$resultadoFinal = array();
+$vowels = array(",", "$",".00");
 
- if ($fecha_de_inspeccion != "") {
-   $fechasc=$this->calcularfechas($fecha_de_inspeccion);        
-   $resultadoFinal["fecha_de_inspeccion"]= date_format($fechasc->fecha_de_inspeccion, 'Y-m-d');
-   $resultadoFinal["hora_de_inspeccion"]= $this->input->post('hora_de_inspeccion');
-   $resultadoFinal["fecha_de_entrega"]= date_format($fechasc->fecha_de_entrega, 'Y-m-d');
-   $resultadoFinal["fecha_captura"]= date_format($fechasc->fecha_captura, 'Y-m-d');
-   $resultadoFinal["fecha_cierre"]= date_format($fechasc->fecha_cierre, 'Y-m-d');
-   $resultadoFinal["fecha_final"]= date_format($fechasc->fecha_final, 'Y-m-d');
-   $resultadoFinal["fecha_asigancion"]= date_format($fechasc->fecha_asigancion, 'Y-m-d');
- }
+$resultadoFinal["referencia"] = $nomRefer;
+$resultadoFinal["num_folio"] = $sum;
+$resultadoFinal["num_expediente"] = $numexpediente;
+$resultadoFinal["num_avaluo"] = $this->input->post('folio_cliente');
+$resultadoFinal["id_asigno"] = $this->input->post('idEjecutivo');
+$resultadoFinal["telefono"] = $this->input->post('telefono_v2');   
+$resultadoFinal["email"]= $this->input->post('email_v');
+$resultadoFinal["idtipo_avaluo"]= $idtipo_avaluo;
+$resultadoFinal["otros"]= $this->input->post('otros'); 
+$resultadoFinal["costo"]= str_replace($vowels, "", $this->input->post('costo'));
+$resultadoFinal["registro_inicial"]= $this->models_registro->Horafecha();
+$resultadoFinal["monto_venta"]= str_replace($vowels, "", $this->input->post('monto_venta'));
+$resultadoFinal["monto_credito"]= str_replace($vowels, "", $this->input->post('monto_credito'));
+$resultadoFinal["idcapturista"]= $this->session->userdata('idempleado');
+$resultadoFinal["observaciones"]= $this->input->post('observaciones');
+$resultadoFinal["adelanto_pago"]= 0;
+$resultadoFinal["usuario_update"]= $nombrez;
+$resultadoFinal["idestado_registro"]= $idestado_registro;
+$resultadoFinal["tipoRegistro"]= 1;
+$idOperador=$this->input->post('idOperador');
+$resultadoFinal["idOperador"]= $idOperador;
+$resultadoFinal["reporteTesoreria"]= $this->input->post('reporteTesoreria');
+$resultadoFinal["usuario_entrega"]= $this->input->post('usuario_entrega');
 
- if ($objetivoAvaluo != "") {
-   $resultadoFinal["idobjetivo_avaluo"]= $objetivoAvaluo;
- }else{
-   $resultadoFinal["idobjetivo_avaluo"]=0;
- }
+if ($fecha_de_inspeccion != "") {
+ $fechasc=$this->calcularfechas($fecha_de_inspeccion);        
+ $resultadoFinal["fecha_de_inspeccion"]= date_format($fechasc->fecha_de_inspeccion, 'Y-m-d');
+ $resultadoFinal["hora_de_inspeccion"]= $this->input->post('hora_de_inspeccion');
+ $resultadoFinal["fecha_de_entrega"]= date_format($fechasc->fecha_de_entrega, 'Y-m-d');
+ $resultadoFinal["fecha_captura"]= date_format($fechasc->fecha_captura, 'Y-m-d');
+ $resultadoFinal["fecha_cierre"]= date_format($fechasc->fecha_cierre, 'Y-m-d');
+ $resultadoFinal["fecha_final"]= date_format($fechasc->fecha_final, 'Y-m-d');
+ $resultadoFinal["fecha_asigancion"]= date_format($fechasc->fecha_asigancion, 'Y-m-d');
+}
 
- if ($idInsepctor != "") {
+if ($objetivoAvaluo != "") {
+ $resultadoFinal["idobjetivo_avaluo"]= $objetivoAvaluo;
+}else{
+ $resultadoFinal["idobjetivo_avaluo"]=0;
+}
+
+if ($idInsepctor != "") {
   $resultadoFinal["idempleado"]= $idInsepctor;
 }else{
  $resultadoFinal["idempleado"]=0;
 }
 
 $intermediario=$this->input->post('idIntemediario');
+$resultadoFinal["recomienda"]=$this->input->post('otro_intermediario');
 if ($intermediario != "") {
 
  if($intermediario==-1) {
 
   $resultadoFinal["intermediario"]=$this->input->post('otro_intermediario');
+  $resultadoFinal["clave"]= $intermediario;
 }else{
 
  $resultadoFinal["intermediario"]= $this->models_intermediariofinanciero->buscardescripcion($intermediario);
@@ -688,14 +822,14 @@ if ($intermediario != "") {
 }else{
   $resultadoFinal["intermediario"]="";
 }   
-
+$resultadoFinal["tipoSnc"]=$this->input->post('tipoSnc');
 
 $this->models_registro->update($idregistro,$resultadoFinal);
 
 if ($fecha_de_inspeccion != ""&&$idInsepctor != "") {
 
 
- $this->asignarInspecion($idInsepctor,$idregistro);
+ $this->asignarInspecion($idInsepctor,$idregistro,$idOperador);
 
 
 }
@@ -741,26 +875,64 @@ $solicitanter["CorreoElectronico"] = $email_s;
 $this->models_solicitante->update($idregistro,$solicitanter);
 
     //===================Inmueble ==============
-$idtipo_avaluo_i=$this->input->post('idtipo_avaluo_i');
-$cp_i=$this->input->post('cp_i');
-$idEntidad_i=$this->input->post('idEntidad_i');
-$id_muni_i=$this->input->post('id_muni_i');
-$col_i=$this->input->post('col_i');
-$calle_i=$this->input->post('calle_i');
-$num_int_i=$this->input->post('num_int_i');
-$num_ex_i=$this->input->post('num_ex_i');
-$mz_i=$this->input->post('mz_i');
-$lt_i=$this->input->post('lt_i');
-$condominio_i=$this->input->post('condominio_i');
-$entrada_i=$this->input->post('entrada_i');
-$edificio_i=$this->input->post('edificio_i');
-$depto_i=$this->input->post('depto_i');
-$entre_calle_i=$this->input->post('entre_calle_i');
-$yCalle_i=$this->input->post('yCalle_i');
-$ciudad_i=$this->input->post('ciudad_i');
-$latitud_i=$this->input->post('latitud_i');
-$longitud_i=$this->input->post('longitud_i');
-$altitud_i=$this->input->post('altitud_i');
+$mismoSolicitante=$this->input->post('mismoSolicitante');
+$idtipo_avaluo_i=-1;
+$cp_i=-1;
+$idEntidad_i=-1;
+$id_muni_i=-1;
+$col_i="";
+$calle_i="";
+$num_int_i="";
+$num_ex_i="";
+$latitud_i=-1;
+$longitud_i=-1;
+$altitud_i=-1;
+
+if($mismoSolicitante==1){
+
+  $idtipo_avaluo_i=$this->input->post('idtipo_avaluo_i');
+  $cp_i=$cp_s;
+  $idEntidad_i=$idEntidad_s;
+  $id_muni_i=$idMunicipio_s;
+  $col_i=$col_s;
+  $calle_i=$calle_s;
+  $num_int_i=$num_int_s;
+  $num_ex_i=$num_ext_s;
+  $mz_i=$this->input->post('mz_i');
+  $lt_i=$this->input->post('lt_i');
+  $condominio_i=$this->input->post('condominio_i');
+  $entrada_i=$this->input->post('entrada_i');
+  $edificio_i=$this->input->post('edificio_i');
+  $depto_i=$this->input->post('depto_i');
+  $entre_calle_i=$this->input->post('entre_calle_i');
+  $yCalle_i=$this->input->post('yCalle_i');
+  $ciudad_i=$this->input->post('ciudad_i');
+
+
+}else{
+
+  $idtipo_avaluo_i=$this->input->post('idtipo_avaluo_i');
+  $cp_i=$this->input->post('cp_i');
+  $idEntidad_i=$this->input->post('idEntidad_i');
+  $id_muni_i=$this->input->post('id_muni_i');
+  $col_i=$this->input->post('col_i');
+  $calle_i=$this->input->post('calle_i');
+  $num_int_i=$this->input->post('num_int_i');
+  $num_ex_i=$this->input->post('num_ex_i');
+  $mz_i=$this->input->post('mz_i');
+  $lt_i=$this->input->post('lt_i');
+  $condominio_i=$this->input->post('condominio_i');
+  $entrada_i=$this->input->post('entrada_i');
+  $edificio_i=$this->input->post('edificio_i');
+  $depto_i=$this->input->post('depto_i');
+  $entre_calle_i=$this->input->post('entre_calle_i');
+  $yCalle_i=$this->input->post('yCalle_i');
+  $ciudad_i=$this->input->post('ciudad_i');
+  /*$latitud_i=$this->input->post('latitud_i');
+  $longitud_i=$this->input->post('longitud_i');
+  $altitud_i=$this->input->post('altitud_i');*/
+}
+
 
 $inmuebleArray = array();
 $inmuebleArray["CodigoPostal"] = $cp_i;
@@ -783,23 +955,120 @@ $inmuebleArray["Ciudad"] = $ciudad_i;
 $inmuebleArray["Latitud"] = $latitud_i;
 $inmuebleArray["Longitud"] = $longitud_i;
 $inmuebleArray["Altitud"] = $altitud_i;
-   // $inmuebleArray["idregistro"] = $valor;
+$inmuebleArray["mismoSolicitante"] = $mismoSolicitante;
 $inmuebleArray["idtipoInmueble"] = $idtipo_avaluo_i;
 
+$registroDireccionArray = array();
+$nombreEstado="";
+$nombreMuni="";
+if($idEntidad_s!=-1){
+  $nombreEstado=$this->models_c_entidades_municipios->getNombreEstado($idEntidad_i);
+}
+if($idMunicipio_s!=-1){
+  $nombreMuni=$this->models_c_entidades_municipios->getNombreMunicipio($idEntidad_i,$id_muni_i);
+}
+
+if($condominio_i!==''){
+ $condominio_i=", Cond. ".$condominio_i;
+}
+if($lt_i!==''){
+ $lt_i=", Lt. ".$lt_i;
+}
+if($mz_i!==''){
+ $mz_i=", Mz. ".$mz_i;
+}
+
+if($entrada_i!==''){
+ $entrada_i=", Ent. ".$entrada_i;
+}
+
+if($edificio_i!==''){
+ $edificio_i=", Edf. ".$edificio_i;
+}
+
+if($depto_i!==''){
+ $depto_i=", Depto. ".$depto_i;
+}
+
+if($entre_calle_i!==''){
+ $entre_calle_i=", Entre Cll. ".$entre_calle_i." y Cll".$yCalle_i;
+}
+
+if($ciudad_i!==''){
+ $ciudad_i=", Ciudad ".$ciudad_i;
+}
+
+$ubicacion=$calle_i." ,Num. Ext. ".$num_ex_i." 
+,Num. Int.".$num_int_i.$mz_i.$lt_i.$condominio_i.$entrada_i.$edificio_i.$depto_i.$entre_calle_i."
+,Col.".$col_i." ,C.P.".$cp_i." , Mpio. ".$nombreMuni." ,".$nombreEstado.$ciudad_i;
+
+$registroDireccionArray["ubicacion"] = $ubicacion;
+
+$this->models_registro->update($idregistro,$registroDireccionArray);
 $this->models_inmueble->update($idregistro,$inmuebleArray);
 
 
 $gys=$this->input->post('gys');
 
+
+
+
 if($gys==1){
 
-  $this->enviarWebService($idregistro);
-  
-  redirect('solicitudesWebService/enviarGYS?idregistro='.$idregistro, 'refresh');
+/*
+====================================================================
+=================== INICIO  WEB SERVICE ============================
+====================================================================
+ */
+$res=$this->enviarWebService($idregistro);  
+
+/*====================================================================
+=================== FIN WEB SERVICE ============================
+====================================================================*/
+
+redirect('solicitudesWebService/enviarGYS?idregistro='.$idregistro.'&result='.$res, 'refresh');
+}else if($gys==0){
+
+  redirect('solicitudesWebService/editar?idregistro='.$idregistro, 'refresh');
+
+}else{
+/*
+====================================================================
+=================== INICIO  WEB SERVICE ============================
+====================================================================
+ */
+
+$tipoSncaux=$this->input->post('tipoSnc');
+
+
+if($tipoSncaux==1){
+  $res=$this->enviarWebService($idregistro);  
+
+/*====================================================================
+=================== FIN WEB SERVICE ============================
+====================================================================*/
+
+if($res!=0){
+
+  $idestado_empleado = $this->input->post('idestado_empleado');
+  $data = array(
+    'registro' => $this->models_estado_empleado->Horafecha(),
+    'estado' => 1);
+
+  $this->models_estado_empleado->update($idestado_empleado, $data);
+}
 }else{
 
-   redirect('solicitudesWebService/editar?idregistro='.$idregistro, 'refresh');
+ $idestado_empleado = $this->input->post('idestado_empleado');
+ $datax= array(
+  'registro' => $this->models_estado_empleado->Horafecha(),
+  'estado' => 1);
+ $this->models_estado_empleado->update($idestado_empleado, $datax);
+}
 
+
+
+redirect('registro/mostrarsolicitudes', 'refresh');
 }
 
 
@@ -813,54 +1082,58 @@ public function enviarGYS() {
 
  $idregistro = $this->input->get('idregistro');
  $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+ $result = 1;
+ if(!empty($this->input->get('result'))) {
+  //  echo '>>>>>>>>>><<>>> tiene valos'.$this->input->get('result');
+  $result = $this->input->get('result');
+}
 
 
+$datax['nombre'] = $nombrez;
+$datax['puesto'] = $this->session->userdata('puesto');
+$datax['menusolicitudes'] = "active";
+$datax['menucatalogos'] = "x";
+$datax['menuadmin'] = "x";
+$datax['solictudesbus'] = "x";
+$datax['solictudesnuevo'] = "active";
+$datax['solictudesver'] = "x";
+$datax['catalogost'] = "x";
+$datax['catalogoso'] = "x";
+$datax['catalogose'] = "x";
+$datax['catalogosp'] = "x";
+$datax['catalogosem'] = "x";
+$datax['catalogoemp'] = "x";
+$datax['adminq'] = "x";
+$datax['adminc'] = "x";
+$datax['admincc'] = "x";
+$datax['admina'] = "x";
 
- $datax['nombre'] = $nombrez;
- $datax['puesto'] = $this->session->userdata('puesto');
- $datax['menusolicitudes'] = "active";
- $datax['menucatalogos'] = "x";
- $datax['menuadmin'] = "x";
- $datax['solictudesbus'] = "x";
- $datax['solictudesnuevo'] = "active";
- $datax['solictudesver'] = "x";
- $datax['catalogost'] = "x";
- $datax['catalogoso'] = "x";
- $datax['catalogose'] = "x";
- $datax['catalogosp'] = "x";
- $datax['catalogosem'] = "x";
- $datax['catalogoemp'] = "x";
- $datax['adminq'] = "x";
- $datax['adminc'] = "x";
- $datax['admincc'] = "x";
- $datax['admina'] = "x";
-
- $data['nombre'] = $nombrez;
- $data['idcapturista'] = $this->session->userdata('idempleado');
- $data['menu'] = $this->load->view('plantilla/menu', $datax, true);
- $data['tipo_avaluo'] = $this->models_tipo_avaluo->getWebservice();
- $data['objetivo_avaluo'] = $this->models_objetivo_avaluo->getWebservice();
- $data['empleados'] = $this->models_empleado->getInspector();
- $data['asigno'] = $this->models_empleado->getAsignador();
- $data['entidades'] = $this->models_c_entidades_municipios->getEstados();
- $data['tipoInmueble'] = $this->models_tipoinmueble->get();
- $data['intemediarios'] = $this->models_intermediariofinanciero->get();
+$data['nombre'] = $nombrez;
+$data['idcapturista'] = $this->session->userdata('idempleado');
+$data['menu'] = $this->load->view('plantilla/menu', $datax, true);
+$data['tipo_avaluo'] = $this->models_tipo_avaluo->getWebserviceActivo();
+$data['objetivo_avaluo'] = $this->models_objetivo_avaluo->getWebserviceActivos();
+$data['empleados'] = $this->models_empleado->getInspectorActivos();
+$data['asigno'] = $this->models_empleado->getAsignadorActivos();
+$data['operador'] = $this->models_empleado->getOperador();
+$data['entidades'] = $this->models_c_entidades_municipios->getEstados();
+$data['tipoInmueble'] = $this->models_tipoinmueble->get();
+$data['intemediarios'] = $this->models_intermediariofinanciero->get();
 
      //buscar 
- $data['obj_registro'] = $this->models_registro->buscarObj($idregistro);
- $solicitanteobj=$this->models_solicitante->buscarObj($idregistro);
- $data['obj_solicitante'] = $solicitanteobj;
- $data['obj_vista'] = $this->models_visita->buscarObj($idregistro);
- $data['municipios']= $this->models_c_entidades_municipios->getMunicipios($solicitanteobj->ClaveEntidad);
- $obj_inmueble=$this->models_inmueble->buscarObj($idregistro);
- $data['obj_inmueble'] = $obj_inmueble;
- $data['municipios_i']= $this->models_c_entidades_municipios->getMunicipios($obj_inmueble->ClaveEntidad);
+$data['obj_registro'] = $this->models_registro->buscarObj($idregistro);
+$solicitanteobj=$this->models_solicitante->buscarObj($idregistro);
+$data['obj_solicitante'] = $solicitanteobj;
+$data['obj_vista'] = $this->models_visita->buscarObj($idregistro);
+$data['municipios']= $this->models_c_entidades_municipios->getMunicipios($solicitanteobj->ClaveEntidad);
+$obj_inmueble=$this->models_inmueble->buscarObj($idregistro);
+$data['obj_inmueble'] = $obj_inmueble;
+$data['municipios_i']= $this->models_c_entidades_municipios->getMunicipios($obj_inmueble->ClaveEntidad);
 
- $data['idregistro'] = $idregistro;
-
-
-
- $this->load->view('solicitudes/registroEnviarGYS', $data);
+$data['idregistro'] = $idregistro;
+$data['result'] = $result;
+ //echo $result;
+$this->load->view('solicitudes/registroEnviarGYS', $data);
 
 
 
@@ -924,75 +1197,70 @@ public function enviarWebService($idRegistro) {
 
  $objetVistas=$this->models_visita->buscarObj($idRegistro);
 
- $FechaVisita = date("c", strtotime($objetVistas->FechaVisita));
+ $fechaVisita = date("c", strtotime($objetVistas->FechaVisita));
+/* echo "FechaVisita".$objetVistas->FechaVisita;
+echo "<br>2.-FechaVisita".$FechaVisita;*/
+$vistaExi=$objetVistas->VisitaExitosa;
+$vistaExitova=false;
+if($vistaExi==1){
 
- $vistaExi=$objetVistas->VisitaExitosa;
- $vistaExitova=false;
- if($vistaExi==1){
+ $vistaExitova=true;
 
-   $vistaExitova=true;
-
- }
+}
 
 
- $visita = (object) array("FechaVisita" => $FechaVisita,
+$visita = (object) array("FechaVisita" => $fechaVisita,
   "VisitaExitosa" =>$vistaExitova,
   "ContactoVisita" => $this->replace_null($objetVistas->ContactoVisita,""),
   "Telefono" =>$this->replace_null($objetVistas->Telefono,""));
 
 
 
- $objetoRegistro=$this->models_registro->buscarObjv2($idRegistro);
- $reporteTe=$objetoRegistro->reporteTesoreria;
- $reporteTesoreria=false;
+$objetoRegistro=$this->models_registro->buscarObjv2($idRegistro);
+$reporteTe=$objetoRegistro->reporteTesoreria;
+$reporteTesoreria=false;
 
- if($reporteTe==1){
+if($reporteTe==1){
 
-   $reporteTesoreria=true;
- }
-
-
- $dateEntrega = date("c", strtotime($objetoRegistro->fecha_de_entrega));
- $dateSolicitud = date("c", strtotime($objetoRegistro->registro));
- $configuracion = (object) array("FechaCompromisoEntrega" => $dateEntrega,
-  "FechaSolicitado" => $dateSolicitud,
-  "FolioCliente" => $objetoRegistro->num_expediente,
-   "ClaveOperador" => 694,
-                     "ClaveVisitador" => 694,
-                     "ClaveEjecutivo" => 694,
-                     "ClaveProducto" => 2173, // tabla ADMIN objetivo_avaluo
-                     "ClavePropositoAvaluo" => 2,  // tabla ADMIN tipo_avaluo
-
-  /*"ClaveOperador" => $objetoRegistro->idOperador,
-  "ClaveVisitador" => $objetoRegistro->ClaveVisitador,
-  "ClaveEjecutivo" => $objetoRegistro->ClaveEjecutivo,
-                     "ClaveProducto" => $objetoRegistro->ClaveProducto, // tabla ADMIN objetivo_avaluo
-                     "ClavePropositoAvaluo" => $objetoRegistro->ClavePropositoAvaluo,  // tabla ADMIN tipo_avaluo*/
-                     "ReportaTesoreriaCDMX" => $reporteTesoreria,
-                     "ClaveIntermediarioFinanciero" => "030002",
-                     "ClaveSociedadTesoreria" => 2);
-
-
- $respuesta=$this->models_webservice->conectar($inmueble,$solicitante,$visita,$configuracion);
-
- $valorex=0;
- if($respuesta->Exito==true){
-  $valorex=1;
+ $reporteTesoreria=true;
 }
 
 
+$dateEntrega = date("c", strtotime($objetoRegistro->fecha_de_entrega.' 23:59:59'));
+$dateSolicitud = date("c", strtotime($objetoRegistro->registro));
 
-//echo $respuesta->Exito."<br>";
-//echo $respuesta->Mensaje."<br>";
+$configuracion = (object) array("FechaCompromisoEntrega" => $dateEntrega,
+ "FechaSolicitado" => $dateSolicitud,
+ "FolioCliente" => $objetoRegistro->num_expediente,
+  /*"ClaveOperador" => 694,
+  "ClaveVisitador" => 694,
+  "ClaveEjecutivo" => 694,
+                     "ClaveProducto" => 2173, // tabla ADMIN objetivo_avaluo
+                     "ClavePropositoAvaluo" => 2,  // tabla ADMIN tipo_avaluo*/
 
-$resultado = str_replace("Servicio registrado exitosamente con el folio", "", $respuesta->Mensaje);
+                     "ClaveOperador" => $objetoRegistro->idOperador,
+                     "ClaveVisitador" => $objetoRegistro->ClaveVisitador,
+                     "ClaveEjecutivo" => $objetoRegistro->ClaveEjecutivo,
+                     "ClaveProducto" => $objetoRegistro->ClaveProducto, // tabla ADMIN objetivo_avaluo
+                     "ClavePropositoAvaluo" => $objetoRegistro->ClavePropositoAvaluo,  // tabla ADMIN tipo_avaluo
+                     "ReportaTesoreriaCDMX" => $reporteTesoreria,
+                     "ClaveIntermediarioFinanciero" => $objetoRegistro->clave,
+                     "ClaveSociedadTesoreria" => 2);// este es po defaul
 
-//echo $resultado;
+$respuesta=$this->models_webservice->conectar($inmueble,$solicitante,$visita,$configuracion);
 
+$respuest=-1;
+if($respuesta->Exito==true){
 
-$datosUpdate = array("estatusGY" => $valorex,
-  "folio" =>$resultado);
-$objetoRegistro=$this->models_registro->update($idRegistro,$datosUpdate);
+  $resultado = str_replace("Servicio registrado exitosamente con el folio", "", $respuesta->Mensaje);
+  $datosUpdate = array("estatusGY" => 1,
+    "folio" =>$resultado);
+  $objetoRegistro=$this->models_registro->update($idRegistro,$datosUpdate);
+
+  $respuest=1;
+}
+
+return $respuest;
 
 
 

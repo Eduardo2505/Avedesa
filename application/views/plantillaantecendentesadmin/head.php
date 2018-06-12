@@ -77,4 +77,5 @@
 <script src="<?php echo site_url('') ?>metronic/global/plugins/bootstrap-modal/js/bootstrap-modal.js" type="text/javascript"></script>
 
 
+<script type="text/javascript" src="<?php echo site_url('') ?>metronic/js/jquery.formatCurrency-1.4.0.js"></script>
 

@@ -18,6 +18,7 @@ class Models_c_entidades_municipios extends CI_Model {
 
 
         $this->db->select('idEntidad, entidad');
+        $this->db->order_by("entidad", "asc");
         $this->db->distinct();
         return $query = $this->db->get('c_entidades_municipios');
     }
@@ -27,6 +28,7 @@ class Models_c_entidades_municipios extends CI_Model {
 
         $this->db->where('idEntidad', $idEstado);
         $this->db->select('idMunicipio, municipio');
+        $this->db->order_by("municipio", "asc");
         $this->db->distinct();
         return $query = $this->db->get('c_entidades_municipios');
     }
@@ -41,9 +43,10 @@ class Models_c_entidades_municipios extends CI_Model {
         return $row->entidad;
     }
 
-     function getNombreMunicipio($idMunicipio) {
+     function getNombreMunicipio($idEstado,$idMunicipio) {
      
         $this->db->where('idMunicipio', $idMunicipio);
+        $this->db->where('idEntidad', $idEstado);
         $this->db->select('municipio');
         $this->db->distinct();
         $query = $this->db->get('c_entidades_municipios');

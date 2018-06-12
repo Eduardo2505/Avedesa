@@ -85,7 +85,7 @@
                                 <ul class="page-breadcrumb">
                                     <li>
                                         <i class="fa fa-home"></i>
-                                        <a href="<?php echo site_url('') ?>solicitudes">NUEVA BUSQUEDA</a>
+                                        <a href="<?php echo site_url('') ?>solicitudesConsulta">NUEVA BUSQUEDA</a>
                                         <i class="fa fa-angle-right"></i>
                                     </li>
                                     <li>
@@ -115,7 +115,7 @@
                                                             <i class="fa fa-gift"></i>SOLICITUDES 
                                                         </div>
                                                         <div class="tools">
-                                                            <a href="<?php echo site_url('') ?>excel/generar" ><samp style="color:red">EXCEL</samp></a>
+                                                            <a href="<?php echo site_url('') ?>rporteExcel/generar" ><samp style="color:red">EXCEL</samp></a>
                                                             Resultados <?php echo $totalrow?>
 
 

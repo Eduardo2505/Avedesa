@@ -112,7 +112,7 @@
                                                             <i class="fa fa-gift"></i>SOLICITUDES 
                                                         </div>
                                                         <div class="tools">
-                                                            <a href="<?php echo site_url('') ?>excel/generar" ><samp style="color:red">EXCEL</samp></a>
+                                                            <a href="<?php echo site_url('') ?>rporteExcel/generar" ><samp style="color:red">EXCEL</samp></a>
                                                             Resultados <?php echo $totalrow?>
 
 

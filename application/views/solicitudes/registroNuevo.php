@@ -4,10 +4,10 @@
     <!--<![endif]-->
     <!-- BEGIN HEAD -->
     <head>
-     <?php $this->load->view('plantilla/head') ?>
- </head>
+       <?php $this->load->view('plantilla/head') ?>
+   </head>
 
- <body class="page-header-fixed page-quick-sidebar-over-content ">
+   <body class="page-header-fixed page-quick-sidebar-over-content ">
     <!-- BEGIN HEADER -->
     <div class="page-header -i navbar navbar-fixed-top">
         <!-- BEGIN HEADER INNER -->
@@ -85,7 +85,7 @@
                         <ul class="page-breadcrumb">
                             <li>
                                 <i class="fa fa-home"></i>
-                                <a href="<?php echo site_url('') ?>solicitudes">NUEVA BUSQUEDA</a>
+                                <a href="<?php echo site_url('') ?>solicitudesConsulta">NUEVA BUSQUEDA</a>
                                 <i class="fa fa-angle-right"></i>
                             </li>
                             <li>
@@ -109,22 +109,22 @@
                         <div class="col-md-12">
 
                             <div class="col-md-12">
-                             <?php if ($msn == 1) { ?>
+                               <?php if ($msn == 1) { ?>
                                    <div class="alert alert-block alert-success fade in">
                                     <button type="button" class="close" data-dismiss="alert"></button>
                                     <h3 class="alert-heading">Nuevo registro</h3>
                                     <p>
-                                     Se registro correctamente!
+                                       Se registro correctamente!
                                    </p>
 
-                                </div>
-                             <?php }?>    
-
-                            
+                               </div>
+                           <?php }?>    
 
 
 
-                          <div class="tabbable-line boxless tabbable-reversed">
+
+
+                           <div class="tabbable-line boxless tabbable-reversed">
 
                             <div class="tab-content">
 
@@ -150,17 +150,27 @@
 
                                                     <div class="row">
 
-
-
-
-                                                        <div class="col-md-3">
+                                                        <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label class="control-label">Num. Avalúo:</label>
-                                                                <input type="text" onkeyup="mayus(this);" class="form-control" maxlength="45"  name="folio_cliente" placeholder="Num. Avalúo" />
+
+                                                              <input type="checkbox"  checked id="valortipoSnc"  style="width: 15px;height: 15px">
+                                                              <input type="hidden" value="1" name="tipoSnc" id="tipoSnc" >
+                                                              <label class="control-label"> Sincronizacion GYS </label>
+                                                          </div>
+                                                      </div>
 
 
-                                                            </div>
+
+
+
+                                                      <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Num. Avalúo:</label>
+                                                            <input type="text" onkeyup="mayus(this);" class="form-control" maxlength="45"  name="folio_cliente" placeholder="Num. Avalúo" />
+
+
                                                         </div>
+                                                    </div>
 
                                                    <!--      <div class="col-md-3">
                                                             <div class="form-group">
@@ -178,7 +188,7 @@
                                                         <div class="col-md-2">
                                                             <div class="form-group">
                                                                 <label>Costo:</label>
-                                                                <input onkeypress="return soloNumeros(event, this)" maxlength="15" name="costo" class="form-control"  value="0"/>
+                                                                <input onkeypress="return soloNumeros(event, this)" maxlength="16" name="costo" class="form-control monedaxn"  value="0"/>
 
 
                                                             </div>
@@ -210,26 +220,37 @@
                                                     <div class="row">
 
 
-                                                     <div class="col-md-4">
+                                                       <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>Operador :</label>
                                                             <select class="form-control" name="idOperador" >
 
                                                                 <option value="">Seleccione</option>
-
                                                                 <?php
-                                                                if (isset($asigno)) {
-                                                                    foreach ($asigno->result() as $rowx) {
-                                                                        ?>
+                                                                if (isset($operador)) {
+                                                                    foreach ($operador->result() as $rowx) {
 
-                                                                        <option value="<?php echo $rowx->idempleado; ?>"><?php echo $rowx->Nombre; ?> <?php echo $rowx->apellidos; ?></option>
+                                                                        if ($this->config->item('idEmpleado') == $rowx->idempleado) {
+                                                                            ?>
 
 
+                                                                            <option selected="selected" value="<?php echo $rowx->idempleado; ?>"><?php echo $rowx->Nombre; ?> <?php echo $rowx->apellidos; ?></option>
 
-                                                                        <?php
+                                                                            <?php
+                                                                        } else {
+                                                                            ?>
+
+                                                                            <option value="<?php echo $rowx->idempleado; ?>"><?php echo $rowx->Nombre; ?> <?php echo $rowx->apellidos; ?></option>
+
+
+                                                                            <?php
+                                                                        }
+
+
                                                                     }
                                                                 }
                                                                 ?>  
+
 
 
                                                             </select>
@@ -391,18 +412,20 @@
                                                                     }
                                                                 }
                                                                 ?>
-                                                            
+
 
                                                             </select>
 
 
                                                         </div>
+
+
                                                     </div>
 
-                                                    <div class="col-md-4" id="otro_inter" style="display: none">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>Otro Intermediario: </label>
-                                                            <input onkeyup="mayus(this);" type="text" maxlength="100" class="form-control" name="otro_intermediario" placeholder="Otro Intermediario" />
+                                                            <label>Recomienda : </label>
+                                                            <input type="text" maxlength="100" class="form-control" name="otro_intermediario" placeholder="Recomienda" />
 
                                                         </div>
                                                     </div>
@@ -446,7 +469,7 @@
                                                         <label>Hora de inspección :</label>
 
 
-                                                        <input type="text" name="hora_de_inspeccion" class="form-control timepicker timepicker-24" value="N/A">
+                                                        <input type="text" name="hora_de_inspeccion" class="form-control timepicker timepicker-24" >
 
 
 
@@ -483,6 +506,15 @@
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
+                                                        <label class="control-label">Teléfono 2 :</label>
+                                                        <input type="text"   name="telefono_v2" maxlength="18"   class="form-control" placeholder="Teléfono 2"/>
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
                                                         <label class="control-label">Email:</label>
                                                         <input type="email" name="email_v"  maxlength="45"  class="form-control" placeholder="Correo Electrónico"/>
 
@@ -493,14 +525,14 @@
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label>Monto crédito:</label>
-                                                        <input onkeyup="format(this)" onchange="format(this)" maxlength="10" name="monto_credito" class="form-control"  value="0"/>
+                                                        <input  maxlength="16" onkeypress="return soloNumeros(event, this)" name="monto_credito" class="form-control monedaxn"  value="0"/>
 
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label>Monto venta:</label>
-                                                        <input onkeyup="format(this)" onchange="format(this)" name="monto_venta" maxlength="10" class="form-control"  value="0"/>                                         
+                                                        <input onkeypress="return soloNumeros(event, this)" name="monto_venta" maxlength="16" class="form-control monedaxn"  value="0"/>                                         
 
                                                     </div>
                                                 </div>
@@ -509,8 +541,7 @@
 
 
 
-                                            </div>
-                                            <div class="row">
+
 
 
                                                 <div class="col-md-4">
@@ -533,7 +564,7 @@
 
                                             <div class="row">
 
-                                             <div class="col-md-4">
+                                               <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Nombre *:</label>
                                                     <input type="text" required="" onkeyup="mayus(this);" name="nombre_s" maxlength="45"   class="form-control" placeholder="Nombre"/>
@@ -616,7 +647,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label">Entidad *: </label>
                                                     <select class="form-control"  id="idEntidad_s" name="idEntidad_s" required="">
-                                                        <option value="-1">Seleccione</option>
+                                                        <option value="">Seleccione</option>
 
                                                         <?php
                                                         if (isset($entidades)) {
@@ -641,11 +672,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Municipio *: </label>
-                                                    
+
                                                     <select class="form-control" id="dividMunicipio_s"  name="id_muni_s" required="">
                                                         <option value="">Seleccione</option>
-                                                        <div id="dividMunicipio_s">
-                                                       
+
+
 
                                                     </select>
 
@@ -663,10 +694,12 @@
                                                 </div>
                                             </div>
 
+
+
                                             <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <label class="control-label">Num. Int *:</label>
-                                                    <input type="text" required=""  onkeyup="mayus(this);" name="num_int_s" maxlength="45"   class="form-control" placeholder="Num. Int"/>
+                                                    <label class="control-label">Num. Ext *:</label>
+                                                    <input type="text" onkeyup="mayus(this);" required="" name="num_ext_s" maxlength="45"   class="form-control" placeholder="Num. Ext:"/>
 
 
                                                 </div>
@@ -674,8 +707,8 @@
 
                                             <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <label class="control-label">Num. Ext:</label>
-                                                    <input type="text" onkeyup="mayus(this);" name="num_ext_s" maxlength="45"   class="form-control" placeholder="Num. Ext:"/>
+                                                    <label class="control-label">Num. Int :</label>
+                                                    <input type="text"   onkeyup="mayus(this);" name="num_int_s" maxlength="45"   class="form-control" placeholder="Num. Int"/>
 
 
                                                 </div>
@@ -706,11 +739,19 @@
                                         <h3 class="form-section">Inmueble</h3>
 
                                         <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+
+                                                  <input type="checkbox"  checked id="valorCheck"  style="width: 15px;height: 15px">
+                                                  <input type="hidden" value="1" name="mismoSolicitante" id="mismoSolicitante" >
+                                                  <label class="control-label">El mismo del solicitante </label>
+                                              </div>
+                                          </div>
 
                                           <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo Inmueble * :</label>
-                                                <select class="form-control"  name="idtipo_avaluo_i" required="">
+                                                <select class="form-control"   name="idtipo_avaluo_i" required="">
                                                     <option value="">Seleccione</option>
 
                                                     <?php
@@ -736,7 +777,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="control-label">C.P :</label>
-                                                <input type="text"  onKeyPress="return soloNumeros(event)" name="cp_i" maxlength="6"   class="form-control" placeholder="C:P"/>
+                                                <input type="text"  disabled="" onKeyPress="return soloNumeros(event)" name="cp_i" maxlength="6"   class="form-control inmuebleclass" placeholder="C:P"/>
 
 
                                             </div>
@@ -747,7 +788,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="control-label">Entidad: </label>
-                                                <select class="form-control"  id="idEntidad_i" name="idEntidad_i" required="">
+                                                <select class="form-control inmuebleclass" disabled=""  id="idEntidad_i" name="idEntidad_i" required="">
                                                     <option value="-1">Seleccione</option>
 
                                                     <?php
@@ -773,12 +814,12 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label">Municipio: </label>
-                                              
-                                                    <select class="form-control" id="divid_muni_i"  name="id_muni_i" required="">
-                                                        <option value="-1">Seleccione</option>
 
-                                                    </select>
-                                            
+                                                <select class="form-control inmuebleclass" disabled="" id="divid_muni_i"  name="id_muni_i" required="">
+                                                    <option value="-1">Seleccione</option>
+
+                                                </select>
+
 
                                             </div>
                                         </div>
@@ -786,7 +827,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label">Colonia:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="col_i" maxlength="100"   class="form-control" placeholder="Colonia"/>
+                                                <input type="text" disabled="" onkeyup="mayus(this);" name="col_i" maxlength="100"   class="form-control inmuebleclass" placeholder="Colonia"/>
 
 
                                             </div>
@@ -796,7 +837,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label">Calle:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="calle_i" maxlength="150"   class="form-control" placeholder="Calle"/>
+                                                <input type="text" disabled="" onkeyup="mayus(this);" name="calle_i" maxlength="150"   class="form-control inmuebleclass" placeholder="Calle"/>
 
 
                                             </div>
@@ -805,7 +846,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="control-label">Num. Int:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="num_int_i" maxlength="45"   class="form-control" placeholder="Num. Int"/>
+                                                <input type="text" disabled="" onkeyup="mayus(this);" name="num_int_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Num. Int"/>
 
 
                                             </div>
@@ -814,7 +855,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="control-label">Num. Ext:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="num_ex_i" maxlength="45"   class="form-control" placeholder="Num. Ext"/>
+                                                <input type="text" disabled="" onkeyup="mayus(this);" name="num_ex_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Num. Ext"/>
 
 
                                             </div>
@@ -834,7 +875,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label class="control-label">Lt.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="lt_i" maxlength="45"   class="form-control" placeholder="Lt"/>
+                                                <input type="text"  onkeyup="mayus(this);" name="lt_i" maxlength="45"   class="form-control" placeholder="Lt"/>
 
 
                                             </div>
@@ -843,7 +884,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="control-label">Condominio.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="condominio_i" maxlength="45"   class="form-control" placeholder="Condominio"/>
+                                                <input type="text"  onkeyup="mayus(this);" name="condominio_i" maxlength="45"   class="form-control" placeholder="Condominio"/>
 
 
                                             </div>
@@ -852,7 +893,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="control-label">Entrada.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="entrada_i" maxlength="45"   class="form-control" placeholder="Entrada"/>
+                                                <input type="text"  onkeyup="mayus(this);" name="entrada_i" maxlength="45"   class="form-control" placeholder="Entrada"/>
 
 
                                             </div>
@@ -860,7 +901,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="control-label">Edificio.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="edificio_i" maxlength="45"   class="form-control" placeholder="Edificio"/>
+                                                <input type="text"  onkeyup="mayus(this);" name="edificio_i" maxlength="45"   class="form-control" placeholder="Edificio"/>
 
 
                                             </div>
@@ -869,7 +910,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="control-label">Depto.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="depto_i" maxlength="45"   class="form-control" placeholder="Departamento"/>
+                                                <input type="text"  onkeyup="mayus(this);" name="depto_i" maxlength="45"   class="form-control" placeholder="Departamento"/>
 
 
                                             </div>
@@ -878,7 +919,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label">Entre Calle.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="entre_calle_i" maxlength="150"   class="form-control" placeholder="Entre Calle."/>
+                                                <input type="text"  onkeyup="mayus(this);" name="entre_calle_i" maxlength="150"   class="form-control" placeholder="Entre Calle."/>
 
 
                                             </div>
@@ -887,7 +928,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label">Y  Calle.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="yCalle_i" maxlength="150"   class="form-control" placeholder="Y  Calle."/>
+                                                <input type="text"  onkeyup="mayus(this);" name="yCalle_i" maxlength="150"   class="form-control" placeholder="Y  Calle."/>
 
 
                                             </div>
@@ -896,82 +937,97 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label">Ciudad.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="ciudad_i" maxlength="45"   class="form-control" placeholder="Ciudad"/>
+                                                <input type="text"  onkeyup="mayus(this);" name="ciudad_i" maxlength="45"   class="form-control" placeholder="Ciudad"/>
 
 
                                             </div>
                                         </div>
 
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Latitud.:</label>
-                                                <input type="text" onkeyup="mayus(this);" name="latitud_i" maxlength="45"   class="form-control" placeholder="Latitud"/>
+<!-- <div class="col-md-3">
+    <div class="form-group">
+        <label class="control-label">Latitud.:</label>
+        <input type="text" disabled="" onkeyup="mayus(this);" name="latitud_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Latitud"/>
 
 
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Longitud.:</label>
-                                                <input type="text" name="longitud_i" maxlength="45"   class="form-control" placeholder="Longitud"/>
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3">
-
-                                            <div class="form-group">
-                                                <label class="control-label">Altitud.:</label>
-                                                <input type="text"  name="altitud_i" maxlength="45"   class="form-control" placeholder="Altitud"/>
-
-
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-
-
-
-
-                                </div>
-                                <div class="form-actions right">
-
-                                    <button type="submit" class="btn blue"><i class="fa fa-check"></i> Guardar</button>
-                                </div>
-                            </form>
-                            <!-- END FORM-->
-                        </div>
-                    </div>
-
-
-                </div>
-
-
-
-
-
-
-
-
-
-            </div>
-        </div>
     </div>
+</div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        <label class="control-label">Longitud.:</label>
+        <input type="text" disabled="" name="longitud_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Longitud"/>
+
+
+    </div>
+</div>
+
+<div class="col-md-3">
+
+    <div class="form-group">
+        <label class="control-label">Altitud.:</label>
+        <input type="text"  disabled="" name="altitud_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Altitud"/>
+
+
+    </div>
+</div>
+-->
+
+</div>
+
+
+
+
+</div>
+<div class="form-actions right">
+
+    <button type="submit" class="btn blue"><i class="fa fa-check"></i> Guardar</button>
+</div>
+</form>
+<!-- END FORM-->
+</div>
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
 </div>
 <!-- END PAGE CONTENT-->
 </div>
 </div>
 <!-- END CONTENT -->
+<div style="display: none">
+    <a class="btn default" data-target="#static" data-toggle="modal" id="btnmodal">
+    View Demo </a>
+</div>
+<div id="static" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-body" style="text-align: center;"><br><br>
+       <i class="fa fa-exclamation-triangle" style="font-size: 40px;color:#F3565D"></i><br> <br><p id="mensajeError">
 
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-danger">ACEPTAR</button>
+
+    </div>
+</div>
 </div>
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
 <div class="page-footer">
     <div class="page-footer-inner">
         2016 &copy; HelpMex.com.mx
+
     </div>
     <div class="scroll-to-top">
         <i class="icon-arrow-up"></i>
@@ -979,21 +1035,6 @@
 </div>
 
 <!-- END JAVASCRIPTS -->
-
-<script type="text/javascript">
-
-
-
-
-    function mayus(e) {
-        e.value = e.value.toUpperCase();
-    }
-
-    function soloNumeros(e){
-        var key = window.Event ? e.which : e.keyCode
-        return (key >= 48 && key <= 57)
-    }
-</script>
 
 <script type="text/javascript">
 
@@ -1025,6 +1066,12 @@
             if(idEntidad_i==='-1'){
 
                 $("#otro_inter").css("display", "block");
+                $("#tipoSnc").val(0);
+                $('#valortipoSnc').prop('checked', false);
+                $("#mensajeError").html('Si el "INTERMEDIARIO FINANCIERO" es "OTRO" se desactivara la sincronización con GYS. ');
+                $("#btnmodal").click();
+                
+
             }else{
                 $("#otro_inter").css("display", "none");
             }
@@ -1033,7 +1080,37 @@
             return false;
         });
 
-    });
+//funcion quitar disbled
+$( '#valorCheck' ).on( 'click', function() {
+    if( $(this).is(':checked') ){
+        // Hacer algo si el checkbox ha sido seleccionado
+        $(".inmuebleclass").prop("disabled", true);       
+        $('#mismoSolicitante').val(1);
+    } else {
+        // Hacer algo si el checkbox ha sido deseleccionado
+        $(".inmuebleclass").prop("disabled", false);
+        $('#mismoSolicitante').val(0);
+    }
+});
+
+
+$( '#valortipoSnc' ).on( 'click', function() {
+    if( $(this).is(':checked') ){ 
+        var va=$("#idIntemediario").val();
+        if(va!=-1){ 
+            $('#tipoSnc').val(1);
+        }else{
+            $("#mensajeError").html('El "INTERMEDIARIO FINANCIERO" debe ser diferente a "OTRO" ');
+            $('#valortipoSnc').prop('checked', false);
+            $("#btnmodal").click();
+        }
+    } else {
+        $('#tipoSnc').val(0);
+    }
+});
+
+
+});
 </script>
 
 <script type="text/javascript">
@@ -1042,7 +1119,7 @@
         $('#idEntidad_i').change(function() {
             var idEntidad_i = $(this).val();
             var dataString = 'idEntidad_i=' + idEntidad_i;
-            alert("Entro squi divid_muni_i");
+            
             var url = "<?php echo site_url('') ?>solicitudesWebService/getMunicipios";
             $.ajax({
                 type: "GET",
@@ -1058,11 +1135,48 @@
             return false;
         });
 
-    });
-</script>
 
-<script>
-   jQuery(document).ready(function() {
+
+    });
+
+
+</script>
+<script type="text/javascript">
+    $(function() {
+        $('.monedaxn').keyup(function(e) {
+            var e = window.event || e;
+            var keyUnicode = e.charCode || e.keyCode;
+            if (e !== undefined) {
+                switch (keyUnicode) {
+                        case 16: break; // Shift
+                        case 27: this.value = ''; break; // Esc: clear entry
+                        case 35: break; // End
+                        case 36: break; // Home
+                        case 37: break; // cursor left
+                        case 38: break; // cursor up
+                        case 39: break; // cursor right
+                        case 40: break; // cursor down
+                        case 78: break; // N (Opera 9.63+ maps the "." from the number key section to the "N" key too!) (See: http://unixpapa.com/js/key.html search for ". Del")
+                        case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
+                        case 190: break; // .
+                        default: $(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+                    }
+                }
+            });
+
+
+
+
+
+    });     
+    $(document).ready(function() {
+        $('.monedaxn').formatCurrency();
+                   // $('#formatWhileTypingAndWarnOnDecimalsEntered').formatCurrency('.currencyLabel')
+               });   
+           </script>
+
+           <script>
+             jQuery(document).ready(function() {
                                              // initiate layout and plugins
 
                                              Layout.init(); // init current layout

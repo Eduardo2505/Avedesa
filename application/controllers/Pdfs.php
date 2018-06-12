@@ -8,6 +8,7 @@ class Pdfs extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('models_registro');
+        $this->load->model('models_visita');
         $this->load->library('ciqrcode');
         $this->load->helper('url');
     }
@@ -21,13 +22,18 @@ class Pdfs extends CI_Controller {
 
 
         // Genera el QR
-        $params['data'] = site_url('').'pagos/registro?id='.$idregistro;
+        $params['data'] = $idregistro;
         $params['level'] = 'H';
         $params['size'] = 3;
         $params['savename'] = FCPATH.'tes.png';
         $this->ciqrcode->generate($params);
 
         $query = $this->models_registro->buscar($idregistro);
+        $obj_vista = $this->models_visita->buscarObj($idregistro);
+        $telefono2="";
+        if($obj_vista!=null){
+            $telefono2=$obj_vista->Telefono;
+        }
         $row = $query->row();
         $this->load->library('Pdf');
 
@@ -73,7 +79,7 @@ class Pdfs extends CI_Controller {
 
         $html = '<style type="text/css">
 
-    *{text-align: center;font-size:14px }
+    *{text-align: center;font-size:16px }
         .texto{
             width:290px;height: 100px;
             background-color: #BBBBBB;
@@ -112,29 +118,30 @@ class Pdfs extends CI_Controller {
 
 
     </style>
-    <h1 style="font-size:18px">CARATULA DE CITA FOLIO: ' . $row->num_expediente . '</h1>
+    <h1 style="font-size:17px">CARATULA DE CITA FOLIO: ' . $row->num_expediente . '</h1>
     <table>
         <tr>
             <td class="texto2"><br>
-                <strong>ASIGNÓ: </strong>' . $row->asigno . '
-                <BR><strong>CAPTURISTA: </strong> ' . $row->capturista . '</td>
+                <span style="font-size:12px" ><strong>ASIGNÓ: </strong>' . $row->asigno . '</span>
+                <BR><span style="font-size:12px" ><strong>CAP: </strong>' . $row->capturista . '</span></td>
                     <td class="separador"></td>
                     <td class="texto2"><br>
-                        <strong>INSPECTOR:</strong> <br>' . $row->Nombre . ' ' . $row->apellidos . '</td>
+                       <span style="font-size:13px" > <strong>INSPECTOR:</strong> <br>' . $row->Nombre . ' ' . $row->apellidos . '</span></td>
                     </tr>
                     <tr><td colspan="3"><br></td></tr>
                     <tr>
                         <td class="texto"><br>
                             <strong> FECHA:</strong><br> ' . $fehchiii . ' <br>
-                            <strong>HORA:</strong><br> ' . $row->hora_de_inspeccion . ' hrs</td>
+                            <strong>HORA:</strong><br>' . $row->hora_de_inspeccion . ' hrs</td>
                             <td class="separador"> </td>
                             <td class="texto"><br>
-                                <strong>UBICACIÓN:</strong><br> ' . $row->ubicacion . '</td></tr>
+                                <strong>UBICACIÓN:</strong><br> <span style="font-size:12px"> ' . $row->ubicacion . '</span> </td></tr>
                                 <tr><td colspan="3"><br></td></tr>
                                 <tr><td class="texto3"><br>
                                     <strong> CONTACTO DE VISITA: </strong><br>' . $row->referencia . ' <br>
+                                    '. $row->email . '<br>
                                     <strong>TELEFONO:  </strong>
-                                    <br> ' . $row->telefono . '</td>
+                                    <br> ' . $row->telefono . '<br>'.$telefono2.'</td>
                                     <td class="separador"></td>
                                     <td class="texto3">
                                         <br>
@@ -154,7 +161,7 @@ class Pdfs extends CI_Controller {
                                             <br>
                                             <strong> INTERMEDIARIO : </strong><br>' . $row->nomIntermediria . ' </td>
                                             <td class="separador" > </td>
-                                            <td><img class="sobre" src="'.base_url().'tes.png" /></td>
+                                            <td class="texto2"><span style="font-size:12px" > <strong>RECOMIENDA:</strong> <br>'.$row->recomienda.'</span></td>
                                         </tr>
                                         <tr><td colspan="3"></td></tr>
 
@@ -173,11 +180,11 @@ class Pdfs extends CI_Controller {
                                                 <input type="checkbox" name="vehicle" class="checkboxtext"  value="Bike"> RFC <input class="checkboxtext"  type="checkbox" name="vehicle" value="Bike"><BR>
                                                 <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> NSS <input class="checkboxtext"  type="checkbox" name="vehicle" value="Bike"><BR>
                                                 <div style="text-align: left">
-                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> BOLETA PREDIAL O CASTRO<BR>
-                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike">  BOLETA DE AGUA<BR>
-                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> LICENCIA DE CONSTRUCCIÓN<BR>
-                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> PLANO<BR>
-                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> ESCRITURA
+                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> <span style="font-size:13px">BOLETA PREDIAL O CASTRO</span><BR>
+                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> <span style="font-size:13px">BOLETA DE AGUA</span><BR>
+                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> <span style="font-size:13px">LICENCIA DE CONSTRUCCIÓN</span><BR>
+                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> <span style="font-size:13px">PLANO</span><BR>
+                                                    <input type="checkbox" name="vehicle" class="checkboxtext" value="Bike"> <span style="font-size:13px">ESCRITURA</span>
 
                                                 </div>
 

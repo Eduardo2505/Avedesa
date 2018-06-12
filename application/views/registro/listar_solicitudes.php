@@ -142,7 +142,7 @@
                 <div class="row">
 
                     <div class="col-md-12">
-                       <div class="row search-form-default">
+                     <div class="row search-form-default">
                         <div class="col-md-12">
                             <form action="<?php echo site_url('') ?>registro/mostrarsolicitudes">
                                 <div class="input-group">
@@ -237,10 +237,24 @@
                                                                 ?></td>
 
 
-                                                                <td >
+                                                                <td>
+
+
+                                                                   <?php
+
+                                                                   if($rowx->tipoRegistro==1){
+
+                                                                    ?>
+
+                                                                    <a href="<?php echo site_url('') ?>registro/enviarGYS?idregistro=<?php echo $rowx->idregistro ?>&idestado_empleado=<?php echo $rowx->idestado_empleado ?>" class="btn default btn-xs "><i class="fa fa-search"></i> CERRAR </a>
 
                                                                     <?php
-                                                           
+
+
+                                                                }else{
+
+
+
                                                                     if ($canti == 0) {
 
                                                                         ?>
@@ -248,116 +262,121 @@
 
                                                                         <?php
                                                                     } else {
-                                                                     ?>
-                                                                     <a href="<?php echo site_url('') ?>registro/actualizestado?idestado_empleado=<?php echo $rowx->idestado_empleado ?>"  class="btn default btn-xs">CERRAR</a>
+                                                                       ?>
+                                                                       <a href="<?php echo site_url('') ?>registro/actualizestado?idestado_empleado=<?php echo $rowx->idestado_empleado ?>"  class="btn default btn-xs">CERRAR</a>
 
-                                                                     <?php
-                                                                 }
-                                                                 ?>
-                                                                 <BR><br><a href="<?php echo site_url('') ?>anexos/acreditado?idregistro=<?php echo $rowx->idregistro ?>"  class="btn default btn-xs">ARCHIVOS</a>
-                                                                 <br><br>
-                                                                 <a href="<?php echo site_url('') ?>pagos/registro?id=<?php echo $rowx->idregistro ?>" class="btn default btn-xs optenerID"><i class="fa fa-money"></i> PAGOS </a>
-
-                                                             </td>
-                                                         </tr>
+                                                                       <?php
+                                                                   }
+                                                               }
+                                                               ?>
 
 
 
-                                                         <?php
-                                                     }
-                                                 }
+
+                                                               <br><br><a href="<?php echo site_url('') ?>anexos/acreditado?idregistro=<?php echo $rowx->idregistro ?>"  class="btn default btn-xs">ARCHIVOS</a>
+                                                               <br><br>
+                                                               <a href="<?php echo site_url('') ?>pagos/registro?id=<?php echo $rowx->idregistro ?>" class="btn default btn-xs optenerID"><i class="fa fa-money"></i> PAGOS </a>
+
+                                                           </td>
+                                                       </tr>
 
 
-                                                 ?>  
+
+                                                       <?php
+                                                   }
+                                               }
 
 
-                                                 
+                                               ?>  
 
-                                             </tbody>
-                                         </table>
 
-                                     </div>
 
-                                 </div>
-                                 <div class="pull-right" >
 
-                                    <?php echo $pagination; ?>
+                                           </tbody>
+                                       </table>
 
-                                </div>
+                                   </div>
+
+                               </div>
+                               <div class="pull-right" >
+
+                                <?php echo $pagination; ?>
+
                             </div>
-
-
                         </div>
 
 
-
-                        <script type="text/javascript">
-
-                            $(document).ready(function() {
-                                $('.asignacion').click(function() {
-
-                                    var idregistro = $(this).attr("title");
-                                    var dataString = 'idregistro=' + idregistro;
-
-
-
-                                    var url = "<?php echo site_url('') ?>registro/asignarIndividual";
-
-                                    $.ajax({
-                                        type: "GET",
-                                        url: url,
-                                        data: dataString,
-                                        success: function(data) {
-
-
-
-                                            $("#mostrarprivi").html(data);
-                                            $("#btnmodal").click();
-
-
-
-                                            return false;
-                                        }
-
-                                    });
-
-                                    return false;
-                                });
-
-                            });
-                        </script>
-
-                        <div style="display: none;">
-                            <a class="btn default" data-target="#static" data-toggle="modal" id="btnmodal">
-                            View Demo </a>
-                        </div>
-
-
-                        <div id="static" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
-
-
-                            <div class="modal-body"  id="mostrarprivi">
-                                <p>
-                                  xx
-                              </p>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" data-dismiss="modal" class="btn blue">SALIR</button>
-
-                        </div>
                     </div>
 
 
 
+                    <script type="text/javascript">
+
+                        $(document).ready(function() {
+                            $('.asignacion').click(function() {
+
+                                var idregistro = $(this).attr("title");
+                                var dataString = 'idregistro=' + idregistro;
 
 
 
+                                var url = "<?php echo site_url('') ?>registro/asignarIndividual";
 
+                                $.ajax({
+                                    type: "GET",
+                                    url: url,
+                                    data: dataString,
+                                    success: function(data) {
+
+
+
+                                        $("#mostrarprivi").html(data);
+                                        $("#btnmodal").click();
+
+
+
+                                        return false;
+                                    }
+
+                                });
+
+                                return false;
+                            });
+
+                        });
+                    </script>
+
+                    <div style="display: none;">
+                        <a class="btn default" data-target="#static" data-toggle="modal" id="btnmodal">
+                        View Demo </a>
+                    </div>
+
+
+                    <div id="static" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+
+
+                        <div class="modal-body"  id="mostrarprivi">
+                            <p>
+                              xx
+                          </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn blue">SALIR</button>
+
+                    </div>
                 </div>
+
+
+
+
+
+
+
             </div>
         </div>
     </div>
-    <!-- END PAGE CONTENT-->
+</div>
+<!-- END PAGE CONTENT-->
 </div>
 </div>
 <!-- END CONTENT -->
@@ -377,7 +396,7 @@
 <!-- END JAVASCRIPTS -->
 
 <script>
-   jQuery(document).ready(function() {
+ jQuery(document).ready(function() {
                 // initiate layout and plugins
 
                 Layout.init(); // init current layout

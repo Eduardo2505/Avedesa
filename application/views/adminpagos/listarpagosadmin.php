@@ -343,6 +343,7 @@
                                         <tr>
                                             <th><input type="checkbox" id="checkfull"/></th>
                                             <th>NUM. EXPEDIENTE</th>
+                                            <th>EJECUTIVO</th>
                                             <th>ANTICIPO</th>
                                             <th>DECRIPCION</th>
                                             <th>REGISTRO</th>
@@ -370,6 +371,7 @@
                                             <td><input type="checkbox" class="case" title="<?php echo $rowx->anticipo; ?>"  name="pagos[]" value="<?php echo $rowx->idpagos; ?>"></td>
 
                                             <td><?php echo $rowx->num_expediente; ?></td>
+                                            <td><?php echo $rowx->Nombre.' '.$rowx->apellidos; ?></td>
                                             <td width="110px">$ <?php echo number_format($rowx->anticipo, 2, '.', ',');?></td>
                                             <td><?php echo $rowx->descripcion; ?></td>
 

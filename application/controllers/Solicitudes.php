@@ -377,11 +377,14 @@ $data['tipo_avaluo'] = $this->models_tipo_avaluo->get();
 $data['objetivo_avaluo'] = $this->models_objetivo_avaluo->get();
 $data['empleados'] = $this->models_empleado->getInspector();
 $data['asigno'] = $this->models_empleado->getAsignador();
+$data['operador'] = $this->models_empleado->getOperador();
 //$data['estado_registro'] = $this->models_estado_registro->get();
         // $data['intermediario'] = $this->models_intermediario->get();
 //$this->load->view('solicitudes/registro', $data);
 redirect('solicitudesWebService', 'refresh');
 }
+
+
 
 public function mostrar() {
 
@@ -981,8 +984,9 @@ $registroConsulta.='';
 if($rowx->tipoRegistro==1){
 
   $registroConsulta.='<a href="'.site_url('').'solicitudesWebService/editar?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> EDITAR </a> <br>';  
-  $registroConsulta.='<a href="'.site_url('').'solicitudesWebService/enviarGYS?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> ENVIAR GYS </a> <br>';  
-
+  if($rowx->tipoSnc==1){
+      $registroConsulta.='<a href="'.site_url('').'solicitudesWebService/enviarGYS?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> ENVIAR GYS </a> <br>';  
+   }
 }else{
 
   $registroConsulta.='<a href="'.site_url('').'solicitudes/editar?idregistro='.$rowx->idregistro.'" class="btn default btn-xs  optenerID"><i class="fa fa-edit"></i> EDITAR </a> <br>';  

@@ -85,7 +85,7 @@
                                 <ul class="page-breadcrumb">
                                     <li>
                                         <i class="fa fa-home"></i>
-                                        <a href="<?php echo site_url('') ?>solicitudes">NUEVA BUSQUEDA</a>
+                                        <a href="<?php echo site_url('') ?>solicitudesConsulta">NUEVA BUSQUEDA</a>
                                         <i class="fa fa-angle-right"></i>
                                     </li>
                                     <li>

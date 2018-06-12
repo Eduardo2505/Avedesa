@@ -80,124 +80,158 @@ class Models_empleado extends CI_Model {
 
 
         $SQl = "select 
-    e . *
-from
-    empleado e,
-    asig_puesto ap
-where
-    e.idEmpleado = ap.idEmpleado
+        e . *
+        from
+        empleado e,
+        asig_puesto ap
+        where
+        e.idEmpleado = ap.idEmpleado
         and ap.idcat_puesto = 2 and e.estado=1";
         $query = $this->db->query($SQl);
 
         return $query;
     }
-
-    function getAsignador() {
+    function getInspectorActivos() {
 
 
         $SQl = "select 
-    e . *
-from
-    empleado e,
-    asig_puesto ap
-where
-    e.idEmpleado = ap.idEmpleado
-        and ap.idcat_puesto = 7 and e.estado=1";
+        e . *
+        from
+        empleado e,
+        asig_puesto ap
+        where
+        e.idEmpleado = ap.idEmpleado
+        and ap.idcat_puesto = 2 and e.estado=1 and e.clave_gys is not null";
         $query = $this->db->query($SQl);
 
         return $query;
     }
+    function getOperador() {
 
-    function login($email, $password) {
-        $sql = "SELECT 
+        $SQl = "select *
+        from
+        empleado 
+        where perfil like '%OPERADOR INTERNO%'";
+        $query = $this->db->query($SQl);
+
+        return $query;
+    }
+     function getAsignadorActivos() {
+      $SQl = "select 
+      e . *
+      from
+      empleado e,
+      asig_puesto ap
+      where
+      e.idEmpleado = ap.idEmpleado
+      and ap.idcat_puesto = 7 and e.estado=1 and e.clave_gys is not null";
+      $query = $this->db->query($SQl);
+      return $query;
+  }
+
+    function getAsignador() {
+      $SQl = "select 
+      e . *
+      from
+      empleado e,
+      asig_puesto ap
+      where
+      e.idEmpleado = ap.idEmpleado
+      and ap.idcat_puesto = 7 and e.estado=1";
+      $query = $this->db->query($SQl);
+      return $query;
+  }
+
+  function login($email, $password) {
+    $sql = "SELECT 
     p.*,e.*
-FROM
+    FROM
     asig_puesto asig,
     cat_puesto p,
     empleado e
-WHERE
+    WHERE
     e.idempleado = asig.idempleado
-        AND p.idcat_puesto = asig.idcat_puesto
-        AND e.estado = 1
-        AND e.email = '$email'
-        AND e.pass = '$password'";
+    AND p.idcat_puesto = asig.idcat_puesto
+    AND e.estado = 1
+    AND e.email = '$email'
+    AND e.pass = '$password'";
 
 
-        $query = $this->db->query($sql);
-        return $query;
-    }
+    $query = $this->db->query($sql);
+    return $query;
+}
 
-    function capturista() {
-        $sql = "SELECT 
+function capturista() {
+    $sql = "SELECT 
     p.*,e.*
-FROM
+    FROM
     asig_puesto asig,
     cat_puesto p,
     empleado e
-WHERE
+    WHERE
     e.idempleado = asig.idempleado
-        AND p.idcat_puesto = asig.idcat_puesto
-        AND e.estado = 1
-        AND (p.idcat_puesto = 1 OR p.idcat_puesto = 6) group by e.idempleado,p.idcat_puesto";
-
-     
-
-        $query = $this->db->query($sql);
-        return $query;
-    }
-
-    function mostrarcount($nombre,$estado) {
-
-        $SQl = "SELECT e.*,em.nombre FROM empleado e, empresa em where e.idempresa=em.idempresa and concat(e.Nombre,' ',e.apellidos) like '%$nombre%' and idempleado!=0 and $estado";
-
-        $query = $this->db->query($SQl);
-
-        return $query->num_rows();
-    }
-
-    function mostrar($nombre,$estado, $offset, $limin) {
-
-        $SQl = "SELECT e.*,em.nombre as empresa FROM empleado e, empresa em where e.idempresa=em.idempresa and concat(e.Nombre,' ',e.apellidos) like '%$nombre%' and idempleado!=0 and $estado order by e.Nombre asc ";
+    AND p.idcat_puesto = asig.idcat_puesto
+    AND e.estado = 1
+    AND (p.idcat_puesto = 1 OR p.idcat_puesto = 6) group by e.idempleado,p.idcat_puesto";
 
 
-        $SQl .="  limit $offset, $limin";
+
+    $query = $this->db->query($sql);
+    return $query;
+}
+
+function mostrarcount($nombre,$estado) {
+
+    $SQl = "SELECT e.*,em.nombre FROM empleado e, empresa em where e.idempresa=em.idempresa and concat(e.Nombre,' ',e.apellidos) like '%$nombre%' and idempleado!=0 and $estado";
+
+    $query = $this->db->query($SQl);
+
+    return $query->num_rows();
+}
+
+function mostrar($nombre,$estado, $offset, $limin) {
+
+    $SQl = "SELECT e.*,em.nombre as empresa FROM empleado e, empresa em where e.idempresa=em.idempresa and concat(e.Nombre,' ',e.apellidos) like '%$nombre%' and idempleado!=0 and $estado order by e.Nombre asc ";
 
 
-        $query = $this->db->query($SQl);
+    $SQl .="  limit $offset, $limin";
 
-        return $query;
-    }
 
-    function Buscar($id) {
+    $query = $this->db->query($SQl);
 
-        $this->db->where('idempleado', $id);
-        $query = $this->db->get('empleado');
-        return $query;
-    }
+    return $query;
+}
 
-    function puestoEmpleados($idPuesto) {
+function Buscar($id) {
 
-        $SQl = "SELECT 
+    $this->db->where('idempleado', $id);
+    $query = $this->db->get('empleado');
+    return $query;
+}
+
+function puestoEmpleados($idPuesto) {
+
+    $SQl = "SELECT 
     cp.puesto,cp.idcat_puesto
-FROM
+    FROM
     cat_puesto cp,
     asig_puesto ap
-where
+    where
     cp.idcat_puesto = ap.idcat_puesto
-        and ap.idempleado = $idPuesto";
+    and ap.idempleado = $idPuesto";
 
 
 
-        $query = $this->db->query($SQl);
+    $query = $this->db->query($SQl);
 
-        return $query;
-    }
+    return $query;
+}
 
-    function get() {
-        $this->db->order_by("Nombre", "asc");
-        $this->db->order_by("apellidos", "asc");
-        $this->db->where('estado', 1);
-        return $query = $this->db->get('empleado');
-    }
+function get() {
+    $this->db->order_by("Nombre", "asc");
+    $this->db->order_by("apellidos", "asc");
+    $this->db->where('estado', 1);
+    return $query = $this->db->get('empleado');
+}
 
 }

@@ -152,9 +152,10 @@ function mostrarSolotiket($idempleado) {
 
 function mostrarSoloPagos($numexpediente,$inicior,$finalr,$usuario,$estado, $offset,$limin) {
 
-  $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario,e.idpagos');
+  $this->db->select('r.num_expediente,e.anticipo,e.descripcion,e.registro,e.usuario,e.idpagos,em.Nombre,em.apellidos');
   $this->db->from('pagos e');
   $this->db->join('registro r', 'r.idregistro = e.idregistro');
+  $this->db->join('empleado em', 'em.idempleado = r.id_asigno');
   $this->db->where('e.estado', $estado);
   $this->db->like('r.num_expediente', $numexpediente, 'both');
   if($usuario!=""){

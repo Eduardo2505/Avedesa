@@ -17,4 +17,5 @@ class Salir extends CI_Controller {
         redirect('', 'refresh');
     }
 
+    
 }

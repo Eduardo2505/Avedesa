@@ -85,7 +85,7 @@
                         <ul class="page-breadcrumb">
                             <li>
                                 <i class="fa fa-home"></i>
-                                <a href="<?php echo site_url('') ?>solicitudes">NUEVA BUSQUEDA</a>
+                                <a href="<?php echo site_url('') ?>solicitudesConsulta">NUEVA BUSQUEDA</a>
                                 <i class="fa fa-angle-right"></i>
                             </li>
                             <li>
@@ -138,22 +138,41 @@
                                                 <!-- BEGIN FORM-->
                                                 <form action="<?php echo site_url('') ?>solicitudesWebService/editarCaptura" method="POST"  class="horizontal-form">
                                                     <input type="hidden" value="<?php echo $idregistro;?>" name="idregistro">
-                                                     <input type="hidden" value="0" name="gys">
+                                                    <input type="hidden" value="0" name="gys">
+                                                    <input type="hidden" value="0" name="updateEdit">
+                                                    <input type="hidden" name="num_folio" value="<?php echo $obj_registro->num_folio ?>">
+
+
                                                     <div class="form-body">
 
                                                         <div class="row">
 
+                                                           <div class="col-md-12">
+                                                            <div class="form-group">
 
+                                                                <?php 
+                                                                $check="";
+                                                                $varChekgys=$obj_registro->tipoSnc;
+                                                                if($varChekgys==1){
+                                                                    $check="checked";
+                                                                }
+                                                                ?>
 
-
-                                                            <div class="col-md-3">
-                                                                <div class="form-group">
-                                                                    <label class="control-label">Num. Avalúo:</label>
-                                                                    <input type="text" value="<?php echo $obj_registro->num_avaluo ?>" onkeyup="mayus(this);" class="form-control" maxlength="45"  name="folio_cliente" placeholder="Num. Avalúo" />
-
-
-                                                                </div>
+                                                                <input type="checkbox"  <?php echo $check; ?> id="valortipoSnc"  style="width: 15px;height: 15px">
+                                                                <input type="hidden" value="<?php echo $obj_registro->tipoSnc; ?>" name="tipoSnc" id="tipoSnc" >
+                                                                <label class="control-label"> Sincronizacion GYS </label>
                                                             </div>
+                                                        </div>
+
+
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Num. Avalúo:</label>
+                                                                <input type="text" value="<?php echo $obj_registro->num_avaluo ?>" onkeyup="mayus(this);" class="form-control" maxlength="45"  name="folio_cliente" placeholder="Num. Avalúo" />
+
+
+                                                            </div>
+                                                        </div>
 
                                                    <!--      <div class="col-md-3">
                                                             <div class="form-group">
@@ -168,10 +187,10 @@
                                                             </div>
                                                         </div> -->
 
-                                                        <div class="col-md-1">
+                                                        <div class="col-md-2">
                                                             <div class="form-group">
                                                                 <label>Costo:</label>
-                                                                <input value="<?php echo $obj_registro->costo ?>" onkeypress="return soloNumeros(event, this)" maxlength="15" name="costo" class="form-control"  value="0"/>
+                                                                <input value="<?php echo $obj_registro->costo ?>" onkeypress="return soloNumeros(event, this)" maxlength="16" name="costo" class="form-control monedaxn"  />
 
 
                                                             </div>
@@ -199,11 +218,11 @@
                                                         </div>
 
                                                         <div class="col-md-3">
-                                                                <div class="form-group">
-                                                                    <label class="control-label">Num. Expediente:</label>
-                                                                    <input type="text" readonly="readonly" class="form-control" value="<?php echo $obj_registro->num_expediente ?>" name="numExpediente" placeholder="Nombre de Expediente" />
-                                                                </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label">Num. Expediente:</label>
+                                                                <input type="text" readonly="readonly" class="form-control" value="<?php echo $obj_registro->num_expediente ?>" name="numExpediente" placeholder="Nombre de Expediente" />
                                                             </div>
+                                                        </div>
 
 
                                                     </div>
@@ -218,8 +237,8 @@
                                                                 <option value="">Seleccione</option>
 
                                                                 <?php
-                                                                if (isset($asigno)) {
-                                                                    foreach ($asigno->result() as $rowx) {
+                                                                if (isset($operador)) {
+                                                                    foreach ($operador->result() as $rowx) {
 
                                                                         if ($obj_registro->idOperador == $rowx->idempleado) {
                                                                             ?>
@@ -254,6 +273,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>Inspector :</label>
+                                                            <input type="hidden" name="idInsepctorAux" value="<?php echo $obj_registro->idempleado?>">
                                                             <select class="form-control" name="idInsepctor" >
 
                                                                 <option value="">Seleccione</option>
@@ -533,13 +553,13 @@
                                         }
                                         ?>
 
-                                        <div class="col-md-4" id="otro_inter" style="<?php echo $style?>">
+                                    <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>Otro Intermediario: </label>
-                                                <input value="<?php echo $valor; ?>" onkeyup="mayus(this);" type="text" maxlength="100" class="form-control" name="otro_intermediario" placeholder="Otro Intermediario" />
+                                                <label>Recomienda: </label>
+                                                <input value="<?php echo $obj_registro->recomienda; ?>" type="text" maxlength="100" class="form-control" name="otro_intermediario" placeholder="Recomienda" />
 
                                             </div>
-                                        </div>
+                                     </div>
 
                                         <!--/span-->
                                     </div>
@@ -565,6 +585,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Fecha Visita:</label>
+                                            <input type="hidden" value="<?php echo $obj_registro->fecha_de_inspeccion ?>" name="fecha_visitaaux">
                                             <div class="input-group input-medium date date-picker" data-date-format="yyyy-mm-dd" >
                                                 <input type="text" value="<?php echo $obj_registro->fecha_de_inspeccion ?>" class="form-control" name="fecha_visita" readonly="">
                                                 <span class="input-group-btn">
@@ -580,7 +601,7 @@
                                             <label>Hora de inspección :</label>
 
 
-                                            <input type="text" value="<?php echo $obj_registro->hora_de_inspeccion ?>" name="hora_de_inspeccion" class="form-control timepicker timepicker-24" value="N/A">
+                                            <input type="text" value="<?php echo $obj_registro->hora_de_inspeccion ?>" name="hora_de_inspeccion" class="form-control timepicker timepicker-24" >
 
 
 
@@ -602,7 +623,7 @@
                                                     <option value="0">NO</option>
 
                                                     <?php
-                                                }else if($obj_vista->reporteTesoreria == 0){
+                                                }else if($obj_vista->VisitaExitosa == 0){
                                                     ?>
 
                                                     <option value="1">Si</option>
@@ -636,7 +657,15 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="control-label">Teléfono *:</label>
-                                            <input type="text" value="<?php echo $obj_registro->telefono ?>" required=""  onKeyPress="return soloNumeros(event)" name="telefono_v" maxlength="18"   class="form-control" placeholder="Teléfono"/>
+                                            <input type="text" value="<?php echo $obj_vista->Telefono ?>" required=""  onKeyPress="return soloNumeros(event)" name="telefono_v" maxlength="18"   class="form-control" placeholder="Teléfono"/>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">Teléfono 2 :</label>
+                                            <input type="text"  value="<?php echo $obj_registro->telefono ?>"  name="telefono_v2" maxlength="18"   class="form-control" placeholder="Teléfono 2"/>
 
 
                                         </div>
@@ -654,14 +683,14 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Monto crédito:</label>
-                                            <input value="<?php echo $obj_registro->monto_credito ?>"  onkeyup="format(this)" onchange="format(this)" maxlength="10" name="monto_credito" class="form-control"  value="0"/>
+                                            <input value="<?php echo $obj_registro->monto_credito ?>"  onkeypress="return soloNumeros(event, this)" maxlength="16" name="monto_credito" class="form-control monedaxn"  value="0"/>
 
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Monto venta:</label>
-                                            <input value="<?php echo $obj_registro->monto_venta ?>"  onkeyup="format(this)" onchange="format(this)" name="monto_venta" maxlength="10" class="form-control"  value="0"/>                                         
+                                            <input value="<?php echo $obj_registro->monto_venta ?>"  onkeypress="return soloNumeros(event, this)" name="monto_venta" maxlength="16" class="form-control monedaxn"  value="0"/>                                         
 
                                         </div>
                                     </div>
@@ -670,8 +699,7 @@
 
 
 
-                                </div>
-                                <div class="row">
+
 
 
                                     <div class="col-md-4">
@@ -804,7 +832,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Entidad *: </label>
                                         <select class="form-control"  id="idEntidad_s" name="idEntidad_s" required="">
-                                            <option value="-1">Seleccione</option>
+                                            <option value="">Seleccione</option>
 
                                             <?php
                                             if (isset($entidades)) {
@@ -895,10 +923,12 @@
                             </div>
                         </div>
 
+
+
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label class="control-label">Num. Int *:</label>
-                                <input type="text" value="<?php echo $obj_solicitante->NumeroInterior ?>" required=""  onkeyup="mayus(this);" name="num_int_s" maxlength="45"   class="form-control" placeholder="Num. Int"/>
+                                <label class="control-label">Num. Ext * :</label>
+                                <input type="text"  value="<?php echo $obj_solicitante->NumeroExterior ?>" required="" onkeyup="mayus(this);" name="num_ext_s" maxlength="45"   class="form-control" placeholder="Num. Ext:"/>
 
 
                             </div>
@@ -906,8 +936,8 @@
 
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label class="control-label">Num. Ext:</label>
-                                <input type="text"  value="<?php echo $obj_solicitante->NumeroExterior ?>" onkeyup="mayus(this);" name="num_ext_s" maxlength="45"   class="form-control" placeholder="Num. Ext:"/>
+                                <label class="control-label">Num. Int :</label>
+                                <input type="text" value="<?php echo $obj_solicitante->NumeroInterior ?>"   onkeyup="mayus(this);" name="num_int_s" maxlength="45"   class="form-control" placeholder="Num. Int"/>
 
 
                             </div>
@@ -939,36 +969,149 @@
 
                     <div class="row">
 
-                      <div class="col-md-4">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <?php 
+                                $check="";
+                                if($obj_inmueble->mismoSolicitante==1){
+
+                                    $check="checked";
+                                }
+                                ?>
+
+                                <input type="checkbox" <?php echo $check?> id="valorCheck"  style="width: 15px;height: 15px">
+                                <input type="hidden" value="<?php echo $obj_inmueble->mismoSolicitante?>" name="mismoSolicitante" id="mismoSolicitante" >
+                                <label class="control-label">El mismo del solicitante </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Tipo Inmueble * :</label>
+                                <select class="form-control"  name="idtipo_avaluo_i" required="">
+                                    <option value="">Seleccione</option>
+
+                                    <?php
+                                    if (isset($tipoInmueble)) {
+                                        foreach ($tipoInmueble->result() as $rowx) {
+
+
+
+                                         if ($obj_inmueble->idtipoInmueble == $rowx->idtipoInmueble) {
+                                            ?>
+
+                                            <option selected="selected" value="<?php echo $rowx->idtipoInmueble; ?>"><?php echo $rowx->tipo; ?></option>
+
+
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <option value="<?php echo $rowx->idtipoInmueble; ?>"><?php echo $rowx->tipo; ?></option>
+
+
+
+                                            <?php
+                                        }
+
+
+
+
+
+
+
+
+                                    }
+                                }
+                                ?>
+
+                            </select>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2">
                         <div class="form-group">
-                            <label class="control-label">Tipo Inmueble * :</label>
-                            <select class="form-control"  name="idtipo_avaluo_i" required="">
+                            <label class="control-label">C.P :</label>
+                            <input type="text" value="<?php echo $obj_inmueble->CodigoPostal ?>" onKeyPress="return soloNumeros(event)" name="cp_i" maxlength="6"   class="form-control inmuebleclass" placeholder="C:P"/>
+
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Entidad: </label>
+                            <select class="form-control inmuebleclass"  id="idEntidad_i" name="idEntidad_i" required="">
                                 <option value="">Seleccione</option>
 
                                 <?php
-                                if (isset($tipoInmueble)) {
-                                    foreach ($tipoInmueble->result() as $rowx) {
+                                if (isset($entidades)) {
+                                    foreach ($entidades->result() as $rowx) {
+
+
+                                        if ($obj_inmueble->ClaveEntidad == $rowx->idEntidad) {                                        ?>
+
+
+                                            <option selected="selected" value="<?php echo $rowx->idEntidad; ?>"><?php echo $rowx->entidad; ?></option>
 
 
 
-                                     if ($obj_inmueble->idtipoInmueble == $rowx->idtipoInmueble) {
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <option value="<?php echo $rowx->idEntidad; ?>"><?php echo $rowx->entidad; ?></option>
+
+
+
+
+                                            <?php
+                                        }
+
+
+
+
+
+                                    }
+                                }
+                                ?>
+
+                            </select>
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Municipio: </label>
+
+                            <select class="form-control inmuebleclass" id="divid_muni_i"  name="id_muni_i" required="">
+                                <option value="">Seleccione</option>
+
+                                <?php
+                                if (isset($municipios_i)) {
+                                    foreach ($municipios_i->result() as $rowx) {
+
+
+                                       if ($obj_inmueble->ClaveMunicipio == $rowx->idMunicipio) {
                                         ?>
 
-                                        <option selected="selected" value="<?php echo $rowx->idtipoInmueble; ?>"><?php echo $rowx->tipo; ?></option>
+
+                                        <option selected="selected"  value="<?php echo $rowx->idMunicipio; ?>"><?php echo $rowx->municipio; ?></option>
 
 
                                         <?php
                                     } else {
                                         ?>
-                                        <option value="<?php echo $rowx->idtipoInmueble; ?>"><?php echo $rowx->tipo; ?></option>
+                                        <option value="<?php echo $rowx->idMunicipio; ?>"><?php echo $rowx->municipio; ?></option>
 
 
 
                                         <?php
                                     }
-
-
-
 
 
 
@@ -980,268 +1123,171 @@
 
                         </select>
 
+
                     </div>
                 </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Colonia:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Colonia ?>" onkeyup="mayus(this);" name="col_i" maxlength="100"   class="form-control inmuebleclass" placeholder="Colonia"/>
+
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Calle:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Calle ?>" onkeyup="mayus(this);" name="calle_i" maxlength="150"   class="form-control inmuebleclass" placeholder="Calle"/>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Num. Int:</label>
+                        <input type="text"  value="<?php echo $obj_inmueble->NumeroInterior ?>"  onkeyup="mayus(this);" name="num_int_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Num. Int"/>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Num. Ext:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->NumeroExterior ?>" onkeyup="mayus(this);" name="num_ex_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Num. Ext"/>
+
+
+                    </div>
+                </div>
+
 
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label class="control-label">C.P :</label>
-                        <input type="text" value="<?php echo $obj_inmueble->CodigoPostal ?>" onKeyPress="return soloNumeros(event)" name="cp_i" maxlength="6"   class="form-control" placeholder="C:P"/>
+                        <label class="control-label">Mz:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Manzana ?>" onkeyup="mayus(this);" name="mz_i" maxlength="45"   class="form-control" placeholder="Mz"/>
 
 
                     </div>
                 </div>
 
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Lt.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Lote ?>" onkeyup="mayus(this);" name="lt_i" maxlength="45"   class="form-control" placeholder="Lt"/>
 
+
+                    </div>
+                </div>
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label class="control-label">Entidad: </label>
-                        <select class="form-control"  id="idEntidad_i" name="idEntidad_i" required="">
-                            <option value="-1">Seleccione</option>
-
-                            <?php
-                            if (isset($entidades)) {
-                                foreach ($entidades->result() as $rowx) {
+                        <label class="control-label">Condominio.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Condominio ?>" onkeyup="mayus(this);" name="condominio_i" maxlength="45"   class="form-control" placeholder="Condominio"/>
 
 
-                                    if ($obj_inmueble->ClaveEntidad == $rowx->idEntidad) {                                        ?>
-
-
-                                    <option selected="selected" value="<?php echo $rowx->idEntidad; ?>"><?php echo $rowx->entidad; ?></option>
-
-
-
-                                    <?php
-                                } else {
-                                    ?>
-                                    <option value="<?php echo $rowx->idEntidad; ?>"><?php echo $rowx->entidad; ?></option>
-
-
-
-
-                                    <?php
-                                }
-
-
-
-
-
-                            }
-                        }
-                        ?>
-
-                    </select>
-
-
+                    </div>
                 </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Entrada.:</label>
+                        <input type="text"  value="<?php echo $obj_inmueble->Entrada ?>" onkeyup="mayus(this);" name="entrada_i" maxlength="45"   class="form-control" placeholder="Entrada"/>
+
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Edificio.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Edificio ?>" onkeyup="mayus(this);" name="edificio_i" maxlength="45"   class="form-control" placeholder="Edificio"/>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Depto.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Departamento ?>" onkeyup="mayus(this);" name="depto_i" maxlength="45"   class="form-control" placeholder="Departamento"/>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Entre Calle.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->EntreCalle ?>" onkeyup="mayus(this);" name="entre_calle_i" maxlength="150"   class="form-control" placeholder="Entre Calle."/>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Y  Calle.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->YCalle ?>" onkeyup="mayus(this);" name="yCalle_i" maxlength="150"   class="form-control" placeholder="Y  Calle."/>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Ciudad.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Ciudad ?>" onkeyup="mayus(this);" name="ciudad_i" maxlength="45"   class="form-control" placeholder="Ciudad"/>
+
+
+                    </div>
+                </div>
+
+               <!--  <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Latitud.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Latitud ?>" onkeyup="mayus(this);" name="latitud_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Latitud"/>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Longitud.:</label>
+                        <input type="text" value="<?php echo $obj_inmueble->Longitud ?>" name="longitud_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Longitud"/>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="form-group">
+                        <label class="control-label">Altitud.:</label>
+                        <input type="text"  value="<?php echo $obj_inmueble->Altitud ?>" name="altitud_i" maxlength="45"   class="form-control inmuebleclass" placeholder="Altitud"/>
+
+
+                    </div>
+                </div> -->
+
+
             </div>
 
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label class="control-label">Municipio: </label>
-
-                    <select class="form-control" id="divid_muni_i"  name="id_muni_i" required="">
-                        <option value="-1">Seleccione</option>
-
-                        <?php
-                        if (isset($municipios_i)) {
-                            foreach ($municipios_i->result() as $rowx) {
-
-
-                               if ($obj_inmueble->ClaveMunicipio == $rowx->idMunicipio) {
-                                ?>
-
-
-                                <option selected="selected"  value="<?php echo $rowx->idMunicipio; ?>"><?php echo $rowx->municipio; ?></option>
-
-
-                                <?php
-                            } else {
-                                ?>
-                                <option value="<?php echo $rowx->idMunicipio; ?>"><?php echo $rowx->municipio; ?></option>
 
 
 
-                                <?php
-                            }
-
-
-
-
-
-                        }
-                    }
-                    ?>
-
-                </select>
-
-
-            </div>
         </div>
+        <div class="form-actions right">
+           <a href="<?php echo site_url('') ?>solicitudes/mostrar"   class="btn default">REGRESAR</a>
 
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">Colonia:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Colonia ?>" onkeyup="mayus(this);" name="col_i" maxlength="100"   class="form-control" placeholder="Colonia"/>
-
-
-            </div>
-        </div>
-
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">Calle:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Calle ?>" onkeyup="mayus(this);" name="calle_i" maxlength="150"   class="form-control" placeholder="Calle"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-2">
-            <div class="form-group">
-                <label class="control-label">Num. Int:</label>
-                <input type="text"  value="<?php echo $obj_inmueble->NumeroInterior ?>"  onkeyup="mayus(this);" name="num_int_i" maxlength="45"   class="form-control" placeholder="Num. Int"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-2">
-            <div class="form-group">
-                <label class="control-label">Num. Ext:</label>
-                <input type="text" value="<?php echo $obj_inmueble->NumeroExterior ?>" onkeyup="mayus(this);" name="num_ex_i" maxlength="45"   class="form-control" placeholder="Num. Ext"/>
-
-
-            </div>
-        </div>
-
-
-
-        <div class="col-md-2">
-            <div class="form-group">
-                <label class="control-label">Mz:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Manzana ?>" onkeyup="mayus(this);" name="mz_i" maxlength="45"   class="form-control" placeholder="Mz"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-2">
-            <div class="form-group">
-                <label class="control-label">Lt.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Lote ?>" onkeyup="mayus(this);" name="lt_i" maxlength="45"   class="form-control" placeholder="Lt"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="control-label">Condominio.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Condominio ?>" onkeyup="mayus(this);" name="condominio_i" maxlength="45"   class="form-control" placeholder="Condominio"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="control-label">Entrada.:</label>
-                <input type="text"  value="<?php echo $obj_inmueble->Entrada ?>" onkeyup="mayus(this);" name="entrada_i" maxlength="45"   class="form-control" placeholder="Entrada"/>
-
-
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="control-label">Edificio.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Edificio ?>" onkeyup="mayus(this);" name="edificio_i" maxlength="45"   class="form-control" placeholder="Edificio"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="control-label">Depto.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Departamento ?>" onkeyup="mayus(this);" name="depto_i" maxlength="45"   class="form-control" placeholder="Departamento"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">Entre Calle.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->EntreCalle ?>" onkeyup="mayus(this);" name="entre_calle_i" maxlength="150"   class="form-control" placeholder="Entre Calle."/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">Y  Calle.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->YCalle ?>" onkeyup="mayus(this);" name="yCalle_i" maxlength="150"   class="form-control" placeholder="Y  Calle."/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="control-label">Ciudad.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Ciudad ?>" onkeyup="mayus(this);" name="ciudad_i" maxlength="45"   class="form-control" placeholder="Ciudad"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="control-label">Latitud.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Latitud ?>" onkeyup="mayus(this);" name="latitud_i" maxlength="45"   class="form-control" placeholder="Latitud"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="form-group">
-                <label class="control-label">Longitud.:</label>
-                <input type="text" value="<?php echo $obj_inmueble->Longitud ?>" name="longitud_i" maxlength="45"   class="form-control" placeholder="Longitud"/>
-
-
-            </div>
-        </div>
-
-        <div class="col-md-3">
-
-            <div class="form-group">
-                <label class="control-label">Altitud.:</label>
-                <input type="text"  value="<?php echo $obj_inmueble->Altitud ?>" name="altitud_i" maxlength="45"   class="form-control" placeholder="Altitud"/>
-
-
-            </div>
-        </div>
-
-
-    </div>
-
-
-
-
-</div>
-<div class="form-actions right">
-       <a href="<?php echo site_url('') ?>solicitudes/mostrar"   class="btn default">REGRESAR</a>
-
-    <button type="submit" class="btn blue"><i class="fa fa-check"></i> Guardar</button>
-</div>
-</form>
-<!-- END FORM-->
+           <button type="submit" class="btn blue"><i class="fa fa-check"></i> Guardar</button>
+       </div>
+   </form>
+   <!-- END FORM-->
 </div>
 </div>
 
@@ -1250,7 +1296,21 @@
 
 
 
+<div style="display: none">
+    <a class="btn default" data-target="#static" data-toggle="modal" id="btnmodal">
+    View Demo </a>
+</div>
+<div id="static" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-body" style="text-align: center;"><br><br>
+     <i class="fa fa-exclamation-triangle" style="font-size: 40px;color:#F3565D"></i><br> <br><p id="mensajeError">
 
+     </p>
+ </div>
+ <div class="modal-footer">
+    <button type="button" data-dismiss="modal" class="btn btn-danger">ACEPTAR</button>
+
+</div>
+</div>
 
 
 
@@ -1278,21 +1338,6 @@
 </div>
 
 <!-- END JAVASCRIPTS -->
-
-<script type="text/javascript">
-
-
-
-
-    function mayus(e) {
-        e.value = e.value.toUpperCase();
-    }
-
-    function soloNumeros(e){
-        var key = window.Event ? e.which : e.keyCode
-        return (key >= 48 && key <= 57)
-    }
-</script>
 
 <script type="text/javascript">
 
@@ -1324,6 +1369,11 @@
             if(idEntidad_i==='-1'){
 
                 $("#otro_inter").css("display", "block");
+                $("#tipoSnc").val(0);
+                $('#valortipoSnc').prop('checked', false);
+                $("#mensajeError").html('Si el "INTERMEDIARIO FINANCIERO" es "OTRO" se desactivara la sincronización con GYS. ');
+                $("#btnmodal").click();
+                
             }else{
                 $("#otro_inter").css("display", "none");
             }
@@ -1332,9 +1382,49 @@
             return false;
         });
 
+
+        //funcion quitar disbled
+        $( '#valorCheck' ).on( 'click', function() {
+            if( $(this).is(':checked') ){
+        // Hacer algo si el checkbox ha sido seleccionado
+        $(".inmuebleclass").prop("disabled", true);       
+        $('#mismoSolicitante').val(1);
+    } else {
+        // Hacer algo si el checkbox ha sido deseleccionado
+        $(".inmuebleclass").prop("disabled", false);
+        $('#mismoSolicitante').val(0);
+    }
+});
+
+        $( '#valortipoSnc' ).on( 'click', function() {
+            if( $(this).is(':checked') ){    
+                var va=$("#idIntemediario").val();
+                if(va!=-1){ 
+                    $('#tipoSnc').val(1);
+                }else{
+                    $("#mensajeError").html('El "INTERMEDIARIO FINANCIERO" debe ser diferente a "OTRO" ');
+                    $('#valortipoSnc').prop('checked', false);
+                    $("#btnmodal").click();
+                }
+            } else {
+                $('#tipoSnc').val(0);
+            }
+        });
+
+
     });
 </script>
+<script type="text/javascript">
 
+    $(document).ready(function() {
+        var veri=$('#mismoSolicitante').val();
+        if(veri==1){
+           $(".inmuebleclass").prop("disabled", true);  
+       }
+
+
+   });
+</script>
 <script type="text/javascript">
 
     $(document).ready(function() {
@@ -1359,8 +1449,42 @@
     });
 </script>
 
-<script>
- jQuery(document).ready(function() {
+<script type="text/javascript">
+    $(function() {
+        $('.monedaxn').keyup(function(e) {
+            var e = window.event || e;
+            var keyUnicode = e.charCode || e.keyCode;
+            if (e !== undefined) {
+                switch (keyUnicode) {
+                        case 16: break; // Shift
+                        case 27: this.value = ''; break; // Esc: clear entry
+                        case 35: break; // End
+                        case 36: break; // Home
+                        case 37: break; // cursor left
+                        case 38: break; // cursor up
+                        case 39: break; // cursor right
+                        case 40: break; // cursor down
+                        case 78: break; // N (Opera 9.63+ maps the "." from the number key section to the "N" key too!) (See: http://unixpapa.com/js/key.html search for ". Del")
+                        case 110: break; // . number block (Opera 9.63+ maps the "." from the number block to the "N" key (78) !!!)
+                        case 190: break; // .
+                        default: $(this).formatCurrency({ colorize: true, negativeFormat: '-%s%n', roundToDecimalPlace: -1, eventOnDecimalsEntered: true });
+                    }
+                }
+            });
+
+        
+
+
+
+    });     
+    $(document).ready(function() {
+        $('.monedaxn').formatCurrency();
+                   // $('#formatWhileTypingAndWarnOnDecimalsEntered').formatCurrency('.currencyLabel')
+               });     
+           </script>
+
+           <script>
+               jQuery(document).ready(function() {
                                              // initiate layout and plugins
 
                                              Layout.init(); // init current layout

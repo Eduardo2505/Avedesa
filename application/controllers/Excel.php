@@ -7,22 +7,15 @@ class Excel extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->helper('mysql_to_excel_helper');
+        //$this->load->helper('mysql_to_excel_helper');
         $this->load->helper('url');
         $this->load->library('encrypt');
         $this->load->library('session');
-        $this->load->library('Classes/PHPExcel.php');
+        $this->load->library('excel');
         
     }
 
-    public function generar() {
-        $StrinSQl = $this->session->tempdata('StrinSQl');
-        $plaintext_string = $this->encrypt->decode($StrinSQl);
-        $this->load->model('models_registro');
-
-        //echo $plaintext_string;
-        to_excel($this->models_registro->getExcel($plaintext_string), "Registro");
-    }
+   
 
 
     public function reporterecibo() {

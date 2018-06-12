@@ -20,7 +20,7 @@ class Anexos extends CI_Controller {
 
             redirect('', 'refresh');
         }
-//somos expertos
+//somos expertos dos en dos
 
 
         $this->load->model('models_archivos');

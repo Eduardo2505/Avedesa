@@ -101,6 +101,7 @@ class Models_registro extends CI_Model {
         r.num_expediente,
         r.idestado_registro,
         r.tipoRegistro,
+        r.tipoSnc,
         er.estado,
         (select 
         concat(Nombre, ' ', apellidos)
@@ -417,6 +418,7 @@ class Models_registro extends CI_Model {
         r.id_asigno,
         r.num_avaluo,
         r.tipoRegistro,
+        r.recomienda,
         r.idestado_registro,
         er.estado,
         (select 
@@ -493,7 +495,7 @@ class Models_registro extends CI_Model {
 
 
        $SQl="SELECT 
-    *
+              max(num_folio) maxfolio
        FROM
        registro
        WHERE
@@ -501,8 +503,9 @@ class Models_registro extends CI_Model {
        AND idempleado = $idempleado";
 
        $query = $this->db->query($SQl);
+       $row = $query->row();
 
-       return $query->num_rows();
+       return $row->maxfolio;
    }
 
    function verificarDias($idregistro,$idestado_registro) {
@@ -656,7 +659,7 @@ class Models_registro extends CI_Model {
         FROM
             empleado
         WHERE
-            idempleado = r.idcapturista) AS ClaveEjecutivo,
+            idempleado = r.id_asigno) AS ClaveEjecutivo,
             (SELECT 
             id_gys
         FROM

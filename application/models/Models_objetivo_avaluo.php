@@ -40,6 +40,21 @@ class Models_objetivo_avaluo extends CI_Model {
     function getWebservice() {
 
         $this->db->where('p_gys', 1);
+        $this->db->select(" CASE 
+             WHEN id_gys IS NULL THEN nombre
+             ELSE concat(nombre, '*')
+            END as nombre,idobjetivo_avaluo");        
+        return $query = $this->db->get('objetivo_avaluo');
+    }
+
+    function getWebserviceActivos() {
+
+        $this->db->where('p_gys', 1);
+        $this->db->where('id_gys IS NOT NULL');
+        $this->db->select(" CASE 
+             WHEN id_gys IS NULL THEN nombre
+             ELSE concat(nombre, '*')
+            END as nombre,idobjetivo_avaluo");        
         return $query = $this->db->get('objetivo_avaluo');
     }
 

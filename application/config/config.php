@@ -23,11 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$dominio="http://localhost/";
-
-$dominio="http://adminave.pvessy.com/";
+$dominio="http://localhost/";
+//$dominio="http://adminave.pvessy.com/";
 $config['base_url'] = $dominio.'Avedesa/';
-
 
 /*
 |--------------------------------------------------------------------------
@@ -519,5 +517,5 @@ $config['proxy_ips'] = '';
 $config['urlarchivos'] = $dominio;
 $config['idEmpleado'] = 19; //elisa.aveavaluos@hotmail.com
 
-$config['clusters'] = $_SERVER['DOCUMENT_ROOT']."/aveClustersx/";
+$config['clusters'] = $_SERVER['DOCUMENT_ROOT']."/aveClusters/";
 //$config['urlarchivos'] = "http://helpmex.com.mx/";

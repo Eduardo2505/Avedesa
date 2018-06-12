@@ -90,7 +90,8 @@ class Models_estado_empleado extends CI_Model {
         r.fecha_de_inspeccion,
         r.hora_de_inspeccion,
         ee.idestado_empleado,
-        er.idestado_registro
+        er.idestado_registro,
+        r.tipoRegistro
         FROM
         registro r,
         estado_registro er,
@@ -133,7 +134,8 @@ class Models_estado_empleado extends CI_Model {
         ee.estado as edo,
         r.estado_fecha,
         ee.idestado_empleado,
-        er.idestado_registro
+        er.idestado_registro,
+        r.tipoRegistro
         FROM
         registro r,
         estado_registro er,
@@ -153,10 +155,9 @@ class Models_estado_empleado extends CI_Model {
             $SQl .=" and ee.idempleado=$idempleado";
         }
 
-    //echo $SQl;
+  
         $SQl .=" order by ee.registro desc limit $offset, $limin";
 
-   
 
 
 
@@ -278,6 +279,54 @@ class Models_estado_empleado extends CI_Model {
     }
 
     
+function comprobarEstadoEmpleado($idRegistro,$idInsepctor,$idestado_registro,$estado) {
 
+        $SQl = "SELECT 
+    COUNT(*) total
+FROM
+    estado_empleado
+WHERE
+    idregistro = $idRegistro AND idempleado = $idInsepctor
+        AND idestado_registro = $idestado_registro
+        AND estado = $estado";
+
+        $query = $this->db->query($SQl);
+        $row = $query->row();
+
+        return $row->total;
+
+
+       
+    }
+
+    function eliminarFechaRegistro($idRegistro) {
+
+        $this->db->trans_begin();
+        $this->db->where('idregistro', $idRegistro);
+        $names = array(2,3);
+        $this->db->where_in('idestado_registro', $names);
+        $this->db->delete('estado_empleado');
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+    }
+
+    function eliminarEstatus($idRegistro) {
+
+        $this->db->trans_begin();
+        $this->db->where('idregistro', $idRegistro);
+        $names = array(2);
+        $this->db->where_in('idestado_registro', $names);
+        $this->db->delete('estado_empleado');
+
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+        }
+    }
 
 }

@@ -92,7 +92,7 @@
                                         <i class="fa fa-angle-right"></i>
                                     </li>
                                     <li>
-                                        <a href="<?php echo site_url('') ?>solicitudes">NUEVA BUSQUEDA</a>
+                                        <a href="<?php echo site_url('') ?>solicitudesConsulta">NUEVA BUSQUEDA</a>
                                         <i class="fa fa-angle-right"></i>
                                     </li>
                                     <li>

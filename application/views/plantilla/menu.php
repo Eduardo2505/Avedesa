@@ -82,7 +82,7 @@
 
 
         <li class="<?php echo $solictudesbus; ?>" >
-            <a href="<?php echo site_url('') ?>solicitudes">
+            <a href="<?php echo site_url('') ?>solicitudesConsulta">
                 Búsqueda</a>
             </li>
             <li class="<?php echo $solictudesnuevo; ?>">
@@ -132,7 +132,7 @@
 
                     </li>
                     <li class="<?php echo $solictudesbus; ?>" >
-                        <a href="<?php echo site_url('') ?>solicitudes">
+                        <a href="<?php echo site_url('') ?>solicitudesConsulta">
                             Búsqueda</a>
                         </li>
                         <li class="<?php echo $solictudesnuevo; ?>">

@@ -273,7 +273,7 @@ public function conectar($inmuebleObj,$solicitanteObj,$visitaObje,$configuracion
   $archivo = new Archivo(null,null);
 
 
-  $solicitudIndividual = new SolicitudIndividual("Vz9qvsxzKzNtryLMuhzB6BZbTRNCo7n4",
+  $solicitudIndividual = new SolicitudIndividual("9zBsUqkuImnRgKB4BPvOYfHG29IOihOr",
    $configuracion,
    $inmueble,
    $solicitante,
@@ -281,13 +281,21 @@ public function conectar($inmuebleObj,$solicitanteObj,$visitaObje,$configuracion
    "AdminAve",
    $archivo);
 
+   /*echo '<pre>';
+
+    print_r($solicitudIndividual);
+
+   echo '</pre>';*/
 
 
-  $client = new SoapClient("https://gysprueba.solucionideas.com/wsave.asmx?wsdl");
-  $response = $client->__soapCall("AltaAvaluo",['body' => ['solicitud' => $solicitudIndividual]]);      
+try {
+  $client = new SoapClient("https://ave.solucionideas.com/wsave.asmx?wsdl");
+  $response = $client->__soapCall("AltaAvaluo",['body' => ['solicitud' => $solicitudIndividual]]);
+
+  //echo $response;
+  
   $arrayJson = json_encode((array)$response); 
   $obj = json_decode($arrayJson,TRUE);
-
   $array_name = array();
   foreach ($obj as $key => $value)  
   {  
@@ -308,7 +316,12 @@ public function conectar($inmuebleObj,$solicitanteObj,$visitaObje,$configuracion
 
  $object = (object) $array_name;
 
- return $object;
+    return $object;
+ } catch (Exception $e) {
+    
+    $array_name =(object) array("Exito"  => false);
+    return $array_name;
+}
 }
 
 

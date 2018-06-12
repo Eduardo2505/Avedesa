@@ -15,7 +15,7 @@ class Models_intermediariofinanciero extends CI_Model {
    
 
     function get() {
-    	
+    	$this->db->where('clave!="-1"');
         return $query = $this->db->get('intermediariofinanciero');
     }
 

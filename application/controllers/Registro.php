@@ -30,6 +30,18 @@ class Registro extends CI_Controller {
         $this->load->model('models_estado_empleado');
         $this->load->model('models_empleado');
 
+        $this->load->model('models_tipo_avaluo');
+        $this->load->model('models_objetivo_avaluo');
+    //$this->load->model('models_empleado');
+        $this->load->model('models_c_entidades_municipios');
+        $this->load->model('models_tipoinmueble');
+        $this->load->model('models_registro');
+        $this->load->model('models_intermediariofinanciero');
+  //  $this->load->model('models_estado_empleado');
+        $this->load->model('models_visita');
+        $this->load->model('models_solicitante');
+        $this->load->model('models_inmueble');
+
         
     }
 
@@ -47,22 +59,22 @@ class Registro extends CI_Controller {
 
         $boolenVer=0;;
         if($clave!=''){
-           $boolenVer=1;
-       }
-       $datax['verSolicitudesBusqueda']=$boolenVer;
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
 
-       $datax['solicitudes'] = 'x';
-       $datax['menuquincena'] = "active";
+     $datax['solicitudes'] = 'x';
+     $datax['menuquincena'] = "active";
 
 
-       $data['idcapturista'] = $this->session->userdata('idempleado');
-       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-       $data['head'] = $this->load->view('plantilla/head', true);
-       $data['registros'] = $this->models_quincena->getactivos();
-       $this->load->view('registro/registro', $data);
-   }
+     $data['idcapturista'] = $this->session->userdata('idempleado');
+     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+     $data['head'] = $this->load->view('plantilla/head', true);
+     $data['registros'] = $this->models_quincena->getactivos();
+     $this->load->view('registro/registro', $data);
+ }
 
-   public function trabajar() {
+ public function trabajar() {
 
     $idquince = $this->input->get('idquincena');
     $idempleado = $this->session->userdata('idempleado');
@@ -84,17 +96,17 @@ class Registro extends CI_Controller {
 
     $boolenVer=0;;
     if($clave!=''){
-       $boolenVer=1;
-   }
-   $datax['verSolicitudesBusqueda']=$boolenVer;
-   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-   $data['head'] = $this->load->view('plantilla/head', true);
+     $boolenVer=1;
+ }
+ $datax['verSolicitudesBusqueda']=$boolenVer;
+ $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+ $data['head'] = $this->load->view('plantilla/head', true);
 
 
-   $squery = $this->models_recibo->Buscar($idregistro);
+ $squery = $this->models_recibo->Buscar($idregistro);
 
 
-   if ($squery->num_rows() == 0) {
+ if ($squery->num_rows() == 0) {
     redirect('registro', 'refresh');
             //echo "no hay registro";
 } else {
@@ -192,11 +204,11 @@ public function registro() {
     if ($idtipo == 2) {
 
 
-       list($tipox, $costox,$idConcepto) = explode("-", $this->input->post('tipo'));
-       $idConceptoInsertar=$idConcepto;
+     list($tipox, $costox,$idConcepto) = explode("-", $this->input->post('tipo'));
+     $idConceptoInsertar=$idConcepto;
 
 
-   }else if($idtipo ==3){
+ }else if($idtipo ==3){
     $valorv=$this->input->post('tipoConce');
     list($tipox, $costox,$idConcepto) = explode("-", $valorv);
     if($idConcepto==0){
@@ -227,12 +239,12 @@ if ($valor == "-") {
         $costo = $costox;
     }else if($idtipo ==3){
 
-     list($tipox, $costox) = explode("-", $this->input->post('tipoConce'));
-     $observacion = $tipox;
-     $tipo= $tipox;
-     $costo = $costox;
+       list($tipox, $costox) = explode("-", $this->input->post('tipoConce'));
+       $observacion = $tipox;
+       $tipo= $tipox;
+       $costo = $costox;
 
- } else {
+   } else {
 
     $costo = $this->input->post('costo');
 }
@@ -434,17 +446,17 @@ public function mostrar() {
 
         $boolenVer=0;;
         if($clave!=''){
-           $boolenVer=1;
-       }
-       $datax['verSolicitudesBusqueda']=$boolenVer;
-       $datax['menuquincena'] = "active";
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
+     $datax['menuquincena'] = "active";
 
-       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-       $data['head'] = $this->load->view('plantilla/head', true);
-       $this->load->view('registro/listar', $data);
-   }
+     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+     $data['head'] = $this->load->view('plantilla/head', true);
+     $this->load->view('registro/listar', $data);
+ }
 
-   public function eliminar() {
+ public function eliminar() {
 
     $idavaluos = $this->input->get('idavaluos');
 
@@ -477,13 +489,13 @@ public function contrasena() {
 
     $boolenVer=0;;
     if($clave!=''){
-       $boolenVer=1;
-   }
-   $datax['verSolicitudesBusqueda']=$boolenVer;
-   $data['idcapturista'] = $this->session->userdata('idempleado');
-   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-   $data['head'] = $this->load->view('plantilla/head', true);
-   $this->load->view('empleado/contrasena', $data);
+     $boolenVer=1;
+ }
+ $datax['verSolicitudesBusqueda']=$boolenVer;
+ $data['idcapturista'] = $this->session->userdata('idempleado');
+ $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+ $data['head'] = $this->load->view('plantilla/head', true);
+ $this->load->view('empleado/contrasena', $data);
 }
 
 public function actualizar() {
@@ -603,19 +615,19 @@ public function aprobados() {
 
         $boolenVer=0;;
         if($clave!=''){
-           $boolenVer=1;
-       }
-       $datax['verSolicitudesBusqueda']=$boolenVer;
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
 
-       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-       $data['head'] = $this->load->view('plantilla/head', true);
+     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+     $data['head'] = $this->load->view('plantilla/head', true);
 
         // usuario
-       $data['url'] = $this->config->item('urlarchivos');
-       $this->load->view('registro/listar_solicitudes_aprobados', $data);
-   }
+     $data['url'] = $this->config->item('urlarchivos');
+     $this->load->view('registro/listar_solicitudes_aprobados', $data);
+ }
 
-   public function mostrarsolicitudes() {
+ public function mostrarsolicitudes() {
     $this->load->model('models_estado_empleado');
     $offset = $this->input->get('per_page');
     $uri_segment = 0;
@@ -673,22 +685,22 @@ public function aprobados() {
 
         $boolenVer=0;;
         if($clave!=''){
-           $boolenVer=1;
-       }
-       $datax['verSolicitudesBusqueda']=$boolenVer;
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
 
-       $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+     $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
        // $data['head'] = $this->load->view('plantilla/head', true);
 
         // usuario
-       $data['url'] = $this->config->item('urlarchivos');
-       $this->load->view('registro/listar_solicitudes', $data);
+     $data['url'] = $this->config->item('urlarchivos');
+     $this->load->view('registro/listar_solicitudes', $data);
 
 
 
-   }
+ }
 
-   public function actualizarFecha() {
+ public function actualizarFecha() {
 
     $this->load->model('models_registro');
     $idregistro = $this->input->get('idregistro');
@@ -863,26 +875,26 @@ public function cargaMasiva() {
     $clave = array_search('8',$pila); 
     $boolenVer=0;;
     if($clave!=''){
-       $boolenVer=1;
-   }
-   $datax['verSolicitudesBusqueda']=$boolenVer;
-   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-   $data['head'] = $this->load->view('plantilla/head', true);
+     $boolenVer=1;
+ }
+ $datax['verSolicitudesBusqueda']=$boolenVer;
+ $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+ $data['head'] = $this->load->view('plantilla/head', true);
 
 
-   $squery = $this->models_recibo->Buscar($idregistro);
-   $rowx = $squery->row();
+ $squery = $this->models_recibo->Buscar($idregistro);
+ $rowx = $squery->row();
 
-   $data['query'] = $squery;
-   $data['idrecibo'] = $idregistro;
-   $data['conceptoscalotros'] = $this->models_recibo->conceptos($rowx->idempleado, 2);
-   $data['conceptosAvaluos'] = $this->models_recibo->conceptos($rowx->idempleado, 3);
-
-
+ $data['query'] = $squery;
+ $data['idrecibo'] = $idregistro;
+ $data['conceptoscalotros'] = $this->models_recibo->conceptos($rowx->idempleado, 2);
+ $data['conceptosAvaluos'] = $this->models_recibo->conceptos($rowx->idempleado, 3);
 
 
 
-   $this->load->view('registro/cargaMasiva', $data);
+
+
+ $this->load->view('registro/cargaMasiva', $data);
 
 
 }
@@ -894,8 +906,8 @@ public function registroMasivo() {
 
 
     if (empty($_POST)){
-     redirect('registro', 'refresh');
- } else{
+       redirect('registro', 'refresh');
+   } else{
 
 
 
@@ -973,14 +985,14 @@ public function registroMasivo() {
     $clave = array_search('8',$pila); 
     $boolenVer=0;;
     if($clave!=''){
-       $boolenVer=1;
-   }
-   $datax['verSolicitudesBusqueda']=$boolenVer;
-   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-   $data['head'] = $this->load->view('plantilla/head', true);
-   $data['tabla'] = $tabla;
-   $data['idquincena'] = $idquincena;
-   $this->load->view('registro/verificarMasiva', $data);
+     $boolenVer=1;
+ }
+ $datax['verSolicitudesBusqueda']=$boolenVer;
+ $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+ $data['head'] = $this->load->view('plantilla/head', true);
+ $data['tabla'] = $tabla;
+ $data['idquincena'] = $idquincena;
+ $this->load->view('registro/verificarMasiva', $data);
 }
 
 }
@@ -1046,12 +1058,70 @@ public function registroMasivoCalculos() {
     $clave = array_search('8',$pila); 
     $boolenVer=0;;
     if($clave!=''){
-       $boolenVer=1;
-   }
-   $datax['verSolicitudesBusqueda']=$boolenVer;
-   $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
-   $data['head'] = $this->load->view('plantilla/head', true);
-   $this->load->view('registro/verificarMasiva', $data);
+     $boolenVer=1;
+ }
+ $datax['verSolicitudesBusqueda']=$boolenVer;
+ $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+ $data['head'] = $this->load->view('plantilla/head', true);
+ $this->load->view('registro/verificarMasiva', $data);
+}
+
+
+
+public function enviarGYS() {
+
+   $idregistro = $this->input->get('idregistro');
+   $nombrez = $this->session->userdata('Nombre') . ' ' . $this->session->userdata('apellidos');
+
+   $datax['nombre'] = $nombrez;
+   $datax['puesto'] = $this->session->userdata('puesto');
+   $datax['menusolicitudes'] = "active";
+        
+
+        $data['nombre'] = $nombrez;
+        $datax['menuantecedentes'] = 'x';
+        $datax['solicitudes'] = 'active';
+        $data['idcapturista'] = $this->session->userdata('idempleado');
+
+        $pila = $this->session->userdata('listpuesto');
+        $clave = array_search('8',$pila); 
+
+        $boolenVer=0;;
+        if($clave!=''){
+         $boolenVer=1;
+     }
+     $datax['verSolicitudesBusqueda']=$boolenVer;
+
+ $data['menu'] = $this->load->view('plantilla/menudos', $datax, true);
+ $data['nombre'] = $nombrez;
+ $data['idcapturista'] = $this->session->userdata('idempleado');
+ $data['tipo_avaluo'] = $this->models_tipo_avaluo->getWebserviceActivo();
+ $data['objetivo_avaluo'] = $this->models_objetivo_avaluo->getWebserviceActivos();
+ $data['empleados'] = $this->models_empleado->getInspectorActivos();
+ $data['asigno'] = $this->models_empleado->getAsignadorActivos();
+ $data['operador'] = $this->models_empleado->getOperador();
+ $data['entidades'] = $this->models_c_entidades_municipios->getEstados();
+ $data['tipoInmueble'] = $this->models_tipoinmueble->get();
+ $data['intemediarios'] = $this->models_intermediariofinanciero->get();
+
+     //buscar 
+ $data['obj_registro'] = $this->models_registro->buscarObj($idregistro);
+ $solicitanteobj=$this->models_solicitante->buscarObj($idregistro);
+ $data['obj_solicitante'] = $solicitanteobj;
+ $data['obj_vista'] = $this->models_visita->buscarObj($idregistro);
+ $data['municipios']= $this->models_c_entidades_municipios->getMunicipios($solicitanteobj->ClaveEntidad);
+ $obj_inmueble=$this->models_inmueble->buscarObj($idregistro);
+ $data['obj_inmueble'] = $obj_inmueble;
+ $data['municipios_i']= $this->models_c_entidades_municipios->getMunicipios($obj_inmueble->ClaveEntidad);
+
+ $data['idregistro'] = $idregistro;
+ $data['idestado_empleado'] = $this->input->get('idestado_empleado');;
+
+ $this->load->view('registro/registroEnviarGYS', $data);
+
+
+
+
 }
 
 }
