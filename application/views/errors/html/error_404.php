@@ -32,7 +32,7 @@ $urleva='http://adminave.pvessy.com/Ave/';
 <link id="style_color" href="<?php echo $urleva ?>metronic/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $urleva ?>metronic/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
-<link rel="shortcut icon" href="favicon.ico"/>
+<link rel="shortcut icon" href="<?php echo $urleva ?>favicon.ico"/>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
